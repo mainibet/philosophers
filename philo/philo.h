@@ -6,14 +6,19 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/05/30 12:44:51 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/05/30 14:46:44 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
+// --- MAximum value long long ---
+# ifndef LLONG_MAX
+#  define LLONG_MAX 9223372036854775807LL
+# endif
 
+// --- Str long long conversion status ---
 # ifndef CONVERSION_SUCCESS
 #  define CONVERSION_SUCCESS 0
 # endif
@@ -26,6 +31,16 @@
 #  define CONVERSION_OVERFLOW 2
 # endif
 
+// --- Return Status Codes ---
+# define SUCCESS 0
+# define ERROR -1
+
+// --- Specific error codes if needed ---
+# define ERR_INVALID_ARGS -2
+# define ERR_MALLOC_FAIL  -3
+// # define ERR_MUTEX_INIT   -4
+// # define ERR_THREAD_CREATE -5
+
 # include <string.h> //memset CHECK IF USED
 # include <stdio.h> //printf
 # include <stdlib.h> //malloc, free
@@ -37,13 +52,15 @@
 //                 STRUCTS                  //
 // -----------------------------------------//
 
-typedef struct fork
+typedef struct s_program	t_program;
+
+typedef struct s_fork
 {
 	pthread_mutex_t	mutex;//to control access to the fork
 	int				fork_id;//for login and debug purposes CHECK
 }	t_fork;
 
-typedef struct philo
+typedef struct s_philo
 {
 	int			philo_id;//the number i'll give
 	int			meal_number;//how many meals the philo has eaten
@@ -54,7 +71,7 @@ typedef struct philo
 	pthread_t	thread_id;//id when thread created
 }	t_philo;
 
-typedef struct program
+typedef struct s_program
 {
 	int			total_philo;
 	int			max_meals; //-1 if not set (optional)
