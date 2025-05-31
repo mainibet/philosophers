@@ -1,0 +1,15 @@
+Done:
+init_cross_mutex
+init_forks
+
+In process:
+init_philo, I have an issue to initialized fork left and fork rights
+init_program function to init the program struct
+set-up simulation
+
+Next:
+include the struct arg_parse into t_program to use the int *arr
+init_threads
+start_simulation
+test
+Split into files

@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:24:45 by albetanc          #+#    #+#             */
-/*   Updated: 2025/05/31 13:02:10 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/05/31 15:42:31 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,7 @@ int	process_arg(int argc, char **argv)
 
 	arr = malloc((argc - 1) * sizeof(int));
 	if (!arr)
-	{
-		print_error_msg("Memory allocation failed");//check if smt to free
-		return (ERROR);
-	}
+		return (malloc_error());//check
 	init_arg_parse(&parse, arr);
 	parse.count = 0;
 	j = 1;

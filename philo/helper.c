@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:35:21 by albetanc          #+#    #+#             */
-/*   Updated: 2025/05/31 13:18:37 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/05/31 15:27:17 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@
 void	print_error_msg(const char *msg)
 {
 	printf("Error: %s\n", msg);
+}
+
+int	malloc_error(void)
+{
+	print_error_msg("Memory allocation failed");//check if smt to free
+	return (ERR_MALLOC_FAIL);
 }
 
 // int	safe_write(int fd, const void *buf, size_t count)//check if needed

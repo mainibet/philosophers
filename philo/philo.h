@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/05/31 13:30:46 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/05/31 16:47:16 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_arg_parse
 	long long	n;//parse number from the current arg
 }	t_arg_parse;
 
-typedef struct s_fork
+typedef struct s_fork//can i include program struct and philo struct?
 {
 	pthread_mutex_t	mutex;//to control access to the fork
 	int				fork_id;//for login and debug purposes CHECK
@@ -89,9 +89,10 @@ typedef struct s_program
 	long long		start_time;//reference to begin simulation
 	int				end_flag;//to terminates the simulation
 	pthread_mutex_t	output_mutex;//for printf
-	pthread_mutex_t	mutex_status;//shared state
+	pthread_mutex_t	sim_over;//shared state
 	t_philo			*philo;
 	t_fork			*fork;
+    t_arg_parse		*parse;//new
 }	t_program;
 
 // -----------------------------------------//
@@ -109,5 +110,6 @@ int		check_limits(long long n);
 
 // --- HELPER FUNCIONTS ---
 void	print_error_msg(const char *msg);
+int		malloc_error(void);
 
 #endif
