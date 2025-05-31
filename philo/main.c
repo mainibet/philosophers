@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/05/31 11:13:30 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/05/31 12:09:21 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ long long	str_tolongl(char *str, int *status)
 
 	n = 0;
 	*status = CONVERSION_SUCCESS;
+	if (*str == '+')
+		str++;
 	while (*str >= '0' && *str <= '9') 
 	{
 		digit = *str - '0';
@@ -94,16 +96,21 @@ int	check_pos_int(char *argv, int *status)//check if status needed
 	i = 0;
 	if (!argv || argv[0] == '\0')
 	{
-		*status = CONVERSION_ERROR;//check if needed
+		*status = CONVERSION_ERROR;
 		return (ERR_INVALID_ARGS);
 	}
 	if (argv[i] == '+')
 		i++;
+	if (argv[i] == '\0')
+	{
+		*status = CONVERSION_ERROR;
+		return (ERR_INVALID_ARGS);
+	}
 	while (argv[i])
 	{
 		if (argv[i] < '0' || argv[i] > '9')
 		{
-			*status = CONVERSION_ERROR;//check if needed
+			*status = CONVERSION_ERROR;
 			return (ERR_INVALID_ARGS);
 		}
 		i++;
@@ -129,20 +136,20 @@ int get_args(char *argv, t_arg_parse *parse)
 	if (check_pos_int(argv, &status) != SUCCESS)
 	{
 		// free(arr);
-		parse->msg = "Not positive integer";//check
+		parse->msg = "Invalid numeric format";//check
 		return (ERR_INVALID_ARGS);
 	}
 	parse->n = str_tolongl(argv, &status);
 	if (status == CONVERSION_ERROR || status == CONVERSION_OVERFLOW)
 	{
 		// free (arr);
-		parse->msg = "Invalid argument format";
+		parse->msg = "Numeric value too large or invalid";
 		return (ERR_INVALID_ARGS);
 	}
 	if (check_limits(parse->n) != SUCCESS)
 	{
 		// free(arr);
-		parse->msg = "Integer beyond MAX INT or below 1";
+		parse->msg = "Integer must be between 1 and INT MAX";//can stay ?
 		return (ERR_INVALID_ARGS);
 	}
 	parse->arr[parse->count++] = (int) parse->n;
