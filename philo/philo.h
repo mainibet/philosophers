@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/05/30 14:46:44 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/05/31 11:03:50 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,14 @@
 // -----------------------------------------//
 
 typedef struct s_program	t_program;
+
+typedef struct s_arg_parse
+{
+	int			*arr;//tmp array
+	size_t		count;//# of parse args stored so far
+	char		*msg;//error msg
+	long long	n;//parse number from the current arg
+}	t_arg_parse;
 
 typedef struct s_fork
 {
