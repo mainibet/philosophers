@@ -6,12 +6,13 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:35:21 by albetanc          #+#    #+#             */
-/*   Updated: 2025/05/31 12:38:34 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/05/31 13:18:37 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+//pending destroy mytex if an error occure after init mutex
 void	print_error_msg(const char *msg)
 {
 	printf("Error: %s\n", msg);

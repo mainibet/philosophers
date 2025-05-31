@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/05/31 12:37:30 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/05/31 13:30:46 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 // --- Specific error codes if needed ---
 # define ERR_INVALID_ARGS -2
 # define ERR_MALLOC_FAIL  -3
-// # define ERR_MUTEX_INIT   -4
+# define ERR_MUTEX  -4
 // # define ERR_THREAD_CREATE -5
 
 # include <string.h> //memset CHECK IF USED
@@ -81,15 +81,17 @@ typedef struct s_philo
 
 typedef struct s_program
 {
-	int			total_philo;
-	int			max_meals; //-1 if not set (optional)
-	long long	time_die;
-	long long	time_eat;
-	long long	time_sleep;
-	long long	start_time;//reference to begin simulation
-	int			end_flag;//to terminates the simulation
-	t_philo		*philo;
-	t_fork		*fork;
+	int				total_philo;
+	int				max_meals; //-1 if not set (optional)
+	long long		time_die;
+	long long		time_eat;
+	long long		time_sleep;
+	long long		start_time;//reference to begin simulation
+	int				end_flag;//to terminates the simulation
+	pthread_mutex_t	output_mutex;//for printf
+	pthread_mutex_t	mutex_status;//shared state
+	t_philo			*philo;
+	t_fork			*fork;
 }	t_program;
 
 // -----------------------------------------//

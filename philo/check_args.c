@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:24:45 by albetanc          #+#    #+#             */
-/*   Updated: 2025/05/31 12:34:49 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/05/31 13:02:10 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	process_arg(int argc, char **argv)
 		}
 		j++;
 	}
-	free(arr);
+	// free(arr);to use it later in the program
 	return (SUCCESS);
 }
 
