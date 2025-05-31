@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/05/31 16:52:25 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/05/31 16:54:52 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	init_philo(t_program *data)
 
 // }
 
-int	setup_simulation(char *argv, t_program *data)
+int	setup_simulation(char **argv, t_program *data)//check if **argv needed or only data?
 {
 	int	status;
 
@@ -134,8 +134,8 @@ int	main(int argc, char **argv)
 	if (parsing_args(argc, argv) != SUCCESS)
 		return (1);//exit failure macro?
 	printf("Ready to continue\n");//test
-	init_program();//PENDING
-	if (setup_simulation(argv[1]) != SUCCESS)
+	init_program();//PENDING to inlcude the args from args_parse
+	if (setup_simulation(argv, data) != SUCCESS)
 		return (1);//exit failure macro?
 	// if (start_simulation() != SUCCESS)
 	// 	return (1);
