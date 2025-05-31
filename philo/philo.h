@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/05/31 11:03:50 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/05/31 12:37:30 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,16 @@ typedef struct s_program
 //                PROTOTYPES                //
 // -----------------------------------------//
 
+// --- ARGUMENT PARSING ---
+int		get_args(char *argv, t_arg_parse *parse);
+void	init_arg_parse(t_arg_parse *parse, int *arr);
+int		process_arg(int argc, char **argv);
+int		parsing_args(int argc, char **argv);
+long	str_tolongl(char *str, int *status);
+int		check_pos_int(char *argv, int *status);
+int		check_limits(long long n);
+
+// --- HELPER FUNCIONTS ---
+void	print_error_msg(const char *msg);
 
 #endif
