@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/05/31 16:54:52 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/01 15:16:31 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,12 +115,53 @@ int	setup_simulation(char **argv, t_program *data)//check if **argv needed or on
 	return (SUCCESS);
 }
 
-void	init_program(char **argv, t_program *data)//IN PROCESS
+void	set_default(t_program *data)//check if really needed or only return
 {
-	data = (t_program *)malloc(sizeof(t_program));//check
-	data->total_philo = data->parse->arr[1];//MAKE IT WORK
-    ;//here we need to access to second element of int *arr that is in the struct parsing args
+	data->total_philo = 0;
+	data->max_meals = -1;
+	data->time_die = 0;
+	data->time_eat = 0;
+	data->time_sleep = 0;
+	data->start_time = 0;
+	data->end_flag = 0;
+	data->philo = NULL;
+	data->fork = NULL;
+	data->parse = NULL;
 }
+//number of philo arr[0]
+//time to die arr[1]
+//time to eat arr[2]
+//time to sleep arr[3]
+//optional: # times each philo should eat arr[4]
+//mutex will be initialized later
+
+void	init_program(t_program *data)
+{
+	if (!data || !data->parse || !data->parse->arr)
+	{
+		if (data)
+			set_default(data);
+		return ;
+	}
+	if (data->parse->count < 4) // Not enough arguments, set defaults or handle error
+	{
+		set_default(data);
+		return ;
+	}
+	data->total_philo = data->parse->arr[0];
+	data->time_die = data->parse->arr[1];
+	data->time_eat = data->parse->arr[2];
+	data->time_sleep = data->parse->arr[3];
+	data->start_time = 0;
+	data->end_flag = 0;
+	data->philo = NULL;
+	data->fork = NULL;
+	if (data->parse->count == 4)
+		data->max_meals = MAX_MEALS_DISABLED;
+	else
+		data->max_meals = data->parse->arr[4];
+}
+
 //IN PUT:
 //number of philo argv[1]
 //time to die argv[2]
@@ -129,17 +170,19 @@ void	init_program(char **argv, t_program *data)//IN PROCESS
 //optional: # times each philo should eat argv[6]
 int	main(int argc, char **argv)
 {
-	t_program *data;
+	t_arg_parse	*parse;
+	t_program	*data;
 
-	if (parsing_args(argc, argv) != SUCCESS)
-		return (1);//exit failure macro?
+	if (parsing_args(argc, argv, &parse) != SUCCESS)
+		return (EXIT_FAILURE);//define in stdlib.h
 	printf("Ready to continue\n");//test
-	init_program();//PENDING to inlcude the args from args_parse
+	data->parse = &parse;
+	init_program(data);
 	if (setup_simulation(argv, data) != SUCCESS)
-		return (1);//exit failure macro?
+		return (EXIT_FAILURE);//DEFINE IN STDLIB.H
 	// if (start_simulation() != SUCCESS)
 	// 	return (1);
     //join philo threads
     // free (parse.arr);//'cause was used to feed the program and clean up all
-	return (0);//exit success?
+	return (EXIT_SUCCESS);//DEFINE IN STDLIB.H
 }

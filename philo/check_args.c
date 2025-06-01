@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:24:45 by albetanc          #+#    #+#             */
-/*   Updated: 2025/05/31 15:42:31 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/01 15:14:26 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	init_arg_parse(t_arg_parse *parse, int *arr)
 //check if are positive int
 // static void	process_get_arg(char *argv, int *arr, size_t *count)
 //arr is a tmp for parsing
-int	process_arg(int argc, char **argv)
+int	process_arg(int argc, char **argv, t_arg_parse *parse)
 {
 	int		*arr;
 	int		j;
@@ -62,13 +62,13 @@ int	process_arg(int argc, char **argv)
 	if (!arr)
 		return (malloc_error());//check
 	init_arg_parse(&parse, arr);
-	parse.count = 0;
+	parse->count = 0;
 	j = 1;
 	while (argv[j])
 	{
 		if (get_args(argv[j], &parse) != SUCCESS)
 		{
-			print_error_msg(parse.msg);
+			print_error_msg(parse->msg);
 			free(arr);
 			return (ERROR);
 		}
@@ -80,7 +80,7 @@ int	process_arg(int argc, char **argv)
 
 //number of argc
 //get the numbers from args
-int	parsing_args(int argc, char **argv)
+int	parsing_args(int argc, char **argv, t_arg_parse *parse)
 {
 	if (argc < 5)
 	{
@@ -93,7 +93,7 @@ int	parsing_args(int argc, char **argv)
 		return (ERR_INVALID_ARGS);
 	}
 	else
-		if (process_arg(argc, argv) != SUCCESS)
+		if (process_arg(argc, argv, parse) != SUCCESS)
 			return (ERROR);
 	return (SUCCESS);
 }

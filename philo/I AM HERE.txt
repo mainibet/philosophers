@@ -1,7 +1,3 @@
-Done:
-init_cross_mutex
-init_forks
-
 In process:
 init_philo, I have an issue to initialized fork left and fork rights
 init_program function to init the program struct
@@ -13,3 +9,11 @@ init_threads
 start_simulation
 test
 Split into files
+
+Done:
+init_cross_mutex
+init_forks
+
+
+WISH to
+check if all the structs are malloc correctly and !malloc error

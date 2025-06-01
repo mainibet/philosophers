@@ -6,14 +6,14 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/05/31 16:47:16 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/01 15:14:54 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-// --- MAximum value long long ---
+// --- Maximum value long long ---
 # ifndef LLONG_MAX
 #  define LLONG_MAX 9223372036854775807LL
 # endif
@@ -32,14 +32,33 @@
 # endif
 
 // --- Return Status Codes ---
-# define SUCCESS 0
-# define ERROR -1
+# ifndef SUCCESS
+#  define SUCCESS 0
+# endif
+
+# ifndef ERROR
+#  define ERROR -1
+# endif
 
 // --- Specific error codes if needed ---
-# define ERR_INVALID_ARGS -2
-# define ERR_MALLOC_FAIL  -3
-# define ERR_MUTEX  -4
+# ifndef ERR_INVALID_ARGS
+#  define ERR_INVALID_ARGS -2
+# endif
+# ifndef ERR_MALLOC_FAIL
+#  define ERR_MALLOC_FAIL -3
+# endif
+
+# ifndef ERR_MUTEX
+#  define ERR_MUTEX -4
+# endif
+//# ifndef ERR_THREAD_CREAT
 // # define ERR_THREAD_CREATE -5
+//# endif
+
+// --- Configuration values ---
+# ifndef MAX_MEALS_DISABLED
+#  define MAX_MEALS_DISABLED -1
+# endif
 
 # include <string.h> //memset CHECK IF USED
 # include <stdio.h> //printf
@@ -102,8 +121,8 @@ typedef struct s_program
 // --- ARGUMENT PARSING ---
 int		get_args(char *argv, t_arg_parse *parse);
 void	init_arg_parse(t_arg_parse *parse, int *arr);
-int		process_arg(int argc, char **argv);
-int		parsing_args(int argc, char **argv);
+int		process_arg(int argc, char **argv, t_arg_parse *parse);
+int		parsing_args(int argc, char **argv, t_arg_parse *parse);
 long	str_tolongl(char *str, int *status);
 int		check_pos_int(char *argv, int *status);
 int		check_limits(long long n);
