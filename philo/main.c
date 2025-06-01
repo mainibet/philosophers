@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/01 15:16:31 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/01 15:23:07 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	init_forks(t_program *data)
 //needs to calculate start_fork
 //Like this: Calculate the 0-indexed array position for 
 //this philosopher's corresponding fork.
-void	fill_each_philo(t_program *data, int philo_id)
+void	fill_each_philo(t_program *data, t_philo *philo, int philo_id)
 {
 	int	start_fork;//check
 

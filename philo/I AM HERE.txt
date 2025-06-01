@@ -1,7 +1,9 @@
 In process:
+CONNECT STRUCTS PHILO AND PROGRAM, BE SURE THAT PHILO IS NOT LOCAL
 init_philo, I have an issue to initialized fork left and fork rights
 init_program function to init the program struct
 set-up simulation
+test program used of args
 
 Next:
 include the struct arg_parse into t_program to use the int *arr
@@ -13,6 +15,7 @@ Split into files
 Done:
 init_cross_mutex
 init_forks
+init_program with args
 
 
 WISH to
