@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/02 12:48:59 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/02 13:05:46 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,16 @@ long long	precise_time_ms(void)//NEW
 	return (total_milisec);
 }
 
+void	philo_sleep(t_philo *philo)
+{
+	long long	wake_up;//check type of variables
+	long long	current_time;//check type of variables
+
+    current_time = precise_time_ms ();
+	wake_up = current_time + philo->program->time_sleep;
+	while (precise_time_ms() < wake_up)
+		usleep(100);//check what # works
+}
 //each will be a status
 //eating, thinking, and sleeping.
 //prototype given by pthread_create
