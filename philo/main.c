@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/02 08:25:23 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/02 08:31:36 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ int	init_cross_mutex(t_program *data)//do i have to set attributes for philo?
 {
 	if (pthread_mutex_init(&data->output_mutex, NULL) != SUCCESS)//CAN I USE THE MACRO?
 	{
-		print_error_msg("Failed to init mutex output");//check
+		print_error_msg("Failed to init mutex output\n");//check
 		return (ERR_MUTEX);//if success then set conditions to change mutex status to temrinate
 	}
-	printf ("Mutex initialized correctly");//testing
+	printf ("Mutex initialized correctly\n");//testing
 	return (SUCCESS);
 }
 
@@ -32,7 +32,7 @@ int	mutex_fork_error(t_program  *data, int i)
 {
 	int	j;//new
 
-	print_error_msg("Failed to init fork mutex");//PENDING DESTROY MUTEX AFTER THE ERROR
+	print_error_msg("Failed to init fork mutex\n");//PENDING DESTROY MUTEX AFTER THE ERROR
 	j = 0;
 	while (j < i)//new check if needed here or may be while loop in clean-up function
 	{
@@ -60,6 +60,7 @@ int	init_forks(t_program *data)
 		//pending include destroy mutex for output and sim_over
 		i++;
 	}
+    printf ("Forks initialized correctly\n");//testing
 	return (SUCCESS);
 }
 
@@ -101,6 +102,7 @@ int	init_philo(t_program *data)
 		fill_each_philo(data, i + 1);//check how is sent philo[i]
 		i++;
 	}
+    printf ("Philos initialized correctly\n");//testing
     //pending include destroy mutex for output and sim_over
 	return (SUCCESS);
 }
@@ -151,7 +153,7 @@ void	set_default(t_program *data)//check if really needed or only return
 //optional: # times each philo should eat arr[4]
 //mutex will be initialized later
 
-void	init_program(t_program *data)
+void	init_program(t_program *data)//check if set default really needed
 {
 	if (!data || !data->parse || !data->parse->arr)
 	{
