@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/02 11:10:40 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/02 12:06:09 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	fill_each_philo(t_program *data, int philo_id)
 	philo->left_fork = &data->fork[start_fork];//check
 	philo->right_fork = &data->fork[start_fork + 1];//check
 	philo->thread_id = 0;//TO AVOID ERRORS, CHECK IF IT'S OK
-	printf("This philo has no thread yet\n");//test
+	printf("This philo: %d has no thread yet\n", philo->philo_id);//test
 }
 
 int	init_philo(t_program *data)

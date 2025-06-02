@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/02 11:57:18 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/02 12:19:32 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,19 @@ long long	precise_time_ms(void)//NEW
 //thread logic
 void	*life_cycle(void *arg)
 {
-	t_philo *philo;//check if can be use this struct
+	t_philo		*philo;//check if can be use this struct
+	long long	current_time;
 
 	philo = (t_philo *)arg;
-    pthread_mutex_lock(&philo->data->output_mutex);//connect good data in philo
+	current_time = precise_time_ms() - philo->program->start_time;
+	pthread_mutex_lock(&philo->program->output_mutex);//connect good data in philo before printing
+	printf("%lld %d is thinking\n", current_time, philo->philo_id);
+	pthread_mutex_unlock(&philo->program->output_mutex);  //to unlock
     //print smt for testing
     //then unlock for the next philo
+	pthread_mutex_lock(&philo->program->output_mutex);//connect good data in philo before printing
 	printf("Philosopher %d is alive!\n", philo->philo_id);//test life cycle
+	pthread_mutex_unlock(&philo->program->output_mutex);  //to unlock
 	sleep(1);  // Simulate some work
     //pending to set a while loop with a cond to stop the loop term condition
 	// take_forks(philo);//function with pthread_mutex_lock. 
@@ -79,7 +85,7 @@ void	*life_cycle(void *arg)
 	// think(philo);//dynamic how should be set?
 	return (NULL);
 }
-
+//join makes the main thread to wai for the execution of the others
 int	start_threads(t_program *data)
 {
 	int	i;
@@ -92,6 +98,12 @@ int	start_threads(t_program *data)
 		printf("Thread created for philo ID: %d\n", data->philo[i].philo_id);
 		i++;
 	}//after include a while loop to join threads then all will be working
+	i = 0;
+	while (i < data->total_philo)
+	{
+		pthread_join(data->philo[i].thread_id, NULL);
+		i++;
+	}
 	return (SUCCESS);
 }
 
