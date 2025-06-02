@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/02 08:31:36 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/02 08:52:02 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	fill_each_philo(t_program *data, int philo_id)
 	int		start_fork;//check
 	t_philo	*philo;
 
-	start_fork = philo_id -1;
+	start_fork = philo_id -1;//to make it index
 	philo = &data->philo[start_fork];//new
 	philo->philo_id = philo_id;
 	philo->meal_number = 0;
@@ -85,7 +85,7 @@ void	fill_each_philo(t_program *data, int philo_id)
 	philo->left_fork = &data->fork[start_fork];//check
 	philo->right_fork = &data->fork[start_fork + 1];//check
 	philo->thread_id = 0;//TO AVOID ERRORS, CHECK IF IT'S OK
-	printf("Este filósofo no tiene hilo creado aún.\n");//test
+	printf("This philo has no thread yet\n");//test
 }
 
 int	init_philo(t_program *data)
@@ -93,16 +93,19 @@ int	init_philo(t_program *data)
 	int	i;
 
 	i = 0;
+    printf("Debug: total_philo = %d\n", data->total_philo); // Debug print
 	data->philo = (t_philo *)malloc (sizeof(t_philo) * data->total_philo);
 	if (!data->philo)
 		return (malloc_error());//check if smt needs to free or destroy mutex before
 	while (i < data->total_philo)
 	{
 		data->philo[i].program = data;//check
-		fill_each_philo(data, i + 1);//check how is sent philo[i]
+		fill_each_philo(data, i + 1);//needs to be i + 1 if not becomes -1 in fill each philo
+		printf("Philosopher %d initialized with ID: %d\n", i + 1, data->philo[i].philo_id);//test
+        fflush(stdout);//test
 		i++;
 	}
-    printf ("Philos initialized correctly\n");//testing
+    printf("All philos initialized\n");//test
     //pending include destroy mutex for output and sim_over
 	return (SUCCESS);
 }
@@ -116,8 +119,9 @@ int	setup_simulation(t_program *data)//check if **argv needed or only data?
 {
 	int	status;
 
-	memset(data, 0, sizeof(t_program));
-	data->end_flag = 0;//just to initialite the flag
+	// memset(data, 0, sizeof(t_program));
+	if (!data->end_flag)
+		data->end_flag = 0;//just to initialite the flag
 	status = init_cross_mutex(data);
 	if (status != SUCCESS)
 		return (status);//check and clean-up before return
@@ -127,9 +131,9 @@ int	setup_simulation(t_program *data)//check if **argv needed or only data?
 	status = init_philo(data);
 	if (status != SUCCESS)
 		return (status);//clean-up before return
-	// status = start_threads(data);
-	// if (status != SUCCESS)
-	// 	return (status);//clean-up before return
+// 	status = start_threads(data);
+// 	if (status != SUCCESS)
+// 		return (status);//clean-up before return
 	return (SUCCESS);
 }
 
@@ -167,6 +171,7 @@ void	init_program(t_program *data)//check if set default really needed
 		return ;
 	}
 	data->total_philo = data->parse->arr[0];
+	printf("Debug: Setting total_philo to %d\n", data->total_philo); // Debug print
 	data->time_die = data->parse->arr[1];
 	data->time_eat = data->parse->arr[2];
 	data->time_sleep = data->parse->arr[3];
