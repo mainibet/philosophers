@@ -6,115 +6,33 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/02 10:22:59 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/02 11:57:18 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//init mutex for mutex output
-//init mutex for sim_over
-//return SUCCESS or ERR_MUTEX
-int	init_cross_mutex(t_program *data)//do i have to set attributes for philo?
+//takes the current hour
+//makes the equivalent to the starting moment I set
+//make it precise milisec
+//gettimeofday is very precise microsec
+//* 1000LL convert sec to milisec
+// /1000 convert microsec to milisec
+//tv.tv_sec = seconds passed utils the moment is called
+//tv.tv_usec =  microsec that additional to the seconds have passed
+//conver microsec to milisec (tv.tv_usec / 1000)
+long long	precise_time_ms(void)//NEW
 {
-	if (pthread_mutex_init(&data->output_mutex, NULL) != SUCCESS)//CAN I USE THE MACRO?
-	{
-		print_error_msg("Failed to init mutex output\n");//check
-		return (ERR_MUTEX);//if success then set conditions to change mutex status to temrinate
-	}
-	printf ("Mutex initialized correctly\n");//testing
-	return (SUCCESS);
-}
-
-//i is where the error happened
-//will be usefull to destroy clean-up
-int	mutex_fork_error(t_program  *data, int i)
-{
-	int	j;//new
-
-	print_error_msg("Failed to init fork mutex\n");//PENDING DESTROY MUTEX AFTER THE ERROR
-	j = 0;
-	while (j < i)//new check if needed here or may be while loop in clean-up function
-	{
-		pthread_mutex_destroy(&data->fork[j].mutex);//check
-		j++;
-	}
-	free(data->fork);//check
-	data->fork = NULL;//check sure?
-	return (ERR_MUTEX);
-}
-
-int	init_forks(t_program *data)
-{
-	int	i;
-
-	i = 0;
-	data->fork = (t_fork *)malloc(sizeof(t_fork) * data->total_philo);
-	if (!data->fork)
-		return (malloc_error());
-	while (i < data->total_philo)
-	{
-		data->fork[i].fork_id = i + 1;//check if can begin in 1 and not increas +1 every time
-		if (pthread_mutex_init(&data->fork[i].mutex, NULL) != SUCCESS)//CHECK IF CAN BE SUCCESS INSTEAD OF 0
-			return (mutex_fork_error(data, i));//this return errors how to use it here to finish the ft?
-		//pending include destroy mutex for output and sim_over
-		i++;
-	}
-    printf ("Forks initialized correctly\n");//testing
-	return (SUCCESS);
-}
-
-//check if needs to be init the last meal or when
-//needs to calculate start_fork
-//Like this: Calculate the 0-indexed array position for 
-//this philosopher's corresponding fork.
-//THREAD_ID NOT NEED TO INIT FOR NOW
-//start_fork will help to find forks and philo position
-//the starting fork is left
-//philo thread init in 0 to avoid garbage in memory
-void	fill_each_philo(t_program *data, int philo_id)
-{
-	int		start_fork;//check
-	t_philo	*philo;
-
-	start_fork = philo_id -1;//to make it index
-	philo = &data->philo[start_fork];//new
-	philo->philo_id = philo_id;
-	philo->meal_number = 0;
-	philo->program = data;
-	philo->left_fork = &data->fork[start_fork];//check
-	philo->right_fork = &data->fork[start_fork + 1];//check
-	philo->thread_id = 0;//TO AVOID ERRORS, CHECK IF IT'S OK
-	printf("This philo has no thread yet\n");//test
-}
-
-int	init_philo(t_program *data)
-{
-	int	i;
-
-	i = 0;
-    printf("Debug: total_philo = %d\n", data->total_philo); // Debug print
-	data->philo = (t_philo *)malloc (sizeof(t_philo) * data->total_philo);
-	if (!data->philo)
-		return (malloc_error());//check if smt needs to free or destroy mutex before
-	while (i < data->total_philo)
-	{
-		data->philo[i].program = data;//check
-		fill_each_philo(data, i + 1);//needs to be i + 1 if not becomes -1 in fill each philo
-		printf("Philosopher %d initialized with ID: %d\n", i + 1, data->philo[i].philo_id);//test
-        fflush(stdout);//test
-		i++;
-	}
-    printf("All philos initialized\n");//test
-    //pending include destroy mutex for output and sim_over
-	return (SUCCESS);
-}
-long long	get_current_time_ms(void)//NEW
-{
-	struct timeval tv;
+	struct timeval	tv;
+	long long		all_sec;
+	long long		rem_microsec;
+	long long		total_milisec;
 
 	gettimeofday(&tv, NULL); // No timezone
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	all_sec = tv.tv_sec * 1000LL;
+	rem_microsec = tv.tv_usec / 1000;
+	total_milisec = all_sec + rem_microsec;
+	return (total_milisec);
 }
 // int set_initial_timestamps(t_program *program_data)//new
 // {
@@ -146,6 +64,9 @@ void	*life_cycle(void *arg)
 	t_philo *philo;//check if can be use this struct
 
 	philo = (t_philo *)arg;
+    pthread_mutex_lock(&philo->data->output_mutex);//connect good data in philo
+    //print smt for testing
+    //then unlock for the next philo
 	printf("Philosopher %d is alive!\n", philo->philo_id);//test life cycle
 	sleep(1);  // Simulate some work
     //pending to set a while loop with a cond to stop the loop term condition
@@ -161,7 +82,6 @@ void	*life_cycle(void *arg)
 
 int	start_threads(t_program *data)
 {
-	// pthread_t	thread_id;
 	int	i;
 
 	i = 0;
@@ -194,54 +114,6 @@ int	setup_simulation(t_program *data)//check if **argv needed or only data?
 	if (status != SUCCESS)
 		return (status);//clean-up before return
 	return (SUCCESS);
-}
-
-void	set_default(t_program *data)//check if really needed or only return
-{
-	data->total_philo = 0;
-	data->max_meals = -1;
-	data->time_die = 0;
-	data->time_eat = 0;
-	data->time_sleep = 0;
-	data->start_time = 0;
-	data->end_flag = 0;
-	data->philo = NULL;//CHECK MAY BE NOT NEEDED 
-	data->fork = NULL;//CHECK MAY BE NOT NEEDED
-	data->parse = NULL;// CHECK IT MAY BE NOT NEEDED
-}
-//number of philo arr[0]
-//time to die arr[1]
-//time to eat arr[2]
-//time to sleep arr[3]
-//optional: # times each philo should eat arr[4]
-//mutex will be initialized later
-
-void	init_program(t_program *data)//check if set default really needed
-{
-	if (!data || !data->parse || !data->parse->arr)
-	{
-		if (data)
-			set_default(data);
-		return ;
-	}
-	if (data->parse->count < 4) // Not enough arguments, set defaults or handle error
-	{
-		set_default(data);
-		return ;
-	}
-	data->total_philo = data->parse->arr[0];
-	printf("Debug: Setting total_philo to %d\n", data->total_philo); // Debug print
-	data->time_die = data->parse->arr[1];
-	data->time_eat = data->parse->arr[2];
-	data->time_sleep = data->parse->arr[3];
-	data->start_time = 0;
-	data->end_flag = 0;
-	data->philo = NULL;
-	data->fork = NULL;
-	if (data->parse->count == 4)
-		data->max_meals = MAX_MEALS_DISABLED;
-	else
-		data->max_meals = data->parse->arr[4];
 }
 
 //IN PUT:

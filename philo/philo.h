@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/02 07:02:32 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/02 11:06:48 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,18 @@ long	str_tolongl(char *str, int *status);
 int		check_pos_int(char *argv, int *status);
 int		check_limits(long long n);
 
+// --- INITIALIZATION ---
+void	init_program(t_program *data);
+int		init_cross_mutex(t_program *data);//PENDING CHECK IF ANY FUNCTION IS STATIC
+int		init_forks(t_program *data);
+void	fill_each_philo(t_program *data, int philo_id);
+int		init_philo(t_program *data);
+
+// --- CLEAN-UP & ERROR HANDLING
+int		mutex_fork_error(t_program *data, int i);
+
 // --- HELPER FUNCIONTS ---
-void	print_error_msg(const char *msg);
-int		malloc_error(void);
+void	print_error_msg(const char *msg);//MOVE TO OTHER FILE
+int		malloc_error(void);//MOVE TO OTHER FILE
 
 #endif
