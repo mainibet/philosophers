@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/02 12:19:32 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/02 12:40:31 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,21 @@ long long	precise_time_ms(void)//NEW
 	total_milisec = all_sec + rem_microsec;
 	return (total_milisec);
 }
-// int set_initial_timestamps(t_program *program_data)//new
+// int set_initial_timestamps(t_program *ata)//new
 // {
 //     int i;
 
-//     program_data->start_time = get_current_time_ms();
-//     if (program_data->start_time == 0) // Basic error check for time function (rare)
+//     data->start_time = precise_time_ms();
+//     if ((data->start_time == 0) // Basic error check for time function (rare)
 //     {
 //         print_error_msg("Failed to get start time.");
 //         return (ERROR); // A generic error, or define a specific one if time functions can fail
 //     }
 
 //     i = 0;
-//     while (i < program_data->total_philo)
+//     while (i < data->total_philo)
 //     {
-//         program_data->philo[i].last_meal = program_data->start_time;
+//         data->philo[i].last_meal = data->start_time;
 //         i++;
 //     }
 //     return (SUCCESS);
