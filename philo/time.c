@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/02 13:05:46 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/02 14:27:46 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	philo_sleep(t_philo *philo)
 	while (precise_time_ms() < wake_up)
 		usleep(100);//check what # works
 }
+
 //each will be a status
 //eating, thinking, and sleeping.
 //prototype given by pthread_create
@@ -74,14 +75,13 @@ void	*life_cycle(void *arg)
 {
 	t_philo		*philo;//check if can be use this struct
 	long long	current_time;
+	int			i;
 
 	philo = (t_philo *)arg;
 	current_time = precise_time_ms() - philo->program->start_time;
 	pthread_mutex_lock(&philo->program->output_mutex);//connect good data in philo before printing
 	printf("%lld %d is thinking\n", current_time, philo->philo_id);
-	pthread_mutex_unlock(&philo->program->output_mutex);  //to unlock
-    //print smt for testing
-    //then unlock for the next philo
+	pthread_mutex_unlock(&philo->program->output_mutex);  //to unlock for the next philo
 	pthread_mutex_lock(&philo->program->output_mutex);//connect good data in philo before printing
 	printf("Philosopher %d is alive!\n", philo->philo_id);//test life cycle
 	pthread_mutex_unlock(&philo->program->output_mutex);  //to unlock
@@ -89,6 +89,14 @@ void	*life_cycle(void *arg)
     //pending to set a while loop with a cond to stop the loop term condition
 	// take_forks(philo);//function with pthread_mutex_lock. 
     //check how to indicate take right and left if is odd or even
+	i = 0;
+	while (i < philo->program->total_philo)
+	{
+		pthread_mutex_lock(&philo->program->output_mutex);//connect good data in philo before printing
+		printf("%lld %d time to sleep\n", current_time, philo->philo_id);//new to sleep
+		pthread_mutex_unlock(&philo->program->output_mutex);
+		i++;
+	}
 	printf("Philosopher %d is done.\n", philo->philo_id);//test only thread creation
 	// eat(philo);//reacord time of last meal usleep(time_to_eat)
 	// release_fork(philo); ///function to unlock mutex needs to be per each fork
