@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:24:45 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/01 15:14:26 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/02 08:29:00 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,19 @@ int	process_arg(int argc, char **argv, t_arg_parse *parse)
 {
 	int		*arr;
 	int		j;
-	t_arg_parse parse;
+	// t_arg_parse parse;
 
 	arr = malloc((argc - 1) * sizeof(int));
 	if (!arr)
 		return (malloc_error());//check
-	init_arg_parse(&parse, arr);
+	// init_arg_parse(&parse, arr);
+	init_arg_parse(parse, arr);
 	parse->count = 0;
 	j = 1;
 	while (argv[j])
 	{
-		if (get_args(argv[j], &parse) != SUCCESS)
+		// if (get_args(argv[j], &parse) != SUCCESS)
+		if (get_args(argv[j], parse) != SUCCESS)
 		{
 			print_error_msg(parse->msg);
 			free(arr);
