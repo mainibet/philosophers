@@ -1,11 +1,14 @@
 In process:
-CONNECT STRUCTS PHILO AND PROGRAM, BE SURE THAT PHILO IS NOT LOCAL
-init_philo, I have an issue to initialized fork left and fork rights
-init_program function to init the program struct
-set-up simulation
-test program used of args
+life cycle
 
 Next:
+life cycle:
+    basic eat;
+    grab forks;
+    release forks;
+    full sleep;
+    full eat;
+    full think;
 include the struct arg_parse into t_program to use the int *arr
 init_threads
 start_simulation
@@ -16,6 +19,13 @@ Done:
 init_cross_mutex
 init_forks
 init_program with args
+init_philos
+printf_mutex
+set-up simulation
+life cycle:
+    basic philo_sleep
+    basic philo_think
+    think after sleep
 
 
 WISH to
