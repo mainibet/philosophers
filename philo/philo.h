@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/02 12:43:27 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/02 12:49:33 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,11 +134,12 @@ int			init_forks(t_program *data);
 void		fill_each_philo(t_program *data, int philo_id);
 int			init_philo(t_program *data);
 
-// --- CLEAN-UP & ERROR HANDLING
-int			mutex_fork_error(t_program *data, int i);
-
 // --- TIME ---
 long long	precise_time_ms(void);
+void		*life_cycle(void *arg);
+
+// --- CLEAN-UP & ERROR HANDLING
+int			mutex_fork_error(t_program *data, int i);
 
 // --- HELPER FUNCIONTS ---
 void		print_error_msg(const char *msg);//MOVE TO OTHER FILE
