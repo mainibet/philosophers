@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/01 15:23:07 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/02 08:25:23 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,15 @@ int	init_cross_mutex(t_program *data)//do i have to set attributes for philo?
 //will be usefull to destroy clean-up
 int	mutex_fork_error(t_program  *data, int i)
 {
+	int	j;//new
+
 	print_error_msg("Failed to init fork mutex");//PENDING DESTROY MUTEX AFTER THE ERROR
+	j = 0;
+	while (j < i)//new check if needed here or may be while loop in clean-up function
+	{
+		pthread_mutex_destroy(&data->fork[j].mutex);//check
+		j++;
+	}
 	free(data->fork);//check
 	data->fork = NULL;//check sure?
 	return (ERR_MUTEX);
@@ -59,15 +67,24 @@ int	init_forks(t_program *data)
 //needs to calculate start_fork
 //Like this: Calculate the 0-indexed array position for 
 //this philosopher's corresponding fork.
-void	fill_each_philo(t_program *data, t_philo *philo, int philo_id)
+//THREAD_ID NOT NEED TO INIT FOR NOW
+//start_fork will help to find forks and philo position
+//the starting fork is left
+//philo thread init in 0 to avoid garbage in memory
+void	fill_each_philo(t_program *data, int philo_id)
 {
-	int	start_fork;//check
+	int		start_fork;//check
+	t_philo	*philo;
 
-	data->philo->philo_id = philo_id;
-	data->philo->meal_number = 0;
 	start_fork = philo_id -1;
-	data->philo->left_fork = data->philo.fork[start_fork];//check
-	data->philo->right_fork = data->philo.fork[start_fork + 1];//check
+	philo = &data->philo[start_fork];//new
+	philo->philo_id = philo_id;
+	philo->meal_number = 0;
+	philo->program = data;
+	philo->left_fork = &data->fork[start_fork];//check
+	philo->right_fork = &data->fork[start_fork + 1];//check
+	philo->thread_id = 0;//TO AVOID ERRORS, CHECK IF IT'S OK
+	printf("Este filósofo no tiene hilo creado aún.\n");//test
 }
 
 int	init_philo(t_program *data)
@@ -81,10 +98,9 @@ int	init_philo(t_program *data)
 	while (i < data->total_philo)
 	{
 		data->philo[i].program = data;//check
-		fill_each_philo(&data->philo[i], i + 1);//check how is sent philo[i]
+		fill_each_philo(data, i + 1);//check how is sent philo[i]
 		i++;
 	}
-	data->fork = NULL;//check may be not or data->philo =NULL?
     //pending include destroy mutex for output and sim_over
 	return (SUCCESS);
 }
@@ -94,7 +110,7 @@ int	init_philo(t_program *data)
 
 // }
 
-int	setup_simulation(char **argv, t_program *data)//check if **argv needed or only data?
+int	setup_simulation(t_program *data)//check if **argv needed or only data?
 {
 	int	status;
 
@@ -124,9 +140,9 @@ void	set_default(t_program *data)//check if really needed or only return
 	data->time_sleep = 0;
 	data->start_time = 0;
 	data->end_flag = 0;
-	data->philo = NULL;
-	data->fork = NULL;
-	data->parse = NULL;
+	data->philo = NULL;//CHECK MAY BE NOT NEEDED 
+	data->fork = NULL;//CHECK MAY BE NOT NEEDED
+	data->parse = NULL;// CHECK IT MAY BE NOT NEEDED
 }
 //number of philo arr[0]
 //time to die arr[1]
@@ -168,17 +184,18 @@ void	init_program(t_program *data)
 //time to eat argv[3]
 //time to sleep argv[4]
 //optional: # times each philo should eat argv[6]
+//t_program is in the memory stack, not need to be in the heap (not malloc needed)
 int	main(int argc, char **argv)
 {
-	t_arg_parse	*parse;
-	t_program	*data;
+	t_arg_parse	parse;
+	t_program	data;
 
 	if (parsing_args(argc, argv, &parse) != SUCCESS)
 		return (EXIT_FAILURE);//define in stdlib.h
 	printf("Ready to continue\n");//test
-	data->parse = &parse;
-	init_program(data);
-	if (setup_simulation(argv, data) != SUCCESS)
+	data.parse = &parse;//memory allocated in parsing_args
+	init_program(&data);
+	if (setup_simulation(&data) != SUCCESS)
 		return (EXIT_FAILURE);//DEFINE IN STDLIB.H
 	// if (start_simulation() != SUCCESS)
 	// 	return (1);

@@ -20,3 +20,8 @@ init_program with args
 
 WISH to
 check if all the structs are malloc correctly and !malloc error
+
+
+
+LEFT FORK = index i 
+RIGHT FORK = index (i + 1)%N then the last philo will take first the right

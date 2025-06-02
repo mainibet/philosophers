@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/01 15:14:54 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/02 07:02:32 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ typedef struct s_arg_parse
 	long long	n;//parse number from the current arg
 }	t_arg_parse;
 
-typedef struct s_fork//can i include program struct and philo struct?
+typedef struct s_fork
 {
 	pthread_mutex_t	mutex;//to control access to the fork
 	int				fork_id;//for login and debug purposes CHECK
