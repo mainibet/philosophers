@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/02 14:27:46 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/02 14:37:16 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,9 @@ void	*life_cycle(void *arg)
 	while (i < philo->program->total_philo)
 	{
 		pthread_mutex_lock(&philo->program->output_mutex);//connect good data in philo before printing
-		printf("%lld %d time to sleep\n", current_time, philo->philo_id);//new to sleep
+		philo_sleep(philo);
+		current_time = precise_time_ms() - philo->program->start_time;//update current time
+		printf("%lld %d time_to_sleep\n", current_time, philo->philo_id);//new to sleep
 		pthread_mutex_unlock(&philo->program->output_mutex);
 		i++;
 	}
