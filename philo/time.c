@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/03 08:46:16 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/03 09:18:42 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	take_forks(t_philo *philo)
 {
 	t_fork	*first_fork;//check type
 	t_fork	*second_fork;//check type
-	const char	* msg;
+	const char	*msg;
 
 	//set cond to finish if terminates condition reached
 	msg = "has taken a fork";
@@ -154,9 +154,19 @@ void	release_forks(t_philo *philo)//no message check
 
 void	philo_eat(t_philo *philo)
 {
-    usleep(100);//test
+	time_t	eat_end_time;
+
 	take_forks(philo);
-	release_forks(philo);
+	philo->last_meal = precise_time_ms();
+	philo->meal_number++;//needed?
+	print_status(philo, "is eating");
+	eat_end_time = precise_time_ms () + philo->program->time_eat;
+	while (precise_time_ms() < eat_end_time)
+	{
+		//set if condition if simulation stops
+		usleep(100);//test
+	}
+    // release_forks(philo);
 }
 
 //each will be a status
