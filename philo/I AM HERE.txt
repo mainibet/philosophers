@@ -1,19 +1,14 @@
 In process:
-life cycle
+Set termination condition 
+
 
 Next:
 life cycle:
-
-
-4. Be sure each thread of philo can do the actions in the order: sleep, think, eat, sleep, think, eat, etc
+check how to debu threads in gdb 
 
 5. Correct the output formatting in which is printed, I am using printf
 
 6. Make the functions to grab both forks before eating
-
-7. Function to release forks after eating
-
-8. Logic to handl forks per each philo
 
 9. Debug in make
 
@@ -43,6 +38,8 @@ init_threads
 1. Full sleep function
 2. Full thinking function
 3. Full eat function
+Logic to handl forks per each philo
+4. set the order of actions per philo (odd or even)
 
 WISH to
 check if all the structs are malloc correctly and !malloc error
