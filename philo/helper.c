@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:35:21 by albetanc          #+#    #+#             */
-/*   Updated: 2025/05/31 15:27:17 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:53:06 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	malloc_error(void)
 // 	return (SUCCESS);
 // }
 
-// void	free_array(char **arr, int j)//check if needed
+// void	free_array(int **arr, int j)//check if needed
 // {
 // 	if (!arr)
 // 		return ;
@@ -43,7 +43,7 @@ int	malloc_error(void)
 // 	free (arr);
 // }
 
-// int	count_arr_elements(char **arr)//check if needed in philo
+// int	count_arr_elements(int	**arr)//check if needed in philo
 // {
 // 	int	i;
 

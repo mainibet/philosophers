@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/03 13:20:09 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:51:06 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@ void	print_status(t_philo *philo, const char *msg)//check if needs to handled an
 	pthread_mutex_unlock(&philo->program->output_mutex);
 }
 
+void	print_format(t_philo *philo, const char *msg)
+{
+	long long	current_time;
+
+	current_time = precise_time_ms() - philo->program->start_time;
+	printf("%lld %d %s\n", current_time, philo->philo_id, msg);
+}
+
 //takes the current hour
 //makes the equivalent to the starting moment I set
 //make it precise milisec
@@ -35,12 +43,12 @@ void	print_status(t_philo *philo, const char *msg)//check if needs to handled an
 //tv.tv_usec =  microsec that additional to the seconds have passed
 //conver microsec to milisec (tv.tv_usec / 1000)
 // No timezone
-time_t	precise_time_ms(void)
+long long	precise_time_ms(void)
 {
 	struct timeval	tv;
-	long long		all_sec;
-	long long		rem_microsec;
-	long long		total_milisec;
+	long long			all_sec;
+	long long			rem_microsec;
+	long long			total_milisec;
 
 	gettimeofday(&tv, NULL); 
 	all_sec = tv.tv_sec * 1000LL;
@@ -53,27 +61,28 @@ time_t	precise_time_ms(void)
 //usleep is in microsecs
 void	philo_think(t_philo *philo)
 {
-	time_t		current_time;
-	// const char	*msg;
+	long long		current_time;
+	long long		think_time;
 
 	current_time = precise_time_ms () - philo->program->start_time;//check why atart time
-	// msg = ;
 //set if cond to stop if terminates condition reach
 	print_status(philo, "is thinking");
 	// usleep(100);
+    // Calculate think time: use time between eat and die to prevent death
+	think_time = (philo->program->time_die - philo->program->time_eat - philo->program->time_sleep) / 2;//check
+	if (think_time > 0)
+		usleep(think_time * 1000);
 }
 //this should be after release forks
 //time_t is in <sys/time.h> for time values
 void	philo_sleep(t_philo *philo)
 {
-	time_t		wake_up;
+	long long		wake_up;
 	// time_t		current_time;
-	const char	*msg;
 
-	wake_up = philo->program->start_time + philo->program->time_sleep;//check
+	wake_up = precise_time_ms() + philo->program->time_sleep;//check
 	// current_time = precise_time_ms () - philo->program->start_time;//check may be can be defined in the life_cycle
-	msg = "is sleeping";
-	print_status(philo, msg);
+	print_status(philo, "is sleeping");
 	while (precise_time_ms() < wake_up)
 	{
 		//condition to stop in termination cond
@@ -86,10 +95,8 @@ void	take_forks(t_philo *philo)
 {
 	t_fork	*first_fork;//check type
 	t_fork	*second_fork;//check type
-	const char	*msg;
 
 	//set cond to avoid attempt to take forks
-	msg = "has taken a fork";
 	if (philo->left_fork->fork_id < philo->right_fork->fork_id)
 	{
 		first_fork = philo->left_fork;
@@ -108,31 +115,37 @@ void	take_forks(t_philo *philo)
 	// 	pthread_mutex_unlock(&first_fork->mutex);  // Release first fork if can't get second
 	// 	return ;
 	// }
-	// print_status(philo, msg);
 	pthread_mutex_lock(&first_fork->mutex);
-	print_status(philo, msg);
+	print_status(philo, "has taken a fork");
     //check if simulation hasn't stop
 	pthread_mutex_lock(&second_fork->mutex);
-	print_status(philo, msg);
+	print_status(philo, "has taken a fork");
 }
 //only to mutex unlock
 void	release_forks(t_philo *philo)//no message check and check if order is relevant
 {
-	// printf("forks about to be realesed\n");//test
-	// if (philo->left_fork->fork_id < philo->right_fork->fork_id)//is it relevant the order?
-	// {
-	// 	pthread_mutex_unlock(&philo->right_fork->mutex);
-	// 	pthread_mutex_unlock(&philo->left_fork->mutex);
-	// }
-	// else
-	// {
-	pthread_mutex_unlock(&philo->left_fork->mutex);
-	pthread_mutex_unlock(&philo->right_fork->mutex);
+	t_fork	*first_fork;
+	t_fork	*second_fork;
+
+	// same order logic as take_forks
+	if (philo->left_fork->fork_id < philo->right_fork->fork_id)
+	{
+		first_fork = philo->left_fork;
+		second_fork = philo->right_fork;
+	}
+	else
+	{
+		first_fork = philo->right_fork;
+		second_fork = philo->left_fork;
+	}
+    // Release in reverse order of acquisition
+	pthread_mutex_unlock(&second_fork->mutex);
+	pthread_mutex_unlock(&first_fork->mutex);
 }
 
 void	philo_eat(t_philo *philo)
 {
-	time_t	eat_end_time;
+	long long	eat_end_time;
 
 	take_forks(philo);
     //check simulation is running
@@ -148,14 +161,14 @@ void	philo_eat(t_philo *philo)
 	release_forks(philo);//after eating
 }
 
-void	philo_routine_odd(t_philo *philo)//new
+void	philo_routine_odd(t_philo *philo)
 {
 	philo_eat(philo);
 	philo_sleep(philo);
 	philo_think(philo);
 }
 
-void	philo_routine_even(t_philo *philo)//new
+void	philo_routine_even(t_philo *philo)
 {
 	philo_think(philo);
 	philo_eat(philo);
@@ -178,17 +191,16 @@ void	*life_cycle(void *arg)
 	philo = (t_philo *)arg;
 	if (philo->philo_id % 2 == 0)//even small delay CHECK
     // Calculate dynamic wait time based on position and eating time
-    {
-		wait_time = ((philo->program->time_eat / philo->program->total_philo) * philo->philo_id) - 1;//check
-    // usleep(1000);//usleep(philo->program->time_eat * 500)
+	{
+		wait_time = philo->program->time_eat;//check
+	// usleep(1000);//usleep(philo->program->time_eat * 500)
 		usleep(wait_time * 1000);
-    }
+	}
 	// current_time = precise_time_ms() - philo->program->start_time;
-    //pending to set a while loop with a cond to stop the loop term condition
-	// take_forks(philo);//function with pthread_mutex_lock. 
-    //check how to indicate take right and left if is odd or even
+	//pending to set a while loop with a cond to stop the loop term condition
 	i = 0;
-	while (i < philo->program->total_philo)
+	// while (i < philo->program->total_philo)
+    while (1)
 	{
 		if (philo->philo_id % 2 != 0)//odd
 			philo_routine_odd(philo);

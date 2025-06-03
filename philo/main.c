@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/03 06:23:50 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:52:15 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	start_threads(t_program *data)
 	{
 		pthread_create(&data->philo[i].thread_id, NULL, 
 			life_cycle, &data->philo[i]);
-		printf("Thread created for philo ID: %d\n", data->philo[i].philo_id);//test
+		// printf("Thread created for philo ID: %d\n", data->philo[i].philo_id);//test
 		i++;
 	}//after include a while loop to join threads then all will be working
 	i = 0;
@@ -69,7 +69,7 @@ int	main(int argc, char **argv)
 
 	if (parsing_args(argc, argv, &parse) != SUCCESS)
 		return (EXIT_FAILURE);//define in stdlib.h
-	printf("Ready to continue\n");//test
+	// printf("Ready to continue\n");//test
 	data.parse = &parse;//memory allocated in parsing_args
 	init_program(&data);
 	if (setup_simulation(&data) != SUCCESS)

@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/02 12:43:51 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:52:01 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	init_cross_mutex(t_program *data)//do i have to set attributes for philo?
 		print_error_msg("Failed to init mutex output\n");//check
 		return (ERR_MUTEX);//if success then set conditions to change mutex status to temrinate
 	}
-	printf ("Mutex initialized correctly\n");//testing
+	// printf ("Mutex initialized correctly\n");//testing
 	return (SUCCESS);
 }
 
@@ -42,7 +42,7 @@ int	init_forks(t_program *data)
 		//pending include destroy mutex for output and sim_over
 		i++;
 	}
-    printf ("Forks initialized correctly\n");//testing
+    // printf ("Forks initialized correctly\n");//testing
 	return (SUCCESS);
 }
 
@@ -67,7 +67,7 @@ void	fill_each_philo(t_program *data, int philo_id)
 	philo->left_fork = &data->fork[start_fork];//check
 	philo->right_fork = &data->fork[start_fork + 1];//check
 	philo->thread_id = 0;//TO AVOID ERRORS, CHECK IF IT'S OK
-	printf("This philo: %d has no thread yet\n", philo->philo_id);//test
+	// printf("This philo: %d has no thread yet\n", philo->philo_id);//test
 }
 
 int	init_philo(t_program *data)
@@ -75,7 +75,7 @@ int	init_philo(t_program *data)
 	int	i;
 
 	i = 0;
-    printf("Debug: total_philo = %d\n", data->total_philo); // Debug print
+    // printf("Debug: total_philo = %d\n", data->total_philo); // Debug print
 	data->philo = (t_philo *)malloc (sizeof(t_philo) * data->total_philo);
 	if (!data->philo)
 		return (malloc_error());//check if smt needs to free or destroy mutex before
@@ -83,11 +83,11 @@ int	init_philo(t_program *data)
 	{
 		data->philo[i].program = data;//check
 		fill_each_philo(data, i + 1);//needs to be i + 1 if not becomes -1 in fill each philo
-		printf("Philosopher %d initialized with ID: %d\n", i + 1, data->philo[i].philo_id);//test
-        fflush(stdout);//test
+		// printf("Philosopher %d initialized with ID: %d\n", i + 1, data->philo[i].philo_id);//test
+        // fflush(stdout);//test
 		i++;
 	}
-    printf("All philos initialized\n");//test
+    // printf("All philos initialized\n");//test
     //pending include destroy mutex for output and sim_over
 	return (SUCCESS);
 }
@@ -101,8 +101,9 @@ int	init_philo(t_program *data)
 
 void	init_program(t_program *data)//check if set default really needed
 {
+    // int i;
 	data->total_philo = data->parse->arr[0];
-	printf("Debug: Setting total_philo to %d\n", data->total_philo); // Debug print
+	// printf("Debug: Setting total_philo to %d\n", data->total_philo); // Debug print
 	data->time_die = data->parse->arr[1];
 	data->time_eat = data->parse->arr[2];
 	data->time_sleep = data->parse->arr[3];
@@ -114,4 +115,6 @@ void	init_program(t_program *data)//check if set default really needed
 		data->max_meals = MAX_MEALS_DISABLED;
 	else
 		data->max_meals = data->parse->arr[4];
+	// i = count_arr_elements(&data->parse->arr);
+	// free_array(&data->parse->arr, i);//check if is ok here
 }
