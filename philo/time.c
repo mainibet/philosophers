@@ -6,11 +6,24 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/02 15:30:27 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/03 08:34:09 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+//HELPER FUNCTION
+//to print all the msg in order
+void	print_status(t_philo *philo, const char *msg)
+{
+	long long	current_time;
+
+	current_time = precise_time_ms() - philo->program->start_time;
+	pthread_mutex_lock(&philo->program->output_mutex);//after this includ checks of termination conditions with a flag
+    //also the specific printing to finish lock and unlock
+	printf("%lld %d %s\n", current_time, philo->philo_id, msg);
+	pthread_mutex_unlock(&philo->program->output_mutex);
+}
 
 // int set_initial_timestamps(t_program *ata)//new
 // {
@@ -41,14 +54,15 @@
 //tv.tv_sec = seconds passed utils the moment is called
 //tv.tv_usec =  microsec that additional to the seconds have passed
 //conver microsec to milisec (tv.tv_usec / 1000)
-long long	precise_time_ms(void)//NEW
+// No timezone
+long long	precise_time_ms(void)
 {
 	struct timeval	tv;
 	long long		all_sec;
 	long long		rem_microsec;
 	long long		total_milisec;
 
-	gettimeofday(&tv, NULL); // No timezone
+	gettimeofday(&tv, NULL); 
 	all_sec = tv.tv_sec * 1000LL;
 	rem_microsec = tv.tv_usec / 1000;
 	total_milisec = all_sec + rem_microsec;
@@ -56,34 +70,85 @@ long long	precise_time_ms(void)//NEW
 }
 
 //this should be after sleep
+//usleep is in microsecs
 void	philo_think(t_philo *philo)
 {
-	long long	current_time;//check the type
+	time_t		current_time;
+	const char	*msg;
 
-    current_time = precise_time_ms () - philo->program->start_time;//check why atart time
-
-    pthread_mutex_lock(&philo->program->output_mutex);
-    printf("%lld %d is thinking\n", current_time, philo->philo_id);
-    pthread_mutex_unlock(&philo->program->output_mutex);
-    usleep(100000);//sleep for 100 ms testig
+	current_time = precise_time_ms () - philo->program->start_time;//check why atart time
+	msg = "is thinking";
+//set if cond to stop if terminates condition reach
+	print_status(philo, msg);
+	usleep(100);
 }
 //this should be after release forks
+//time_t is in <sys/time.h> for time values
 void	philo_sleep(t_philo *philo)
 {
-	long long	wake_up;//check type of variables
-	long long	current_time;//check type of variables
+	time_t		wake_up;
+	// time_t		current_time;
+	const char	*msg;
 
-	pthread_mutex_lock(&philo->program->output_mutex);
-	printf("%lld time_to_sleep received\n", philo->program->time_sleep);//check
-	current_time = precise_time_ms() - philo->program->start_time;//update current time
-	pthread_mutex_unlock(&philo->program->output_mutex);//test
-    pthread_mutex_lock(&philo->program->output_mutex);//test
-	printf("%lld %d is sleeping\n", current_time, philo->philo_id);//test
-	pthread_mutex_unlock(&philo->program->output_mutex);//test
-	current_time = precise_time_ms ();
-	wake_up = current_time + philo->program->time_sleep;//check
+	wake_up = philo->program->start_time + philo->program->time_sleep;//check
+	// current_time = precise_time_ms () - philo->program->start_time;//check may be can be defined in the life_cycle
+	msg = "is sleeping";
+	print_status(philo, msg);
 	while (precise_time_ms() < wake_up)
-		usleep(100);//check what # works
+	{
+		//condition to stop in termination cond
+		usleep(100);
+	}
+}
+
+//take first the one with the lower ID
+void	take_forks(t_philo *philo)
+{
+	t_fork	*first_fork;//check type
+	t_fork	*second_fork;//check type
+	char	* msg;
+
+	//set cond to finish if terminates condition reached
+	// msg = "has taken a fork\n";
+	if (philo->left_fork->fork_id < philo->right_fork->fork_id)
+	{
+		first_fork = philo->right_fork;
+		second_fork = philo->left_fork;
+	}
+	else
+	{
+		first_fork = philo->right_fork;
+		second_fork = philo->left_fork;
+	}
+	pthread_mutex_lock(&first_fork->mutex);
+	print_status(philo, msg);
+	pthread_mutex_lock(&second_fork->mutex);
+	print_status(philo, msg);
+
+}
+//only to mutex unlock
+//unlock in reverse order
+void	release_forks(t_philo *philo)//no message check
+{
+	printf("forks about to be realesed\n");//test
+	if (philo->left_fork->fork_id < philo->right_fork->fork_id)//is it relevant the order?
+	{
+		pthread_mutex_unlock(&philo->left_fork->mutex);
+		pthread_mutex_unlock(&philo->right_fork->mutex);
+	}
+	else
+	{
+		pthread_mutex_unlock(&philo->right_fork->mutex);
+		pthread_mutex_unlock(&philo->left_fork->mutex);
+	}
+	printf("forks realesed\n");//test
+}
+
+void	philo_eat(t_philo *philo)
+{
+    usleep(100);//test
+	take_forks(philo);
+	release_forks(philo);
 }
 
 //each will be a status
@@ -93,27 +158,22 @@ void	philo_sleep(t_philo *philo)
 //thread logic
 void	*life_cycle(void *arg)
 {
-	t_philo		*philo;//check if can be use this struct
-	long long	current_time;
-	int			i;
+	t_philo	*philo;//check if can be use this struct
+	time_t	current_time;
+	int		i;
 
 	philo = (t_philo *)arg;
 	current_time = precise_time_ms() - philo->program->start_time;
-	printf("Philosopher %d is alive!\n", philo->philo_id);//test life cycle
-	pthread_mutex_unlock(&philo->program->output_mutex);  //to unlock
     //pending to set a while loop with a cond to stop the loop term condition
 	// take_forks(philo);//function with pthread_mutex_lock. 
     //check how to indicate take right and left if is odd or even
 	i = 0;
 	while (i < philo->program->total_philo)
 	{
-		// pthread_mutex_lock(&philo->program->output_mutex);//connect good data in philo before printing
 		philo_sleep(philo);
 		current_time = precise_time_ms() - philo->program->start_time;//update current time
-		// printf("%lld %d time_to_sleep\n", current_time, philo->philo_id);//new to sleep
-		pthread_mutex_unlock(&philo->program->output_mutex);
-        current_time = precise_time_ms() - philo->program->start_time;//update current time
 		philo_think(philo);
+		philo_eat(philo);//test
 		i++;
 	}
 	printf("Philosopher %d is done.\n", philo->philo_id);//test only thread creation

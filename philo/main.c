@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/02 12:50:12 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/03 06:23:50 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	start_threads(t_program *data)
 	{
 		pthread_create(&data->philo[i].thread_id, NULL, 
 			life_cycle, &data->philo[i]);
-		printf("Thread created for philo ID: %d\n", data->philo[i].philo_id);
+		printf("Thread created for philo ID: %d\n", data->philo[i].philo_id);//test
 		i++;
 	}//after include a while loop to join threads then all will be working
 	i = 0;

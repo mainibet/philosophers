@@ -3,15 +3,27 @@ life cycle
 
 Next:
 life cycle:
-    basic eat;
-    grab forks;
-    release forks;
-    full sleep;
-    full eat;
-    full think;
-include the struct arg_parse into t_program to use the int *arr
-init_threads
-start_simulation
+1. Full sleep function
+
+2. Full thinking function
+
+3. Full eat function
+
+4. Be sure each thread of philo can do the actions in the order: sleep, think, eat, sleep, think, eat, etc
+
+5. Correct the output formatting in which is printed, I am using printf
+
+6. Make the functions to grab both forks before eating
+
+7. Function to release forks after eating
+
+8. Logic to handl forks per each philo
+
+9. Debug in make
+
+10. Set-up copilot
+    
+ALLWAYS
 test
 Split into files
 
@@ -26,7 +38,8 @@ life cycle:
     basic philo_sleep
     basic philo_think
     think after sleep
-
+include the struct arg_parse into t_program to use the int *arr
+init_threads
 
 WISH to
 check if all the structs are malloc correctly and !malloc error
