@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/02 12:49:33 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/03 12:16:34 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,8 @@ void		fill_each_philo(t_program *data, int philo_id);
 int			init_philo(t_program *data);
 
 // --- TIME ---
-long long	precise_time_ms(void);
+// long long	precise_time_ms(void);
+time_t		precise_time_ms(void);
 void		*life_cycle(void *arg);
 
 // --- CLEAN-UP & ERROR HANDLING

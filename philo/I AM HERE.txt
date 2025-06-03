@@ -3,11 +3,7 @@ life cycle
 
 Next:
 life cycle:
-1. Full sleep function
 
-2. Full thinking function
-
-3. Full eat function
 
 4. Be sure each thread of philo can do the actions in the order: sleep, think, eat, sleep, think, eat, etc
 
@@ -22,6 +18,10 @@ life cycle:
 9. Debug in make
 
 10. Set-up copilot
+
+11. Handle case with 1 philo
+
+12. check edge cases
     
 ALLWAYS
 test
@@ -40,6 +40,9 @@ life cycle:
     think after sleep
 include the struct arg_parse into t_program to use the int *arr
 init_threads
+1. Full sleep function
+2. Full thinking function
+3. Full eat function
 
 WISH to
 check if all the structs are malloc correctly and !malloc error
