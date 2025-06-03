@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/03 08:34:09 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/03 08:41:32 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,22 +109,26 @@ void	take_forks(t_philo *philo)
 	char	* msg;
 
 	//set cond to finish if terminates condition reached
-	// msg = "has taken a fork\n";
+	msg = "has taken a fork\n";
 	if (philo->left_fork->fork_id < philo->right_fork->fork_id)
 	{
-		first_fork = philo->right_fork;
-		second_fork = philo->left_fork;
+		first_fork = philo->left_fork;
+		second_fork = philo->right_fork;
 	}
 	else
 	{
 		first_fork = philo->right_fork;
 		second_fork = philo->left_fork;
 	}
-	pthread_mutex_lock(&first_fork->mutex);
+	if (pthread_mutex_lock(&first_fork->mutex) != 0) //handling error already lock
+		return 	;
 	print_status(philo, msg);
-	pthread_mutex_lock(&second_fork->mutex);
+	if (pthread_mutex_lock(&second_fork->mutex) != 0)//handling error already lock
+	{
+		pthread_mutex_unlock(&first_fork->mutex);  // Release first fork if can't get second
+		return ;
+	}
 	print_status(philo, msg);
-
 }
 //only to mutex unlock
 //unlock in reverse order
@@ -133,13 +137,13 @@ void	release_forks(t_philo *philo)//no message check
 	printf("forks about to be realesed\n");//test
 	if (philo->left_fork->fork_id < philo->right_fork->fork_id)//is it relevant the order?
 	{
-		pthread_mutex_unlock(&philo->left_fork->mutex);
 		pthread_mutex_unlock(&philo->right_fork->mutex);
+		pthread_mutex_unlock(&philo->left_fork->mutex);
 	}
 	else
 	{
-		pthread_mutex_unlock(&philo->right_fork->mutex);
 		pthread_mutex_unlock(&philo->left_fork->mutex);
+		pthread_mutex_unlock(&philo->right_fork->mutex);
 	}
 	printf("forks realesed\n");//test
 }
