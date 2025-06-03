@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/03 13:10:46 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:20:09 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,12 +172,17 @@ void	philo_routine_even(t_philo *philo)//new
 void	*life_cycle(void *arg)
 {
 	t_philo	*philo;//check if can be use this struct
-	// time_t	current_time;
 	int		i;
+    int wait_time;
 
 	philo = (t_philo *)arg;
 	if (philo->philo_id % 2 == 0)//even small delay CHECK
-		usleep(100);//usleep(philo->program->time_eat * 500)
+    // Calculate dynamic wait time based on position and eating time
+    {
+		wait_time = ((philo->program->time_eat / philo->program->total_philo) * philo->philo_id) - 1;//check
+    // usleep(1000);//usleep(philo->program->time_eat * 500)
+		usleep(wait_time * 1000);
+    }
 	// current_time = precise_time_ms() - philo->program->start_time;
     //pending to set a while loop with a cond to stop the loop term condition
 	// take_forks(philo);//function with pthread_mutex_lock. 
@@ -189,7 +194,7 @@ void	*life_cycle(void *arg)
 			philo_routine_odd(philo);
 		else
 			philo_routine_even(philo);
-		i++;
+		i++;//afer include a check for the end_flag
 	}
 	return (NULL);
 }
