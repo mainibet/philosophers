@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/03 08:41:32 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/03 08:46:16 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,10 @@ void	take_forks(t_philo *philo)
 {
 	t_fork	*first_fork;//check type
 	t_fork	*second_fork;//check type
-	char	* msg;
+	const char	* msg;
 
 	//set cond to finish if terminates condition reached
-	msg = "has taken a fork\n";
+	msg = "has taken a fork";
 	if (philo->left_fork->fork_id < philo->right_fork->fork_id)
 	{
 		first_fork = philo->left_fork;
@@ -120,14 +120,18 @@ void	take_forks(t_philo *philo)
 		first_fork = philo->right_fork;
 		second_fork = philo->left_fork;
 	}
-	if (pthread_mutex_lock(&first_fork->mutex) != 0) //handling error already lock
-		return 	;
+	// if (pthread_mutex_lock(&first_fork->mutex) != 0) //handling error already lock
+	// 	return 	;
+	// print_status(philo, msg);
+	// if (pthread_mutex_lock(&second_fork->mutex) != 0)//handling error already lock
+	// {
+	// 	pthread_mutex_unlock(&first_fork->mutex);  // Release first fork if can't get second
+	// 	return ;
+	// }
+	// print_status(philo, msg);
+	pthread_mutex_lock(&first_fork->mutex);
 	print_status(philo, msg);
-	if (pthread_mutex_lock(&second_fork->mutex) != 0)//handling error already lock
-	{
-		pthread_mutex_unlock(&first_fork->mutex);  // Release first fork if can't get second
-		return ;
-	}
+	pthread_mutex_lock(&second_fork->mutex);
 	print_status(philo, msg);
 }
 //only to mutex unlock
