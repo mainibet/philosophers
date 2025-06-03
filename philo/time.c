@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/03 12:16:57 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:10:46 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	take_forks(t_philo *philo)
 //only to mutex unlock
 void	release_forks(t_philo *philo)//no message check and check if order is relevant
 {
-	printf("forks about to be realesed\n");//test
+	// printf("forks about to be realesed\n");//test
 	// if (philo->left_fork->fork_id < philo->right_fork->fork_id)//is it relevant the order?
 	// {
 	// 	pthread_mutex_unlock(&philo->right_fork->mutex);
@@ -128,8 +128,6 @@ void	release_forks(t_philo *philo)//no message check and check if order is relev
 	// {
 	pthread_mutex_unlock(&philo->left_fork->mutex);
 	pthread_mutex_unlock(&philo->right_fork->mutex);
-	// }
-	printf("forks realesed\n");//test
 }
 
 void	philo_eat(t_philo *philo)
@@ -150,11 +148,27 @@ void	philo_eat(t_philo *philo)
 	release_forks(philo);//after eating
 }
 
+void	philo_routine_odd(t_philo *philo)//new
+{
+	philo_eat(philo);
+	philo_sleep(philo);
+	philo_think(philo);
+}
+
+void	philo_routine_even(t_philo *philo)//new
+{
+	philo_think(philo);
+	philo_eat(philo);
+	philo_sleep(philo);
+}
+
 //each will be a status
 //eating, thinking, and sleeping.
 //prototype given by pthread_create
 //void *(*start_routine)(void *), void *arg
 //thread logic
+//odd: eat-sleep-think
+//even: think-eat-sleep
 void	*life_cycle(void *arg)
 {
 	t_philo	*philo;//check if can be use this struct
@@ -162,8 +176,8 @@ void	*life_cycle(void *arg)
 	int		i;
 
 	philo = (t_philo *)arg;
-	if (philo->philo_id % 2 == 0)//small delay to 
-		usleep(100);
+	if (philo->philo_id % 2 == 0)//even small delay CHECK
+		usleep(100);//usleep(philo->program->time_eat * 500)
 	// current_time = precise_time_ms() - philo->program->start_time;
     //pending to set a while loop with a cond to stop the loop term condition
 	// take_forks(philo);//function with pthread_mutex_lock. 
@@ -171,15 +185,11 @@ void	*life_cycle(void *arg)
 	i = 0;
 	while (i < philo->program->total_philo)
 	{
-        // current_time = precise_time_ms() - philo->program->start_time;//update current time
-		philo_eat(philo);
-        // current_time = precise_time_ms() - philo->program->start_time;//update current time
-		philo_sleep(philo);
-		// current_time = precise_time_ms() - philo->program->start_time;//update current time
-		philo_think(philo);
+		if (philo->philo_id % 2 != 0)//odd
+			philo_routine_odd(philo);
+		else
+			philo_routine_even(philo);
 		i++;
 	}
-	printf("Philosopher %d is done.\n", philo->philo_id);//test only thread creation
-	// release_fork(philo); ///function to unlock mutex needs to be per each fork
 	return (NULL);
 }
