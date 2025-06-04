@@ -5,6 +5,8 @@ Set termination condition:
     -kill_philo
     -clean_up
     -lifes monitor
+    -include mutex per philo to check meals and end flag
+    -make general the mutex error of forks to all
 
 Next:
 life cycle:

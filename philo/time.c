@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 10:01:06 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 10:29:01 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,11 +223,14 @@ void	sim_stop(t_program *data)//bolean?
     //call there the clean-up function
 }
 
-void	kill_philo(t_program *data)//check
+//takes the dying philo as argument
+void	kill_philo(t_philo *philo)//check
 {
-	data->end_flag = PHILO_DIED;//check needs to be different to 0
-	print_status(data->philo, "died");//after this call the clean_up
-	sim_stop(data);
+	pthread_mutex_lock(&philo->program->end_mutex);
+	philo->program->end_flag = PHILO_DIED;
+	pthread_mutex_unlock(&philo->program->end_mutex);
+	print_status(philo, "died");//after this call the clean_up
+	sim_stop(philo->program);
 }
 
 //flag to know if a philo has died or if they reach the amount of eats
@@ -244,13 +247,13 @@ void	end_condition(t_program *data)//this will be updated by monitor
 	{
 		if (status == PHILO_DIED || current_meals == data->max_meals)
 		{
-			kill_philo(data);
+			kill_philo(data->philo);
 			return ;
 		}
 	}
 	if (status == PHILO_DIED)
 	{
-		kill_philo(data);
+		kill_philo(data->philo);
 		return ;
 	}
 	return ;//check if needed
@@ -294,17 +297,19 @@ int	meal_control(t_program *data)
 //check if all philos have eaten
 //check each philo and max meals of all
 //asign the next philo to eat?
-int	life_monitor(void *arg)//check why
+void	life_monitor(void *arg)//check why
 {
 	int			i;
 	t_program	*data;
 
+	i = 0;
 	data = (t_program *)arg;//check if needed usleep
+	usleep(1000);//check
 	pthread_mutex_lock(&data->philo[i].philo_mutex);
 	while (data->end_flag == PHILO_ALIVED)//check if needed mutex before
 	{
 		if (check_life(data) == PHILO_DIED)
-			
+			end_condition(data);//check
 		i++;
 	}
 }
