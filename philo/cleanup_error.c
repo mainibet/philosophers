@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:02:26 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/02 11:09:31 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 09:43:31 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 //i is where the error happened
 //will be usefull to destroy clean-up
-int	mutex_fork_error(t_program  *data, int i)
+int	mutex_fork_error(t_program  *data, int i)//DOES THIS NEED TO UNLOCK IF SOMETHING IS LOCK?
 {
 	int	j;//new
 

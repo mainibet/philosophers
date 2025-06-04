@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 09:05:17 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 09:46:30 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,16 +256,29 @@ void	end_condition(t_program *data)//this will be updated by monitor
 	return ;//check if needed
 }
 
+int check_life(t_program *data)
+{
+	long long	since_last_meal;
+	int			philo_status;
+
+	philo_status = PHILO_ALIVED;
+	pthread_mutex_lock(&data->philo->philo_mutex);//what's this mutex?
+	since_last_meal = precise_time_ms() - data->philo->last_meal;
+	if (since_last_meal >= data->time_die)
+		philo_status = PHILO_DIED;//needs to be in the struct?
+	pthread_mutex_lock(&data->philo->philo_mutex);
+	return (philo_status);
+}
 //monitores the philo's lifes
 //CONNECT WITH THE EAT LOGIC and end condition with the end_flag
 //will trigger the programm termination
-//check last meal of each philo
+//check last meal of each philo and max meals of all
 //check time_eat
 //asign the next philo to eat?
-// int	lifes_monitor()
-// {
+int	lifes_monitor(t_program *data)
+{
 	
-// }
+}
 
 //each will be a status
 //eating, thinking, and sleeping.

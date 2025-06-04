@@ -1,9 +1,10 @@
 In process:
 Set termination condition:
     -end_condition function
-    -lifes monitor
-    -clean_up
     -sim_stop
+    -kill_philo
+    -clean_up
+    -lifes monitor
 
 Next:
 life cycle:
