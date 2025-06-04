@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 09:46:30 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 10:01:06 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ void	philo_routine_even(t_philo *philo)
 //free: array of philo
 //free:array of forks
 //free: array of parse
-void	clean_up(t_program *data)
+void	clean_up(t_program *data)//include philo_mutex
 {
 	int	i;
 
@@ -269,15 +269,44 @@ int check_life(t_program *data)
 	pthread_mutex_lock(&data->philo->philo_mutex);
 	return (philo_status);
 }
+
+int	meal_control(t_program *data)
+{
+	int	i;
+
+	if (data->max_meals == MAX_MEALS_DISABLED)
+		return(FALSE);//CHECK MACRO
+	i = 0;
+	while (i < data->total_philo)//lock each philo mutex to check # meal
+	{
+		pthread_mutex_lock(&data->philo[i].philo_mutex);
+		return (FALSE);
+	}
+	pthread_mutex_unlock(&data->philo[i].philo_mutex);
+	i++;
+	return (TRUE);
+}
+
 //monitores the philo's lifes
 //CONNECT WITH THE EAT LOGIC and end condition with the end_flag
 //will trigger the programm termination
-//check last meal of each philo and max meals of all
-//check time_eat
+//check last meal vs time to die
+//check if all philos have eaten
+//check each philo and max meals of all
 //asign the next philo to eat?
-int	lifes_monitor(t_program *data)
+int	life_monitor(void *arg)//check why
 {
-	
+	int			i;
+	t_program	*data;
+
+	data = (t_program *)arg;//check if needed usleep
+	pthread_mutex_lock(&data->philo[i].philo_mutex);
+	while (data->end_flag == PHILO_ALIVED)//check if needed mutex before
+	{
+		if (check_life(data) == PHILO_DIED)
+			
+		i++;
+	}
 }
 
 //each will be a status
