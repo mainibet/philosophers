@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 08:35:36 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 10:15:12 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,9 @@ int	init_philo(t_program *data)
 		return (malloc_error());//check if smt needs to free or destroy mutex before
 	while (i < data->total_philo)
 	{
+		data->philo[i].mutex_status_phi = MUTEX_NO_INIT;
+		if (pthread_mutex_init(&data->philo[i].mutex_status_phi, NULL) != SUCCESS)
+				return (mutex_fork_error);//check function's name and call it correctlu with i
 		data->philo[i].program = data;//check
 		fill_each_philo(data, i + 1);//needs to be i + 1 if not becomes -1 in fill each philo
 		// printf("Philosopher %d initialized with ID: %d\n", i + 1, data->philo[i].philo_id);//test

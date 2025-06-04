@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 09:51:29 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 10:12:10 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@
 
 // --- Bolean values ---
 # ifndef FALSE//CHECK IF IS CORRECT AND NEEDED or if is in any lib
-#  define FALSE 1
+#  define FALSE 0
 # endif
 
 # ifndef TRUE
-#  define TRUE 0
+#  define TRUE 1
 # endif
 
 // --- Configuration values ---
@@ -78,11 +78,11 @@
 # endif
 
 # ifndef PHILO_ALIVED
-#  define PHILO_ALIVED -1
+#  define PHILO_ALIVED 0
 # endif
 
 # ifndef PHILO_DIED
-#  define PHILO_DIED -1
+#  define PHILO_DIED 1
 # endif
 
 # include <string.h> //memset CHECK IF USED
@@ -121,7 +121,8 @@ typedef struct s_philo
 	t_fork			*left_fork;
 	t_fork			*right_fork;
 	t_program		*program;
-	pthread_mutex_t	philo_mutex;//new
+	pthread_mutex_t	philo_mutex;//Mutex to protect this philo's meal_number and last_meal
+	int				mutex_status_phi;//new flag
 	pthread_t		thread_id;//id when thread created NEEDED?
 }	t_philo;
 
@@ -134,9 +135,11 @@ typedef struct s_program
 	long long		time_sleep;
 	long long		start_time;//reference to begin simulation
 	int				end_flag;//to terminates the simulation
+	pthread_mutex_t	end_mutex;//mutex to protect end_flag
+	int				end_mutex_status;//check mutex status of end_flag. Check if really needed
 	pthread_mutex_t	output_mutex;//for printf
-	int				mutex_status;//flag to check
-	pthread_mutex_t	sim_over;//shared state
+	int				mutex_status;//flag to check CHANGE THE NAME TO OUTPUT_MUT_STAT
+	pthread_mutex_t	sim_over;//shared state NEEDED?
 	t_philo			*philo;
 	t_fork			*fork;
     t_arg_parse		*parse;//new
@@ -161,11 +164,18 @@ int			init_cross_mutex(t_program *data);//PENDING CHECK IF ANY FUNCTION IS STATI
 int			init_forks(t_program *data);
 int			init_philo(t_program *data);
 
-// --- TIME ---
+// --- TIME & THREADS ---
 long long	precise_time_ms(void);
 void		*life_cycle(void *arg);
 
-// --- CLEAN-UP & ERROR HANDLING
+// --- ACTIONS ---
+//eat
+//think
+//sleep
+
+// --- SIMULATION CONTROL ---
+
+// --- CLEAN-UP & ERROR HANDLING ---
 int			mutex_fork_error(t_program *data, int i);
 
 // --- HELPER FUNCIONTS ---

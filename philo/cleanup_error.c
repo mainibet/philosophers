@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:02:26 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 09:43:31 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 10:14:14 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,4 @@ int	mutex_fork_error(t_program  *data, int i)//DOES THIS NEED TO UNLOCK IF SOMET
 	free(data->fork);//check
 	data->fork = NULL;//check sure?
 	return (ERR_MUTEX);
-}
+}//can this function work also for other mutex error?
