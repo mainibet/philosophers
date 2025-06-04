@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/03 14:51:06 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 08:16:49 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,72 @@ void	philo_routine_even(t_philo *philo)
 	philo_sleep(philo);
 }
 
+//frees and destroy mutex
+void	clean_up()
+{
+	
+}
+
+//sim wait until all threads joined and clean-up
+void	sim_stop(t_program *data)//bolean?
+{
+	int    i;
+
+	i = 0;
+	while (i < data->philo->program->total_philo)
+	{
+		pthread_join(data->philo[i].thread_id, NULL);//check
+		i++;
+	}
+    if (data->total_philo > 1)
+        pthread_join(data->end_flag, NULL);//check
+    //call there the clean-up function
+}
+
+void	kill_philo(t_program *data)//check
+{
+	data->end_flag = PHILO_DIED;//check needs to be different to 0
+	print_status(data->philo, "died");//after this call the clean_up
+	sim_stop(data);
+}
+
+//flag to know if a philo has died or if they reach the amount of eats
+//A philo will die if doesn't eat in the max time set
+//it terminates if the number of eats is reached when it was included
+void	end_condition(t_program *data)//this will be updated by monitor
+{
+	int	status;//flag or status?
+	int	current_meals;//check
+
+	status = PHILO_ALIVED;//connect this with monitor?
+	current_meals = data->philo->meal_number;
+	if (data->max_meals != MAX_MEALS_DISABLED)
+	{
+		if (status == PHILO_DIED || current_meals == data->max_meals)
+		{
+			kill_philo(data);
+			return ;
+		}
+	}
+	if (status == PHILO_DIED)
+	{
+		kill_philo(data);
+		return ;
+	}
+	return ;//check if needed
+}
+
+//monitores the philo's lifes
+//CONNECT WITH THE EAT LOGIC and end condition with the end_flag
+//will trigger the programm termination
+//check last meal of each philo
+//check time_eat
+//asign the next philo to eat?
+// int	lifes_monitor()
+// {
+	
+// }
+
 //each will be a status
 //eating, thinking, and sleeping.
 //prototype given by pthread_create
@@ -186,14 +252,13 @@ void	*life_cycle(void *arg)
 {
 	t_philo	*philo;//check if can be use this struct
 	int		i;
-    int wait_time;
+	int		wait_time;
 
 	philo = (t_philo *)arg;
 	if (philo->philo_id % 2 == 0)//even small delay CHECK
     // Calculate dynamic wait time based on position and eating time
 	{
 		wait_time = philo->program->time_eat;//check
-	// usleep(1000);//usleep(philo->program->time_eat * 500)
 		usleep(wait_time * 1000);
 	}
 	// current_time = precise_time_ms() - philo->program->start_time;

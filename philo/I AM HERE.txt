@@ -1,6 +1,9 @@
 In process:
-Set termination condition 
-
+Set termination condition:
+    -end_condition function
+    -lifes monitor
+    -clean_up
+    -sim_stop
 
 Next:
 life cycle:

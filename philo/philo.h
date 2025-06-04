@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/03 14:49:53 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 07:15:18 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,14 @@
 // --- Configuration values ---
 # ifndef MAX_MEALS_DISABLED
 #  define MAX_MEALS_DISABLED -1
+# endif
+
+# ifndef PHILO_ALIVED
+#  define PHILO_ALIVED -1
+# endif
+
+# ifndef PHILO_DIED
+#  define PHILO_DIED -1
 # endif
 
 # include <string.h> //memset CHECK IF USED
