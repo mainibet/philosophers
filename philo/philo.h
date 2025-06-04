@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 12:44:35 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:59:23 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,10 +136,11 @@ typedef struct s_program
 	long long		start_time;//reference to begin simulation
 	int				end_flag;//to terminates the simulation
 	pthread_mutex_t	end_mutex;//mutex to protect end_flag
+	int				end_mutex_status;//Flag to track initialization status of end_mutex
 	// int				end_mutex_status;//check mutex status of end_flag. Check if really needed
 	pthread_mutex_t	output_mutex;//for printf
 	int				out_mut_status;//flag to check CHANGE THE NAME TO OUTPUT_MUT_STAT
-	pthread_mutex_t	end_mutex_status;//shared state NEEDED?
+	pthread_t       monitor_thread_id;//pending to initialized
 	t_philo			*philo;
 	t_fork			*fork;
     t_arg_parse		*parse;//new

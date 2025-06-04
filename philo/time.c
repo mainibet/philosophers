@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 12:39:20 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:56:04 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,19 +84,31 @@ void	philo_think(t_philo *philo)
 	if (think_time > 0)
 		usleep(think_time * 1000);
 }
+
+int	check_end_cond(t_philo *philo)
+{
+	int	sim_status;
+
+	pthread_mutex_lock(&philo->program->end_mutex);
+	sim_status = philo->program->end_flag;
+	pthread_mutex_unlock(&philo->program->end_mutex);
+	return (sim_status);
+}
+
 //this should be after release forks
 //time_t is in <sys/time.h> for time values
 void	philo_sleep(t_philo *philo)
 {
 	long long		wake_up;
-	// time_t		current_time;
+	int				sim_status;
 
-	wake_up = precise_time_ms() + philo->program->time_sleep;//check
-	// current_time = precise_time_ms () - philo->program->start_time;//check may be can be defined in the life_cycle
+	wake_up = precise_time_ms() + philo->program->time_sleep;
 	print_status(philo, "is sleeping");
 	while (precise_time_ms() < wake_up)
 	{
-		//condition to stop in termination cond
+		sim_status = check_end_cond(philo);
+		if (sim_status)//check if is ok
+			return ;
 		usleep(100);
 	}
 }
