@@ -7,6 +7,7 @@ Set termination condition:
     -lifes monitor
     -include mutex per philo to check meals and end flag
     -make general the mutex error of forks to all
+    -check if monitor is ok with thread for it self
 
 Next:
 life cycle:

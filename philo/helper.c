@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:35:21 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 08:52:31 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:23:57 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,6 @@ int	malloc_error(void)
 	print_error_msg("Memory allocation failed");//check if smt to free
 	return (ERR_MALLOC_FAIL);
 }
-
-// int	safe_write(int fd, const void *buf, size_t count)//check if needed
-// {
-// 	if (write (fd, buf, count) == -1)
-// 		return (ERROR);
-// 	return (SUCCESS);
-// }
 
 void	free_array(void **arr, int j)//check if needed
 {
@@ -55,14 +48,3 @@ int	count_arr_elements(void	**arr)//check if needed in philo
 	return (i);
 }
 
-// int	clean_up(char **arr)//check and fix to philo
-// {
-// 	int	i;
-
-// 	if (arr)
-// 	{
-// 		i = count_arr_elements(arr);
-// 		free_array(arr, i);
-// 	}
-// 	return (ERROR);
-// }

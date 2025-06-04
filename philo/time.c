@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 10:29:01 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:36:31 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,25 @@
 
 //HELPER FUNCTION
 //to print all the msg in order
+//lock output mutex
+//lock end flag mutex
+//check end flag
+//unlock end flag mutex
+//if end flag is ok then print status
+//unlock print status
 void	print_status(t_philo *philo, const char *msg)//check if needs to handled any error
 {
 	long long	current_time;
+	int			sim_status;
 
 	current_time = precise_time_ms() - philo->program->start_time;
 	pthread_mutex_lock(&philo->program->output_mutex);//after this includ checks of termination conditions with a flag
     //also the specific printing to finish lock and unlock
-	printf("%lld %d %s\n", current_time, philo->philo_id, msg);
+	pthread_mutex_lock(&philo->program->end_mutex_status);
+	sim_status = philo->program->end_flag;//check if simulation has ended
+	pthread_mutex_unlock(&philo->program->end_mutex_status);
+	if (!sim_status)
+		printf("%lld %d %s\n", current_time, philo->philo_id, msg);//is ok here?
 	pthread_mutex_unlock(&philo->program->output_mutex);
 }
 
@@ -184,14 +195,14 @@ void	clean_up(t_program *data)//include philo_mutex
 	int	i;
 
 	i = 0;
-	if (data->mutex_status == MUTEX_INIT)
+	if (data->out_mut_status == MUTEX_INIT)
 		pthread_mutex_destroy(&data->output_mutex);//need to includ error check of destroy?
 	if (data->fork != NULL)
 	{
 		i = 0;
 		while (i < data->total_philo)
 		{
-			if (data->fork[i].mutex_status == MUTEX_INIT)
+			if (data->fork[i].fork_mut_status == MUTEX_INIT)
 				pthread_mutex_destroy(&data->fork[i].mutex);//need to includ error check of destroy?
 			i++;
 		}
@@ -210,7 +221,7 @@ void	clean_up(t_program *data)//include philo_mutex
 //sim wait until all threads joined and clean-up
 void	sim_stop(t_program *data)//bolean?
 {
-	int    i;
+	int	i;
 
 	i = 0;
 	while (i < data->philo->program->total_philo)
@@ -218,8 +229,8 @@ void	sim_stop(t_program *data)//bolean?
 		pthread_join(data->philo[i].thread_id, NULL);//check
 		i++;
 	}
-    if (data->total_philo > 1)
-        pthread_join(data->end_flag, NULL);//check
+	if (data->total_philo > 1)
+		pthread_join(data->end_flag, NULL);//check
     //call there the clean-up function
 }
 

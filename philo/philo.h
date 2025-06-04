@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 10:24:02 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:32:18 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ typedef struct s_arg_parse
 typedef struct s_fork
 {
 	pthread_mutex_t	mutex;//to control access to the fork
-	int				mutex_status;//flag to check
+	int				fork_mut_status;//flag to check
 	int				fork_id;//for login and debug purposes CHECK
 }	t_fork;
 
@@ -121,7 +121,7 @@ typedef struct s_philo
 	t_fork			*left_fork;
 	t_fork			*right_fork;
 	t_program		*program;
-	pthread_mutex_t	philo_mutex;//Mutex to protect this philo's meal_number and last_meal
+	pthread_mutex_t	philo_mutex;//Mutex to protect each philo data
 	int				mutex_status_phi;//new flag
 	pthread_t		thread_id;//id when thread created NEEDED?
 }	t_philo;
@@ -136,10 +136,10 @@ typedef struct s_program
 	long long		start_time;//reference to begin simulation
 	int				end_flag;//to terminates the simulation
 	pthread_mutex_t	end_mutex;//mutex to protect end_flag
-	int				end_mutex_status;//check mutex status of end_flag. Check if really needed
+	// int				end_mutex_status;//check mutex status of end_flag. Check if really needed
 	pthread_mutex_t	output_mutex;//for printf
-	int				mutex_status;//flag to check CHANGE THE NAME TO OUTPUT_MUT_STAT
-	pthread_mutex_t	sim_over;//shared state NEEDED?
+	int				out_mut_status;//flag to check CHANGE THE NAME TO OUTPUT_MUT_STAT
+	pthread_mutex_t	end_mutex_status;//shared state NEEDED?
 	t_philo			*philo;
 	t_fork			*fork;
     t_arg_parse		*parse;//new
