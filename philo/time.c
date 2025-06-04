@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 12:36:31 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:39:20 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ void	philo_routine_even(t_philo *philo)
 //free: array of philo
 //free:array of forks
 //free: array of parse
-void	clean_up(t_program *data)//include philo_mutex
+void	clean_up_program(t_program *data)//include philo_mutex
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/03 13:52:15 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:48:22 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,17 @@ int	start_threads(t_program *data)
 	i = 0;
 	while (i < data->total_philo)
 	{
-		pthread_create(&data->philo[i].thread_id, NULL, 
-			life_cycle, &data->philo[i]);
+		if(pthread_create(&data->philo[i].thread_id, NULL, 
+			life_cycle, &data->philo[i]) != 0)//check if 0 or other
+            return (ERROR);//check
 		// printf("Thread created for philo ID: %d\n", data->philo[i].philo_id);//test
 		i++;
 	}//after include a while loop to join threads then all will be working
 	i = 0;
 	while (i < data->total_philo)
 	{
-		pthread_join(data->philo[i].thread_id, NULL);
+		if(pthread_join(data->philo[i].thread_id, NULL) != 0)//check if 0 or other
+			return(ERROR);
 		i++;
 	}
 	return (SUCCESS);
@@ -61,6 +63,7 @@ int	setup_simulation(t_program *data)//check if **argv needed or only data?
 //time to eat argv[3]
 //time to sleep argv[4]
 //optional: # times each philo should eat argv[6]
+//EXIT_SUCCESS and EXIT_FAILURE define in stdlib.h
 //t_program is in the memory stack, not need to be in the heap (not malloc needed)
 int	main(int argc, char **argv)
 {
@@ -74,9 +77,6 @@ int	main(int argc, char **argv)
 	init_program(&data);
 	if (setup_simulation(&data) != SUCCESS)
 		return (EXIT_FAILURE);//DEFINE IN STDLIB.H
-	// if (start_simulation() != SUCCESS)
-	// 	return (1);
-    //join philo threads
-    // free (parse.arr);//'cause was used to feed the program and clean up all
-	return (EXIT_SUCCESS);//DEFINE IN STDLIB.H
+//if succed can i called clean_up_program to finish? needs to join philos at the end before finishing and free all
+	return (EXIT_SUCCESS);
 }

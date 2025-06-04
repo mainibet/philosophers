@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 12:32:18 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:44:35 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ typedef struct s_philo
 	t_program		*program;
 	pthread_mutex_t	philo_mutex;//Mutex to protect each philo data
 	int				mutex_status_phi;//new flag
-	pthread_t		thread_id;//id when thread created NEEDED?
+	pthread_t		thread_id;//used to create thread per philo
 }	t_philo;
 
 typedef struct s_program
@@ -177,6 +177,7 @@ void		*life_cycle(void *arg);
 
 // --- CLEAN-UP & ERROR HANDLING ---
 int			mutex_fork_error(t_program *data, int i);
+void		clean_up_program(t_program *data);
 
 // --- HELPER FUNCIONTS ---
 void		print_error_msg(const char *msg);//MOVE TO OTHER FILE
