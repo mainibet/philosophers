@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 14:16:42 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:21:40 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	init_cross_mutex(t_program *data)//do i have to set attributes for philo?
     // printf ("Mutex initialized correctly\n");//testing
 	return (mutex_status);//would be success
 }
-
+//init mutex per fork
 int	init_forks(t_program *data)
 {
 	int	i;
@@ -96,7 +96,7 @@ void	fill_each_philo(t_program *data, int philo_id)
 	philo->thread_id = 0;//TO AVOID ERRORS, CHECK IF IT'S OK
 	// printf("This philo: %d has no thread yet\n", philo->philo_id);//test
 }
-
+//initi mutex per philo
 int	init_philo(t_program *data)
 {
 	int	i;
@@ -141,6 +141,7 @@ void	init_program(t_program *data)//check if set default really needed
 	data->end_flag = 0;
 	data->end_mutex_status = MUTEX_NO_INIT;//check if good
 	data->end_mutex_status = MUTEX_NO_INIT;//check if good
+	//pending to initialized thread_monitor DOES IT NEED MUTEX?
 	data->philo = NULL;
 	data->fork = NULL;
 	if (data->parse->count == 4)

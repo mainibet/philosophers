@@ -1,16 +1,8 @@
 In process:
 Set termination condition:
-    -end_condition function
-    -sim_stop
-    -kill_philo
-    -clean_up
-    -lifes monitor
-    -include mutex per philo to check meals and end flag
-    -make general the mutex error of forks to all
-    -check if monitor is ok with thread for it self
-    -check_end_conditions
     -implement check_end_conditions: printf, sleep, pending the rest
-    -INITIALIZED monitor thread
+    -INITIALIZED monitor thread does it need mutex?
+    -Connect monitor with philos to see if that will organized them
 
 Next:
 life cycle:
@@ -50,6 +42,14 @@ init_threads
 3. Full eat function
 Logic to handl forks per each philo
 4. set the order of actions per philo (odd or even)
+Set termination condition:
+    -end_condition function
+    -sim_stop
+    -kill_philo
+    -clean_up
+    -lifes monitor
+    -make general the mutex error of forks to all
+    -check_end_conditions
 
 WISH to
 check if all the structs are malloc correctly and !malloc error
