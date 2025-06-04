@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 12:56:04 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:02:20 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ void	print_status(t_philo *philo, const char *msg)//check if needs to handled an
 	current_time = precise_time_ms() - philo->program->start_time;
 	pthread_mutex_lock(&philo->program->output_mutex);//after this includ checks of termination conditions with a flag
     //also the specific printing to finish lock and unlock
-	pthread_mutex_lock(&philo->program->end_mutex_status);
-	sim_status = philo->program->end_flag;//check if simulation has ended
-	pthread_mutex_unlock(&philo->program->end_mutex_status);
+	sim_status = check_end_cond(philo);
+	// pthread_mutex_lock(&philo->program->end_mutex_status);
+	// sim_status = philo->program->end_flag;//check if simulation has ended
+	// pthread_mutex_unlock(&philo->program->end_mutex_status);
 	if (!sim_status)
 		printf("%lld %d %s\n", current_time, philo->philo_id, msg);//is ok here?
 	pthread_mutex_unlock(&philo->program->output_mutex);
