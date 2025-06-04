@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:35:21 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/03 14:53:06 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 08:52:31 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,29 +31,29 @@ int	malloc_error(void)
 // 	return (SUCCESS);
 // }
 
-// void	free_array(int **arr, int j)//check if needed
-// {
-// 	if (!arr)
-// 		return ;
-// 	while (j > 0)
-// 	{
-// 		free (arr[j - 1]);
-// 		j--;
-// 	}
-// 	free (arr);
-// }
+void	free_array(void **arr, int j)//check if needed
+{
+	if (!arr)
+		return ;
+	while (j > 0)
+	{
+		free (arr[j - 1]);
+		j--;
+	}
+	free (arr);
+}
 
-// int	count_arr_elements(int	**arr)//check if needed in philo
-// {
-// 	int	i;
+int	count_arr_elements(void	**arr)//check if needed in philo
+{
+	int	i;
 
-// 	i = 0;
-// 	if (!arr)
-// 		return (0);
-// 	while (arr[i])
-// 		i++;
-// 	return (i);
-// }
+	i = 0;
+	if (!arr)
+		return (0);
+	while (arr[i])
+		i++;
+	return (i);
+}
 
 // int	clean_up(char **arr)//check and fix to philo
 // {

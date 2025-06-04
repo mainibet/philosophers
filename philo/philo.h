@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 07:15:18 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 08:48:31 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,14 @@
 #  define MAX_MEALS_DISABLED -1
 # endif
 
+# ifndef MUTEX_NO_INIT
+#  define MUTEX_NO_INIT 0
+# endif
+
+# ifndef MUTEX_INIT
+#  define MUTEX_INIT 1
+# endif
+
 # ifndef PHILO_ALIVED
 #  define PHILO_ALIVED -1
 # endif
@@ -92,6 +100,7 @@ typedef struct s_arg_parse
 typedef struct s_fork
 {
 	pthread_mutex_t	mutex;//to control access to the fork
+	int				mutex_status;//flag to check
 	int				fork_id;//for login and debug purposes CHECK
 }	t_fork;
 
@@ -116,6 +125,7 @@ typedef struct s_program
 	long long		start_time;//reference to begin simulation
 	int				end_flag;//to terminates the simulation
 	pthread_mutex_t	output_mutex;//for printf
+	int				mutex_status;//flag to check
 	pthread_mutex_t	sim_over;//shared state
 	t_philo			*philo;
 	t_fork			*fork;
@@ -139,7 +149,6 @@ int			check_limits(long long n);
 void		init_program(t_program *data);
 int			init_cross_mutex(t_program *data);//PENDING CHECK IF ANY FUNCTION IS STATIC
 int			init_forks(t_program *data);
-void		fill_each_philo(t_program *data, int philo_id);
 int			init_philo(t_program *data);
 
 // --- TIME ---
@@ -152,7 +161,7 @@ int			mutex_fork_error(t_program *data, int i);
 // --- HELPER FUNCIONTS ---
 void		print_error_msg(const char *msg);//MOVE TO OTHER FILE
 int			malloc_error(void);//MOVE TO OTHER FILE
-// void		free_array(int **arr, int j);
-// int			count_arr_elements(int **arr);
+void		free_array(void **arr, int j);
+int			count_arr_elements(void **arr);
 
 #endif

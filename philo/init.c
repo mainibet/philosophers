@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 07:06:59 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 08:35:36 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ int	init_cross_mutex(t_program *data)//do i have to set attributes for philo?
 	if (pthread_mutex_init(&data->output_mutex, NULL) != SUCCESS)//CAN I USE THE MACRO?
 	{
 		print_error_msg("Failed to init mutex output\n");//check
+		data->mutex_status = MUTEX_NO_INIT;//new
 		return (ERR_MUTEX);//if success then set conditions to change mutex status to temrinate
 	}
+	data->mutex_status = MUTEX_INIT;//new
 	// printf ("Mutex initialized correctly\n");//testing
 	return (SUCCESS);
 }
@@ -38,8 +40,12 @@ int	init_forks(t_program *data)
 	{
 		data->fork[i].fork_id = i + 1;//check if can begin in 1 and not increas +1 every time
 		if (pthread_mutex_init(&data->fork[i].mutex, NULL) != SUCCESS)//CHECK IF CAN BE SUCCESS INSTEAD OF 0
+		{
+			data->fork[i].mutex_status = MUTEX_NO_INIT;//not initilized
 			return (mutex_fork_error(data, i));//this return errors how to use it here to finish the ft?
 		//pending include destroy mutex for output and sim_over
+		}
+		data->fork[i].mutex_status = MUTEX_INIT;
 		i++;
 	}
     // printf ("Forks initialized correctly\n");//testing

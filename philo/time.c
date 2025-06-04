@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 08:16:49 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 09:05:17 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,10 +175,36 @@ void	philo_routine_even(t_philo *philo)
 	philo_sleep(philo);
 }
 
-//frees and destroy mutex
-void	clean_up()
+//destroy mutex: output, fork
+//free: array of philo
+//free:array of forks
+//free: array of parse
+void	clean_up(t_program *data)
 {
-	
+	int	i;
+
+	i = 0;
+	if (data->mutex_status == MUTEX_INIT)
+		pthread_mutex_destroy(&data->output_mutex);//need to includ error check of destroy?
+	if (data->fork != NULL)
+	{
+		i = 0;
+		while (i < data->total_philo)
+		{
+			if (data->fork[i].mutex_status == MUTEX_INIT)
+				pthread_mutex_destroy(&data->fork[i].mutex);//need to includ error check of destroy?
+			i++;
+		}
+		i = count_arr_elements((void **)data->fork);
+		free_array((void **)data->fork, i);
+	}
+	if (data->philo != NULL)
+		free_array((void **)data->philo, data->total_philo);
+	if (data->parse != NULL)
+	{
+		i = count_arr_elements((void **)data->parse);
+		free_array((void **)data->parse, i);
+	}
 }
 
 //sim wait until all threads joined and clean-up
