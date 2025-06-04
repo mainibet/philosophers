@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 13:45:39 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:17:08 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,7 +246,7 @@ void	sim_stop(t_program *data)
 	{	pthread_join(data->end_flag, NULL);
 		pthread_join(data->monitor_thread_id, NULL);//check
 	}
-	clean_up(data);//check if is working and full and includes monitor's thread
+	clean_up_program(data);//check if is working and full and includes monitor's thread
 }
 
 //takes the dying philo as argument

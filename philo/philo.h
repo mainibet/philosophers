@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 13:48:22 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:14:20 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 # endif
 
 # ifndef ERROR
-#  define ERROR -1	pthread_mutex_t	end_mutex;//mutex to protect end_flag
+#  define ERROR -1
 
 # endif
 
@@ -139,7 +139,6 @@ typedef struct s_program
 	int				end_flag;//to terminates the simulation
 	pthread_mutex_t	end_mutex;//mutex to protect end_flag
 	int				end_mutex_status;//Flag to track initialization status of end_mutex
-	// int				end_mutex_status;//check mutex status of end_flag. Check if really needed
 	pthread_mutex_t	output_mutex;//for printf
 	int				out_mut_status;//flag to check CHANGE THE NAME TO OUTPUT_MUT_STAT
 	pthread_t       monitor_thread_id;//pending to initialized

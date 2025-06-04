@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 13:59:06 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:16:42 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,32 +17,36 @@ int	handling_mutex_init(pthread_mutex_t *my_mutex, int *mutex_status, char *msg)
 	if (pthread_mutex_init(my_mutex, NULL) != SUCCESS)
 	{
 		print_error_msg(msg);
-		if (mutex_status == MUTEX_NO_INIT)
-			return (ERR_MUTEX);
+		mutex_status = MUTEX_NO_INIT;
+		return (ERR_MUTEX);
 	}
-	if (mutex_status == MUTEX_INIT)
-		return (SUCCESS);
+	*mutex_status = MUTEX_INIT;
+	return (SUCCESS);
 }
 
-//init mutex for mutex output
-//init mutex for sim_over
 //init mutex for end_flag
 //init mutex for output
-pthread_mutex_t	end_mutex;//mutex to protect end_flag
-pthread_mutex_t	output_mutex;//for printf
 //return SUCCESS or ERR_MUTEX
 int	init_cross_mutex(t_program *data)//do i have to set attributes for philo?
 {
-	if (pthread_mutex_init(&data->output_mutex, NULL) != SUCCESS)
-	{
-		print_error_msg("Failed to init mutex output\n");//check
-		data->out_mut_status = MUTEX_NO_INIT;//new
-		return (ERR_MUTEX);//if success then set conditions to change mutex status to temrinate
-	}
-	data->out_mut_status = MUTEX_INIT;//new
+	int	mutex_status;
+
+	mutex_status = handling_mutex_init(&data->output_mutex, &data->out_mut_status, "Failed to init output_mutex\n");
+	if (mutex_status != SUCCESS)//check if call clean up
+		return (mutex_status);
+	mutex_status = handling_mutex_init(&data->end_mutex, &data->end_mutex_status,
+		"Failed to init end_flag_mutex\n");
+	if (mutex_status != SUCCESS)//check if call clean up before return or where
+		return (mutex_status);//before return destrou output mutex
+    // if (pthread_mutex_init(&data->output_mutex, NULL) != SUCCESS)
+	// {
+	// 	print_error_msg("Failed to init mutex output\n");//check
+	// 	data->out_mut_status = MUTEX_NO_INIT;//new
+	// 	return (ERR_MUTEX);//if success then set conditions to change mutex status to temrinate
+	// }
+	// data->out_mut_status = MUTEX_INIT;//new
     // printf ("Mutex initialized correctly\n");//testing
-    if (pthread_mutex_init() != SUCCESS)
-	return (SUCCESS);
+	return (mutex_status);//would be success
 }
 
 int	init_forks(t_program *data)
@@ -135,8 +139,8 @@ void	init_program(t_program *data)//check if set default really needed
 	data->time_sleep = data->parse->arr[3];
 	data->start_time = precise_time_ms();//chec it was 0
 	data->end_flag = 0;
-	data->end_mutex_status = ;//pending
-	data->end_mutex_status = ;//pending
+	data->end_mutex_status = MUTEX_NO_INIT;//check if good
+	data->end_mutex_status = MUTEX_NO_INIT;//check if good
 	data->philo = NULL;
 	data->fork = NULL;
 	if (data->parse->count == 4)
