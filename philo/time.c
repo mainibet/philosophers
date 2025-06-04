@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 13:02:20 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:45:39 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 void	print_status(t_philo *philo, const char *msg)//check if needs to handled any error
 {
 	long long	current_time;
-	int			sim_status;
+	int			sim_status;//is same as philo_died or Alived
 
 	current_time = precise_time_ms() - philo->program->start_time;
 	pthread_mutex_lock(&philo->program->output_mutex);//after this includ checks of termination conditions with a flag
@@ -33,11 +33,11 @@ void	print_status(t_philo *philo, const char *msg)//check if needs to handled an
 	// sim_status = philo->program->end_flag;//check if simulation has ended
 	// pthread_mutex_unlock(&philo->program->end_mutex_status);
 	if (!sim_status)
-		printf("%lld %d %s\n", current_time, philo->philo_id, msg);//is ok here?
+		printf("%lld %d %s\n", current_time, philo->philo_id, msg);
 	pthread_mutex_unlock(&philo->program->output_mutex);
 }
 
-void	print_format(t_philo *philo, const char *msg)
+void	print_format(t_philo *philo, const char *msg)//will be used?
 {
 	long long	current_time;
 
@@ -58,9 +58,9 @@ void	print_format(t_philo *philo, const char *msg)
 long long	precise_time_ms(void)
 {
 	struct timeval	tv;
-	long long			all_sec;
-	long long			rem_microsec;
-	long long			total_milisec;
+	long long		all_sec;
+	long long		rem_microsec;
+	long long		total_milisec;
 
 	gettimeofday(&tv, NULL); 
 	all_sec = tv.tv_sec * 1000LL;
@@ -232,29 +232,32 @@ void	clean_up_program(t_program *data)//include philo_mutex
 }
 
 //sim wait until all threads joined and clean-up
-void	sim_stop(t_program *data)//bolean?
+void	sim_stop(t_program *data)
 {
 	int	i;
 
 	i = 0;
-	while (i < data->philo->program->total_philo)
+	while (i < data->total_philo)
 	{
 		pthread_join(data->philo[i].thread_id, NULL);//check
 		i++;
 	}
-	if (data->total_philo > 1)
-		pthread_join(data->end_flag, NULL);//check
-    //call there the clean-up function
+	if (data->total_philo > 0)//bigger than 0 to initialized the monitor and the temrination conditions
+	{	pthread_join(data->end_flag, NULL);
+		pthread_join(data->monitor_thread_id, NULL);//check
+	}
+	clean_up(data);//check if is working and full and includes monitor's thread
 }
 
 //takes the dying philo as argument
+//set the end_flag as PHILO_DIED (1)
 void	kill_philo(t_philo *philo)//check
 {
 	pthread_mutex_lock(&philo->program->end_mutex);
 	philo->program->end_flag = PHILO_DIED;
 	pthread_mutex_unlock(&philo->program->end_mutex);
 	print_status(philo, "died");//after this call the clean_up
-	sim_stop(philo->program);
+	// sim_stop(philo->program);//this should be done by the main thread
 }
 
 //flag to know if a philo has died or if they reach the amount of eats

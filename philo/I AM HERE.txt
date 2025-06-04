@@ -8,6 +8,9 @@ Set termination condition:
     -include mutex per philo to check meals and end flag
     -make general the mutex error of forks to all
     -check if monitor is ok with thread for it self
+    -check_end_conditions
+    -implement check_end_conditions: printf, sleep, pending the rest
+    -INITIALIZED monitor thread
 
 Next:
 life cycle:

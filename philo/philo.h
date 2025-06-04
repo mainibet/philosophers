@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 13:02:47 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:48:22 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@
 # endif
 
 # ifndef ERROR
-#  define ERROR -1
+#  define ERROR -1	pthread_mutex_t	end_mutex;//mutex to protect end_flag
+
 # endif
 
 // --- Specific error codes if needed ---
@@ -51,9 +52,10 @@
 # ifndef ERR_MUTEX
 #  define ERR_MUTEX -4
 # endif
-//# ifndef ERR_THREAD_CREAT
-// # define ERR_THREAD_CREATE -5
-//# endif
+
+# ifndef ERR_THREAD_CREAT//pending to use it
+#  define ERR_THREAD_CREATE -5
+# endif
 
 // --- Bolean values ---
 # ifndef FALSE//CHECK IF IS CORRECT AND NEEDED or if is in any lib

@@ -6,25 +6,42 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 12:32:29 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:59:06 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+int	handling_mutex_init(pthread_mutex_t *my_mutex, int *mutex_status, char *msg)//new check
+{
+	if (pthread_mutex_init(my_mutex, NULL) != SUCCESS)
+	{
+		print_error_msg(msg);
+		if (mutex_status == MUTEX_NO_INIT)
+			return (ERR_MUTEX);
+	}
+	if (mutex_status == MUTEX_INIT)
+		return (SUCCESS);
+}
+
 //init mutex for mutex output
 //init mutex for sim_over
+//init mutex for end_flag
+//init mutex for output
+pthread_mutex_t	end_mutex;//mutex to protect end_flag
+pthread_mutex_t	output_mutex;//for printf
 //return SUCCESS or ERR_MUTEX
 int	init_cross_mutex(t_program *data)//do i have to set attributes for philo?
 {
-	if (pthread_mutex_init(&data->output_mutex, NULL) != SUCCESS)//CAN I USE THE MACRO?
+	if (pthread_mutex_init(&data->output_mutex, NULL) != SUCCESS)
 	{
 		print_error_msg("Failed to init mutex output\n");//check
 		data->out_mut_status = MUTEX_NO_INIT;//new
 		return (ERR_MUTEX);//if success then set conditions to change mutex status to temrinate
 	}
 	data->out_mut_status = MUTEX_INIT;//new
-	// printf ("Mutex initialized correctly\n");//testing
+    // printf ("Mutex initialized correctly\n");//testing
+    if (pthread_mutex_init() != SUCCESS)
 	return (SUCCESS);
 }
 
@@ -118,6 +135,8 @@ void	init_program(t_program *data)//check if set default really needed
 	data->time_sleep = data->parse->arr[3];
 	data->start_time = precise_time_ms();//chec it was 0
 	data->end_flag = 0;
+	data->end_mutex_status = ;//pending
+	data->end_mutex_status = ;//pending
 	data->philo = NULL;
 	data->fork = NULL;
 	if (data->parse->count == 4)
@@ -127,3 +146,9 @@ void	init_program(t_program *data)//check if set default really needed
 	// i = count_arr_elements(&data->parse->arr);
 	// free_array(&data->parse->arr, i);//check if is ok here
 }
+
+
+	
+	int				end_mutex_status;//Flag to track initialization status of end_mutex	
+	int				out_mut_status;//flag to check CHANGE THE NAME TO OUTPUT_MUT_STAT
+    pthread_t       monitor_thread_id;//pending to initialized
