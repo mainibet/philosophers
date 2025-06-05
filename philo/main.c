@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/05 11:05:27 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/05 11:26:19 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,12 @@ int	main(int argc, char **argv)
 	t_program	data;
 
 	if (parsing_args(argc, argv, &parse) != SUCCESS)
-		return (EXIT_FAILURE);//define in stdlib.h
+		return (EXIT_FAILURE);//define in stdlib.h include clean-up before exit
 	// printf("Ready to continue\n");//test
 	data.parse = &parse;//memory allocated in parsing_args
 	init_program(&data);
 	if (setup_simulation(&data) != SUCCESS)
-		return (EXIT_FAILURE);//DEFINE IN STDLIB.H
-//if succed can i called clean_up_program to finish? needs to join philos at the end before finishing and free all
+		return (EXIT_FAILURE);//DEFINE IN STDLIB.H//include clean-up before exit
+	sim_stop(&data); //if succed can i called clean_up_program to finish? needs to join philos at the end before finishing and free all
 	return (EXIT_SUCCESS);
 }

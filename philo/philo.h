@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/05 11:05:25 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/05 11:26:14 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,7 @@ long long	precise_time_ms(void);
 void		*life_cycle(void *arg);
 int			check_end_cond(t_philo *philo);
 void		*life_monitor(void *arg);
+void		sim_stop(t_program *data);
 
 // --- ACTIONS ---
 //eat

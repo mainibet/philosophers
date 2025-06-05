@@ -1,8 +1,13 @@
 In process:
 Set termination condition:
-    -implement check_end_conditions: printf, sleep, pending the rest (check gemini chat up)
-    -INITIALIZED monitor thread does it need mutex?
-    -Connect monitor with philos to see if that will organized them
+    -Connect monitor with philos to see if that will organized them. double check looks almost done but affected printing
+    -check if printing of status can be recovered easily if not later.
+Make norm happy splitting into files
+Do mind map
+Implement clean_up_program
+Implement error handling for current things
+Avoid deadlocks
+Avoid race..
 
 Next:
 life cycle:
