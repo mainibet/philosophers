@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/05 11:04:56 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/05 11:32:57 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,10 +265,8 @@ void	sim_stop(t_program *data)
 		pthread_join(data->philo[i].thread_id, NULL);//check
 		i++;
 	}
-	if (data->total_philo > 0)//bigger than 0 to initialized the monitor and the temrination conditions
-	{	pthread_join(data->end_flag, NULL);
+	if (data->total_philo > 0 && data->monitor_thread_id != 0)//check what can be 0
 		pthread_join(data->monitor_thread_id, NULL);//check
-	}
 	clean_up_program(data);//check if is working and full and includes monitor's thread
 }
 
@@ -324,7 +322,7 @@ int check_life(t_philo *philo)
 	since_last_meal = precise_time_ms() - philo->last_meal;
 	if (since_last_meal >= philo->program->time_die)
 		philo_status = PHILO_DIED;//needs to be in the struct?
-	pthread_mutex_lock(&philo->philo_mutex);//unlock after reading
+	pthread_mutex_unlock(&philo->philo_mutex);//unlock after reading
 	if (since_last_meal >= philo->program->time_die)
 		philo_status = PHILO_DIED;
 	return (philo_status);
@@ -340,9 +338,10 @@ int	meal_control(t_program *data)
 	i = 0;
 	while (i < data->total_philo)
 	{
+		pthread_mutex_lock(&data->philo[i].philo_mutex);
 		if (data->philo[i].meal_number < data->max_meals)
 		{
-			pthread_mutex_lock(&data->philo[i].philo_mutex);
+			pthread_mutex_unlock(&data->philo[i].philo_mutex);
 			return (PHILO_ALIVED);
 		}
 		pthread_mutex_unlock(&data->philo[i].philo_mutex);
