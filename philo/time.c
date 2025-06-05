@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/05 11:51:10 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/05 11:54:54 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,14 @@ void	print_status(t_philo *philo, const char *msg)//check if needs to handled an
 	int			sim_status;//is same as philo_died or Alived
 
 	current_time = precise_time_ms() - philo->program->start_time;
-	pthread_mutex_lock(&philo->program->output_mutex);
+	// pthread_mutex_lock(&philo->program->output_mutex);
 	sim_status = check_end_cond(philo);
-	if (!sim_status)
+	if (sim_status == PHILO_ALIVED)
+	{
+		pthread_mutex_lock(&philo->program->output_mutex);
 		printf("%lld %d %s\n", current_time, philo->philo_id, msg);
-	pthread_mutex_unlock(&philo->program->output_mutex);
+		pthread_mutex_unlock(&philo->program->output_mutex);
+	}
 }
 
 void	print_format(t_philo *philo, const char *msg)//will be used?
