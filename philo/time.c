@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/05 11:48:00 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/05 11:51:10 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -402,15 +402,13 @@ void	*life_monitor(void *arg)//check why adn how to connect it good with all
 		}
 		if (data->max_meals != MAX_MEALS_DISABLED && meal_control(data) == PHILO_DIED)
 		{
-			// check_end_cond(data->philo);
-			// print_status(data->philo, "All philosophers have eaten enough meals!");//test
-			// return (NULL); //end monitor threads
-			pthread_mutex_lock(&data->end_mutex);//check if instead of this i can call the kill function
-			data->end_flag = PHILO_DIED; // Use PHILO_DIED as a general termination signal
-			pthread_mutex_unlock(&data->end_mutex);
-			pthread_mutex_lock(&data->output_mutex);
-			printf("%lld All philosophers have eaten enough meals!\n", precise_time_ms() - data->start_time);//test
-			pthread_mutex_unlock(&data->output_mutex);
+			// pthread_mutex_lock(&data->end_mutex);//check if instead of this i can call the kill function
+			// data->end_flag = PHILO_DIED; // Use PHILO_DIED as a general termination signal
+			// pthread_mutex_unlock(&data->end_mutex);
+			// pthread_mutex_lock(&data->output_mutex);
+			// printf("%lld All philosophers have eaten enough meals!\n", precise_time_ms() - data->start_time);//test
+			// pthread_mutex_unlock(&data->output_mutex);
+			end_program(data, NULL, NULL);//no message asked, can I include some?
 			return (NULL);
 		}
 		usleep(500);//can be modified
