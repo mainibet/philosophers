@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/05 08:23:21 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/05 11:04:56 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,16 @@
 //check end flag
 //unlock end flag mutex
 //if end flag is ok then print status
-//unlock print status
+//unlock print status (output)
+//it (!sim-status) means is 0 (PHILO_ALIVED)
 void	print_status(t_philo *philo, const char *msg)//check if needs to handled any error
 {
 	long long	current_time;
 	int			sim_status;//is same as philo_died or Alived
 
 	current_time = precise_time_ms() - philo->program->start_time;
-	pthread_mutex_lock(&philo->program->output_mutex);//after this includ checks of termination conditions with a flag
-    //also the specific printing to finish lock and unlock
+	pthread_mutex_lock(&philo->program->output_mutex);
 	sim_status = check_end_cond(philo);
-	// pthread_mutex_lock(&philo->program->end_mutex_status);
-	// sim_status = philo->program->end_flag;//check if simulation has ended
-	// pthread_mutex_unlock(&philo->program->end_mutex_status);
 	if (!sim_status)
 		printf("%lld %d %s\n", current_time, philo->philo_id, msg);
 	pthread_mutex_unlock(&philo->program->output_mutex);
@@ -167,22 +164,37 @@ void	release_forks(t_philo *philo)//no message check and check if order is relev
 	pthread_mutex_unlock(&first_fork->mutex);
 }
 
+//before update last_meal check_end condition
+//before update last meal lock mutex
+//after uptdate last meal unlock mutex
+//relasease fork after eating
 void	philo_eat(t_philo *philo)
 {
 	long long	eat_end_time;
+	int			sim_status;
 
 	take_forks(philo);
-    //check simulation is running
+	sim_status = check_end_cond(philo);
+	if (sim_status == PHILO_DIED)
+	{
+		release_forks(philo);
+		return ;
+	}
+	pthread_mutex_lock(&philo->philo_mutex);//new
 	philo->last_meal = precise_time_ms();
-	philo->meal_number++;//increment meal count applies for optional arg
+	philo->meal_number++;
+	pthread_mutex_unlock(&philo->philo_mutex);
 	print_status(philo, "is eating");
 	eat_end_time = precise_time_ms () + philo->program->time_eat;
 	while (precise_time_ms() < eat_end_time)
 	{
+		sim_status = check_end_cond(philo);
+		if (sim_status == PHILO_DIED)
+			break;
 		//set if condition if simulation stops
 		usleep(100);//test
 	}
-	release_forks(philo);//after eating
+	release_forks(philo);
 }
 
 void	philo_routine_odd(t_philo *philo)
@@ -203,8 +215,8 @@ void	philo_routine_even(t_philo *philo)
 //free: array of philo
 //free:array of forks
 //free: array of parse
-void	clean_up_program(t_program *data)//so monitor doesn't work with mutex?
-{
+void	clean_up_program(t_program *data)//check if philo dies if forks need to be "released"
+{//this function should be made by the main thread
 	int	i;
 
 	i = 0;
@@ -349,37 +361,45 @@ int	meal_control(t_program *data)
 //usleep: small initial delay to help ensure all philo threads start
 // Loop until the end_flag is set (simulation termination condition met)
 // Loop infinitely, breaking out based on end_flag
-void	life_monitor(void *arg)//check why adn how to connect it good with all
+void	*life_monitor(void *arg)//check why adn how to connect it good with all
 {//what if monito fails? or not need to check it?
 	int			i;
 	t_program	*data;
     int			life_status;
 
-	i = 0;
 	data = (t_program *) arg;//check if needed usleep
 	usleep(1000);
 	while (1)
 	{
-		life_status = check_end_cond(data->philo);
+		i = 0;
+		life_status = check_end_cond(data->philo);//check if will check all philos and not only philo[0]
 		if (life_status == PHILO_DIED)
-			return ;//CAN I RETURN AFTER UNLOCK this is to exit monitor thread
+			return (NULL);//CAN I RETURN AFTER UNLOCK this is to exit monitor thread
 		while (i < data->total_philo)// Check if any philosopher has died
 		{
 			if (check_life(&data->philo[i]) == PHILO_DIED)
 			{
 				kill_philo(&data->philo[i]);
-				return ;//terminates monitor thread
+				return (NULL);//terminates monitor thread
 			}
 			i++;
 		}
 		if (data->max_meals != MAX_MEALS_DISABLED && meal_control(data) == PHILO_DIED)
 		{
-			check_end_cond(data->philo);
-            print_status(data->philo, "All philosophers have eaten enough meals!");//test
-			return ; //end monitor threads
+			// check_end_cond(data->philo);
+			// print_status(data->philo, "All philosophers have eaten enough meals!");//test
+			// return (NULL); //end monitor threads
+			pthread_mutex_lock(&data->end_mutex);//check if instead of this i can call the kill function
+			data->end_flag = PHILO_DIED; // Use PHILO_DIED as a general termination signal
+			pthread_mutex_unlock(&data->end_mutex);
+			pthread_mutex_lock(&data->output_mutex);
+			printf("%lld All philosophers have eaten enough meals!\n", precise_time_ms() - data->start_time);//test
+			pthread_mutex_unlock(&data->output_mutex);
+			return (NULL);
 		}
 		usleep(500);//can be modified
 	}
+	return (NULL);//Should be unreachable if return statements are used inside loop
 }
 
 //each will be a status

@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/05 08:07:58 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/05 10:35:02 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,6 @@ void	init_program(t_program *data)//check if set default really needed
 	data->time_sleep = data->parse->arr[3];
 	data->start_time = precise_time_ms();//chec it was 0
 	data->end_flag = 0;
-	data->end_mutex_status = MUTEX_NO_INIT;//check if good
 	data->end_mutex_status = MUTEX_NO_INIT;//check if good
 	//pending to initialized thread_monitor DOES IT NEED MUTEX?
 	data->philo = NULL;

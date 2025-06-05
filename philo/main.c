@@ -6,13 +6,15 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 14:17:53 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/05 11:05:27 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 //join makes the main thread to wai for the execution of the others
+//create thread per philo
+//create monitor thread
 int	start_threads(t_program *data)
 {
 	int	i;
@@ -22,17 +24,22 @@ int	start_threads(t_program *data)
 	{
 		if(pthread_create(&data->philo[i].thread_id, NULL, 
 			life_cycle, &data->philo[i]) != 0)//check if 0 or other
-			return (ERROR);//check
+			return (ERROR);//check clean up
 		// printf("Thread created for philo ID: %d\n", data->philo[i].philo_id);//test
 		i++;
-	}//after include a while loop to join threads then all will be working
-	i = 0;
-	while (i < data->total_philo)
-	{
-		if(pthread_join(data->philo[i].thread_id, NULL) != 0)//check if 0 or other
-			return(ERROR);
-		i++;
 	}
+	if (data->total_philo > 0)
+	{
+		if (pthread_create(&data->monitor_thread_id, NULL, life_monitor, data) != 0)
+            return (ERROR);//clean up
+    }
+	// i = 0;
+	// while (i < data->total_philo) THIS WILL HAPPEN WHEN SIM STOP
+	// {
+	// 	if(pthread_join(data->philo[i].thread_id, NULL) != 0)//check if 0 or other
+	// 		return(ERROR);
+	// 	i++;
+	// }
 	return (SUCCESS);
 }
 
