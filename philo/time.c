@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/05 12:09:14 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/05 12:13:01 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -434,7 +434,7 @@ void	*life_cycle(void *arg)
 	t_philo	*philo;//check if can be use this struct
 	// int		i;
 	int		wait_time;
-    int     sim_over;
+    // int     sim_over;
 
 	philo = (t_philo *)arg;
 	if (philo->philo_id % 2 == 0)//even small delay CHECK
@@ -444,13 +444,17 @@ void	*life_cycle(void *arg)
 	}
 	while (1)
 	{
-		sim_over = check_end_cond(philo);
+		// sim_over = check_end_cond(philo);
+		if (check_end_cond(philo) == PHILO_DIED)
+			break;
 		if (philo->philo_id % 2 != 0)
 			philo_routine_odd(philo);
 		else
 			philo_routine_even(philo);
-		if (sim_over == PHILO_DIED)//check flag
-			break ;
+		// if (sim_over == PHILO_DIED)//check flag
+		// 	break ;
+		if (check_end_cond(philo) == PHILO_DIED)
+			break;
 		pthread_mutex_lock(&philo->philo_mutex);
 		if (philo->program->max_meals != MAX_MEALS_DISABLED
 			&& philo->meal_number >= philo->program->max_meals)
