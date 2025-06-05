@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 14:21:40 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/05 08:07:58 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,6 @@ int	init_cross_mutex(t_program *data)//do i have to set attributes for philo?
 		"Failed to init end_flag_mutex\n");
 	if (mutex_status != SUCCESS)//check if call clean up before return or where
 		return (mutex_status);//before return destrou output mutex
-    // if (pthread_mutex_init(&data->output_mutex, NULL) != SUCCESS)
-	// {
-	// 	print_error_msg("Failed to init mutex output\n");//check
-	// 	data->out_mut_status = MUTEX_NO_INIT;//new
-	// 	return (ERR_MUTEX);//if success then set conditions to change mutex status to temrinate
-	// }
-	// data->out_mut_status = MUTEX_INIT;//new
-    // printf ("Mutex initialized correctly\n");//testing
 	return (mutex_status);//would be success
 }
 //init mutex per fork
@@ -153,7 +145,7 @@ void	init_program(t_program *data)//check if set default really needed
 }
 
 
-	
-	int				end_mutex_status;//Flag to track initialization status of end_mutex	
-	int				out_mut_status;//flag to check CHANGE THE NAME TO OUTPUT_MUT_STAT
-    pthread_t       monitor_thread_id;//pending to initialized
+	//CHECK IF THIS WAS DONE:
+	// int				end_mutex_status;//Flag to track initialization status of end_mutex	
+	// int				out_mut_status;//flag to check CHANGE THE NAME TO OUTPUT_MUT_STAT
+    // pthread_t       monitor_thread_id;//pending to initialized

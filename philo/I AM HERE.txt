@@ -1,6 +1,6 @@
 In process:
 Set termination condition:
-    -implement check_end_conditions: printf, sleep, pending the rest
+    -implement check_end_conditions: printf, sleep, pending the rest (check gemini chat up)
     -INITIALIZED monitor thread does it need mutex?
     -Connect monitor with philos to see if that will organized them
 

@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 14:17:08 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/05 08:16:08 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,17 +199,19 @@ void	philo_routine_even(t_philo *philo)
 	philo_sleep(philo);
 }
 
-//destroy mutex: output, fork
+//destroy mutex: output, fork, philo, monitor
 //free: array of philo
 //free:array of forks
 //free: array of parse
-void	clean_up_program(t_program *data)//include philo_mutex
+void	clean_up_program(t_program *data)//so monitor doesn't work with mutex?
 {
 	int	i;
 
 	i = 0;
 	if (data->out_mut_status == MUTEX_INIT)
 		pthread_mutex_destroy(&data->output_mutex);//need to includ error check of destroy?
+	if (data->end_mutex_status == MUTEX_INIT)
+		thread_mutex_destroy(&data->end_mutex);
 	if (data->fork != NULL)
 	{
 		i = 0;
@@ -219,12 +221,21 @@ void	clean_up_program(t_program *data)//include philo_mutex
 				pthread_mutex_destroy(&data->fork[i].mutex);//need to includ error check of destroy?
 			i++;
 		}
-		i = count_arr_elements((void **)data->fork);
+		i = count_arr_elements((void **)data->fork);//need to include any handling error?
 		free_array((void **)data->fork, i);
 	}
 	if (data->philo != NULL)
+	{
+		i = 0;
+		hile (i < data->total_philo)
+		{
+			if (data->philo[i].mutex_status_phi == MUTEX_INIT)
+				pthread_mutex_destroy(&data->philo[i].philo_mutex);
+			i++;
+		}
 		free_array((void **)data->philo, data->total_philo);
-	if (data->parse != NULL)
+	}
+	if (data->parse != NULL && data->parse->arr != NULL)
 	{
 		i = count_arr_elements((void **)data->parse);
 		free_array((void **)data->parse, i);
@@ -251,6 +262,9 @@ void	sim_stop(t_program *data)
 
 //takes the dying philo as argument
 //set the end_flag as PHILO_DIED (1)
+//lock the end_flag
+//set global termination flag
+//unlock flag
 void	kill_philo(t_philo *philo)//check
 {
 	pthread_mutex_lock(&philo->program->end_mutex);
@@ -286,35 +300,43 @@ void	end_condition(t_program *data)//this will be updated by monitor
 	return ;//check if needed
 }
 
-int check_life(t_program *data)
+//if receives program it will only work with philo[0]
+//with param philo it can check all
+int check_life(t_philo *philo)
 {
 	long long	since_last_meal;
 	int			philo_status;
 
 	philo_status = PHILO_ALIVED;
-	pthread_mutex_lock(&data->philo->philo_mutex);//what's this mutex?
-	since_last_meal = precise_time_ms() - data->philo->last_meal;
-	if (since_last_meal >= data->time_die)
+	pthread_mutex_lock(&philo->philo_mutex);//what's this mutex?
+	since_last_meal = precise_time_ms() - philo->last_meal;
+	if (since_last_meal >= philo->program->time_die)
 		philo_status = PHILO_DIED;//needs to be in the struct?
-	pthread_mutex_lock(&data->philo->philo_mutex);
+	pthread_mutex_lock(&philo->philo_mutex);//unlock after reading
+	if (since_last_meal >= philo->program->time_die)
+		philo_status = PHILO_DIED;
 	return (philo_status);
 }
-
+//check every philo
+//lock each philo mutex to check # meal
 int	meal_control(t_program *data)
 {
 	int	i;
 
 	if (data->max_meals == MAX_MEALS_DISABLED)
-		return(FALSE);//CHECK MACRO
+		return(PHILO_ALIVED);
 	i = 0;
-	while (i < data->total_philo)//lock each philo mutex to check # meal
+	while (i < data->total_philo)
 	{
-		pthread_mutex_lock(&data->philo[i].philo_mutex);
-		return (FALSE);
+		if (data->philo[i].meal_number < data->max_meals)
+		{
+			pthread_mutex_lock(&data->philo[i].philo_mutex);
+			return (PHILO_ALIVED);
+		}
+		pthread_mutex_unlock(&data->philo[i].philo_mutex);
+		i++;
 	}
-	pthread_mutex_unlock(&data->philo[i].philo_mutex);
-	i++;
-	return (TRUE);
+	return (PHILO_DIED);
 }
 
 //monitores the philo's lifes
@@ -324,20 +346,39 @@ int	meal_control(t_program *data)
 //check if all philos have eaten
 //check each philo and max meals of all
 //asign the next philo to eat?
-void	life_monitor(void *arg)//check why
+//usleep: small initial delay to help ensure all philo threads start
+// Loop until the end_flag is set (simulation termination condition met)
+// Loop infinitely, breaking out based on end_flag
+void	life_monitor(void *arg)//check why adn how to connect it good with all
 {
 	int			i;
 	t_program	*data;
+    int			life_check;
 
 	i = 0;
-	data = (t_program *)arg;//check if needed usleep
-	usleep(1000);//check
-	pthread_mutex_lock(&data->philo[i].philo_mutex);
-	while (data->end_flag == PHILO_ALIVED)//check if needed mutex before
+	data = (t_program *) arg;//check if needed usleep
+	usleep(1000);
+	while (1)
 	{
-		if (check_life(data) == PHILO_DIED)
-			end_condition(data);//check
-		i++;
+		life_check = check_end_cond(data->philo);
+		if (life_check == PHILO_DIED)
+			return (NULL);//CAN I RETURN AFTER UNLOCK this is to exit monitor thread
+		while (i < data->total_philo)// Check if any philosopher has died
+		{
+			if (check_life(&data->philo[i] == PHILO_DIED))
+			{
+				kill_philo(&data->philo[i]);
+				return (NULL);//terminates monitor thread
+			}
+			i++;
+		}
+		if (data->max_meals != MAX_MEALS_DISABLED && meal_control(data == PHILO_DIED))
+		{
+			check_end_cond(data->philo);
+            print_status(data->philo, "All philosophers have eaten enough meals!");//test
+			return (NULL); //end monitor threads
+		}
+		usleep(500);//can be modified
 	}
 }
 
@@ -348,30 +389,38 @@ void	life_monitor(void *arg)//check why
 //thread logic
 //odd: eat-sleep-think
 //even: think-eat-sleep
+//After a full routine, check if max_meals is reached for this philo
+// (The monitor will check if *all* philos have reached it)
 void	*life_cycle(void *arg)
 {
 	t_philo	*philo;//check if can be use this struct
 	int		i;
 	int		wait_time;
+    int     sim_over;
 
 	philo = (t_philo *)arg;
 	if (philo->philo_id % 2 == 0)//even small delay CHECK
-    // Calculate dynamic wait time based on position and eating time
 	{
 		wait_time = philo->program->time_eat;//check
 		usleep(wait_time * 1000);
 	}
-	// current_time = precise_time_ms() - philo->program->start_time;
-	//pending to set a while loop with a cond to stop the loop term condition
-	i = 0;
-	// while (i < philo->program->total_philo)
-    while (1)
+	while (1)
 	{
-		if (philo->philo_id % 2 != 0)//odd
+		sim_over = check_end_cond(philo);
+		if (philo->philo_id % 2 != 0)
 			philo_routine_odd(philo);
 		else
 			philo_routine_even(philo);
-		i++;//afer include a check for the end_flag
+		if (sim_over == PHILO_DIED)//check flag
+			break ;
+		pthread_mutex_lock(&philo->philo_mutex);
+		if (philo->program->max_meals != MAX_MEALS_DISABLED
+			&& philo->meal_number >= philo->program->max_meals)
+		{
+			pthread_mutex_unlock(&philo->philo_mutex);
+			break;
+		}
+		pthread_mutex_unlock(&philo->philo_mutex);
 	}
 	return (NULL);
 }
