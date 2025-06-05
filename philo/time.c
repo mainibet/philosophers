@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/05 12:07:58 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/05 12:09:14 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,7 +270,7 @@ void	sim_stop(t_program *data)
 	}
 	if (data->total_philo > 0)
 	{
-		if (data->monitor_thread_id == SUCCESS)
+		if (data->monitor_thread_id != 0)
 			pthread_join(data->monitor_thread_id, NULL);//check
 	}
 	clean_up_program(data);//check if is working and full and includes monitor's thread
