@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/05 11:26:14 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/05 11:48:26 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,10 +141,10 @@ typedef struct s_program
 	int				end_mutex_status;//Flag to track initialization status of end_mutex
 	pthread_mutex_t	output_mutex;//for printf
 	int				out_mut_status;//flag to check CHANGE THE NAME TO OUTPUT_MUT_STAT
-	pthread_t       monitor_thread_id;//pending to initialized
+	pthread_t       monitor_thread_id;
 	t_philo			*philo;
 	t_fork			*fork;
-    t_arg_parse		*parse;//new
+	t_arg_parse		*parse;
 }	t_program;
 
 // -----------------------------------------//
@@ -171,7 +171,6 @@ long long	precise_time_ms(void);
 void		*life_cycle(void *arg);
 int			check_end_cond(t_philo *philo);
 void		*life_monitor(void *arg);
-void		sim_stop(t_program *data);
 
 // --- ACTIONS ---
 //eat
@@ -179,6 +178,8 @@ void		sim_stop(t_program *data);
 //sleep
 
 // --- SIMULATION CONTROL ---
+void		sim_stop(t_program *data);
+void		end_program(t_program *data, char *msg, t_philo *dying_philo);
 
 // --- CLEAN-UP & ERROR HANDLING ---
 int			mutex_fork_error(t_program *data, int i);

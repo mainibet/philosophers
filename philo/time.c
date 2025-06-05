@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/05 11:32:57 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/05 11:48:00 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,37 +277,54 @@ void	sim_stop(t_program *data)
 //unlock flag
 void	kill_philo(t_philo *philo)//check
 {
-	pthread_mutex_lock(&philo->program->end_mutex);
-	philo->program->end_flag = PHILO_DIED;
-	pthread_mutex_unlock(&philo->program->end_mutex);
-	print_status(philo, "died");//after this call the clean_up
-	// sim_stop(philo->program);//this should be done by the main thread
+	// pthread_mutex_lock(&philo->program->end_mutex);
+	// philo->program->end_flag = PHILO_DIED;
+	// pthread_mutex_unlock(&philo->program->end_mutex);
+	// print_status(philo, "died");//after this call the clean_up
+	end_program(philo->program, "died", philo);
 }
 
 //flag to know if a philo has died or if they reach the amount of eats
 //A philo will die if doesn't eat in the max time set
 //it terminates if the number of eats is reached when it was included
-void	end_condition(t_program *data)//this will be updated by monitor
-{
-	int	status;//flag or status?
-	int	current_meals;//check
+// void	end_condition(t_program *data)//this will be updated by monitor
+// {
+// 	int	status;//flag or status?
+// 	int	current_meals;//check
 
-	status = PHILO_ALIVED;//connect this with monitor?
-	current_meals = data->philo->meal_number;
-	if (data->max_meals != MAX_MEALS_DISABLED)
+// 	status = PHILO_ALIVED;//connect this with monitor?
+// 	current_meals = data->philo->meal_number;
+// 	if (data->max_meals != MAX_MEALS_DISABLED)
+// 	{
+// 		if (status == PHILO_DIED || current_meals == data->max_meals)
+// 		{
+// 			kill_philo(data->philo);
+// 			return ;
+// 		}
+// 	}
+// 	if (status == PHILO_DIED)
+// 	{
+// 		kill_philo(data->philo);
+// 		return ;
+// 	}
+// 	return ;//check if needed
+// }
+
+//new to make shorter check_life
+
+void	end_program(t_program *data, char *msg, t_philo *dying_philo)
+{
+	pthread_mutex_lock(&data->end_mutex);
+	if (data->end_flag == PHILO_ALIVED) // Only set if not already terminated
 	{
-		if (status == PHILO_DIED || current_meals == data->max_meals)
-		{
-			kill_philo(data->philo);
-			return ;
-		}
+		data->end_flag = PHILO_DIED;
+		pthread_mutex_lock(&data->output_mutex);
+		if (dying_philo)
+			print_status(dying_philo, msg);//check
+		//print debug here total foods
+		pthread_mutex_unlock(&data->output_mutex);
 	}
-	if (status == PHILO_DIED)
-	{
-		kill_philo(data->philo);
-		return ;
-	}
-	return ;//check if needed
+	pthread_mutex_unlock(&data->end_mutex);
 }
 
 //if receives program it will only work with philo[0]
