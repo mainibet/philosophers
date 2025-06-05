@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/05 08:16:08 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/05 08:23:21 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,7 @@ void	clean_up_program(t_program *data)//so monitor doesn't work with mutex?
 	if (data->out_mut_status == MUTEX_INIT)
 		pthread_mutex_destroy(&data->output_mutex);//need to includ error check of destroy?
 	if (data->end_mutex_status == MUTEX_INIT)
-		thread_mutex_destroy(&data->end_mutex);
+		pthread_mutex_destroy(&data->end_mutex);
 	if (data->fork != NULL)
 	{
 		i = 0;
@@ -227,7 +227,7 @@ void	clean_up_program(t_program *data)//so monitor doesn't work with mutex?
 	if (data->philo != NULL)
 	{
 		i = 0;
-		hile (i < data->total_philo)
+		while (i < data->total_philo)
 		{
 			if (data->philo[i].mutex_status_phi == MUTEX_INIT)
 				pthread_mutex_destroy(&data->philo[i].philo_mutex);
@@ -305,7 +305,7 @@ void	end_condition(t_program *data)//this will be updated by monitor
 int check_life(t_philo *philo)
 {
 	long long	since_last_meal;
-	int			philo_status;
+	int			philo_status;//needs to be in the struct?
 
 	philo_status = PHILO_ALIVED;
 	pthread_mutex_lock(&philo->philo_mutex);//what's this mutex?
@@ -350,33 +350,33 @@ int	meal_control(t_program *data)
 // Loop until the end_flag is set (simulation termination condition met)
 // Loop infinitely, breaking out based on end_flag
 void	life_monitor(void *arg)//check why adn how to connect it good with all
-{
+{//what if monito fails? or not need to check it?
 	int			i;
 	t_program	*data;
-    int			life_check;
+    int			life_status;
 
 	i = 0;
 	data = (t_program *) arg;//check if needed usleep
 	usleep(1000);
 	while (1)
 	{
-		life_check = check_end_cond(data->philo);
-		if (life_check == PHILO_DIED)
-			return (NULL);//CAN I RETURN AFTER UNLOCK this is to exit monitor thread
+		life_status = check_end_cond(data->philo);
+		if (life_status == PHILO_DIED)
+			return ;//CAN I RETURN AFTER UNLOCK this is to exit monitor thread
 		while (i < data->total_philo)// Check if any philosopher has died
 		{
-			if (check_life(&data->philo[i] == PHILO_DIED))
+			if (check_life(&data->philo[i]) == PHILO_DIED)
 			{
 				kill_philo(&data->philo[i]);
-				return (NULL);//terminates monitor thread
+				return ;//terminates monitor thread
 			}
 			i++;
 		}
-		if (data->max_meals != MAX_MEALS_DISABLED && meal_control(data == PHILO_DIED))
+		if (data->max_meals != MAX_MEALS_DISABLED && meal_control(data) == PHILO_DIED)
 		{
 			check_end_cond(data->philo);
             print_status(data->philo, "All philosophers have eaten enough meals!");//test
-			return (NULL); //end monitor threads
+			return ; //end monitor threads
 		}
 		usleep(500);//can be modified
 	}
@@ -394,7 +394,7 @@ void	life_monitor(void *arg)//check why adn how to connect it good with all
 void	*life_cycle(void *arg)
 {
 	t_philo	*philo;//check if can be use this struct
-	int		i;
+	// int		i;
 	int		wait_time;
     int     sim_over;
 
