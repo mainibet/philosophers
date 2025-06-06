@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/05 11:26:19 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 10:30:30 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,21 @@ int	start_threads(t_program *data)
 	{
 		if(pthread_create(&data->philo[i].thread_id, NULL, 
 			life_cycle, &data->philo[i]) != 0)//check if 0 or other
-			return (ERROR);//check clean up
+		{
+			clean_up_program(data);//new
+			return (ERROR);
+		}
 		// printf("Thread created for philo ID: %d\n", data->philo[i].philo_id);//test
 		i++;
 	}
 	if (data->total_philo > 0)
 	{
 		if (pthread_create(&data->monitor_thread_id, NULL, life_monitor, data) != 0)
-            return (ERROR);//clean up
-    }
-	// i = 0;
-	// while (i < data->total_philo) THIS WILL HAPPEN WHEN SIM STOP
-	// {
-	// 	if(pthread_join(data->philo[i].thread_id, NULL) != 0)//check if 0 or other
-	// 		return(ERROR);
-	// 	i++;
-	// }
+		{
+			clean_up_program(data);//new
+			return (ERROR);
+		}
+	}
 	return (SUCCESS);
 }
 
@@ -48,19 +47,28 @@ int	setup_simulation(t_program *data)//check if **argv needed or only data?
 	int	status;
 
 	if (!data->end_flag)
-		data->end_flag = 0;//just to initialite the flag
+		data->end_flag = PHILO_ALIVED;
 	status = init_cross_mutex(data);
 	if (status != SUCCESS)
-		return (status);//check and clean-up before return
+	{
+		clean_up_program(data);//new
+		return (status);
+	}
 	status = init_forks(data);
 	if (status != SUCCESS)
-		return (status);//clean-up before return
+		return (status);
 	status = init_philo(data);
 	if (status != SUCCESS)
-		return (status);//clean-up before return
+	{
+		clean_up_program(data);//new
+		return (status);
+	}
 	status = start_threads(data);
 	if (status != SUCCESS)
-		return (status);//clean-up before return
+	{
+		clean_up_program(data);//new
+		return (status);
+	}
 	return (SUCCESS);
 }
 

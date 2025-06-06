@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:35:21 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 08:58:07 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 11:12:01 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	free_array(void **arr, int j)//check if needed
 		j--;
 	}
 	free (arr);
+	arr = NULL;//new
 }
 
 int	count_arr_elements(void	**arr)//check if needed in philo

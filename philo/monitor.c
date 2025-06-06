@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:00:55 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 08:03:15 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 10:51:14 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 //if receives program it will only work with philo[0]
 //with param philo it can check all
-static int check_life(t_philo *philo)//check if is static
+//check time from last meal
+static int check_life(t_philo *philo)
 {
 	long long	since_last_meal;
 	int			philo_status;
@@ -27,9 +28,10 @@ static int check_life(t_philo *philo)//check if is static
 	pthread_mutex_unlock(&philo->philo_mutex);//unlock after reading
 	return (philo_status);
 }
+
 //check every philo
 //lock each philo mutex to check # meal
-static int	meal_control(t_program *data)//check if is static
+static int	meal_control(t_program *data)
 {
 	int	i;
 

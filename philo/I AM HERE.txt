@@ -2,7 +2,6 @@ In process:
 Set termination condition:
     -Connect monitor with philos to see if that will organized them. double check looks almost done but affected printing
     -check if printing of status can be recovered easily if not later.
-Make norm happy splitting into files
 Do mind map
 Implement clean_up_program
 Implement error handling for current things
@@ -24,10 +23,11 @@ check how to debu threads in gdb
 11. Handle case with 1 philo
 
 12. check edge cases
-    
+
+
 ALLWAYS
 test
-Split into files
+
 
 Done:
 init_cross_mutex
@@ -55,6 +55,7 @@ Set termination condition:
     -lifes monitor
     -make general the mutex error of forks to all
     -check_end_conditions
+Make norm happy splitting into files
 
 WISH to
 check if all the structs are malloc correctly and !malloc error

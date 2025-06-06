@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_args.c                                       :+:      :+:    :+:   */
+/*   args.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/31 12:24:45 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/02 08:29:00 by albetanc         ###   ########.fr       */
+/*   Created: 2025/06/04 06:46:41 by albetanc          #+#    #+#             */
+/*   Updated: 2025/06/06 09:05:52 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	init_arg_parse(t_arg_parse *parse, int *arr)
 //check if are positive int
 // static void	process_get_arg(char *argv, int *arr, size_t *count)
 //arr is a tmp for parsing
+//ir arr is ok it will be used later in the program
 int	process_arg(int argc, char **argv, t_arg_parse *parse)
 {
 	int		*arr;
@@ -76,7 +77,6 @@ int	process_arg(int argc, char **argv, t_arg_parse *parse)
 		}
 		j++;
 	}
-	// free(arr);to use it later in the program
 	return (SUCCESS);
 }
 

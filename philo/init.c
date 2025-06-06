@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/05 10:35:02 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 10:31:05 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	init_philo(t_program *data)
 	{
 		data->philo[i].mutex_status_phi = MUTEX_NO_INIT;
 		if (pthread_mutex_init(&data->philo[i].philo_mutex, NULL) != SUCCESS)
-				return (mutex_fork_error(data, i));//check function's name and call it correctlu with i
+			return (mutex_fork_error(data, i));//check function's name and call it correctlu with i
 		data->philo[i].program = data;//check
 		fill_each_philo(data, i + 1);//needs to be i + 1 if not becomes -1 in fill each philo
 		// printf("Philosopher %d initialized with ID: %d\n", i + 1, data->philo[i].philo_id);//test
@@ -123,28 +123,18 @@ int	init_philo(t_program *data)
 
 void	init_program(t_program *data)//check if set default really needed
 {
-    // int i;
 	data->total_philo = data->parse->arr[0];
 	// printf("Debug: Setting total_philo to %d\n", data->total_philo); // Debug print
 	data->time_die = data->parse->arr[1];
 	data->time_eat = data->parse->arr[2];
 	data->time_sleep = data->parse->arr[3];
 	data->start_time = precise_time_ms();//chec it was 0
-	data->end_flag = 0;
-	data->end_mutex_status = MUTEX_NO_INIT;//check if good
-	//pending to initialized thread_monitor DOES IT NEED MUTEX?
+	data->end_flag = 0;//or can be philo alived?
+	data->end_mutex_status = MUTEX_NO_INIT;
 	data->philo = NULL;
 	data->fork = NULL;
 	if (data->parse->count == 4)
 		data->max_meals = MAX_MEALS_DISABLED;
 	else
 		data->max_meals = data->parse->arr[4];
-	// i = count_arr_elements(&data->parse->arr);
-	// free_array(&data->parse->arr, i);//check if is ok here
 }
-
-
-	//CHECK IF THIS WAS DONE:
-	// int				end_mutex_status;//Flag to track initialization status of end_mutex	
-	// int				out_mut_status;//flag to check CHANGE THE NAME TO OUTPUT_MUT_STAT
-    // pthread_t       monitor_thread_id;//pending to initialized
