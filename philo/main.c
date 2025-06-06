@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 13:25:34 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 13:26:49 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	joining_threads(t_program *data)
 int	start_threads(t_program *data)
 {
 	int	i;
-	int	join_status;
+	// int	join_status;
 
 	i = 0;
 	while (i < data->total_philo)
@@ -121,11 +121,11 @@ int	main(int argc, char **argv)
 	pthread_mutex_lock(&data.start_mutex);//new
 	data.start_time = precise_time_ms();
 	data.sim_status = SIM_RUNNING;//new 
-	phread_mutex_unlock(&data.start_mutex);
+	pthread_mutex_unlock(&data.start_mutex);
 	if (joining_threads(&data) != SUCCESS)
 	{
 		clean_up_program(&data); // Error during join, clean up anyway
-		eturn (EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	}
 	sim_stop(&data); //connect it better in the general end program function
 	clean_up_program(&data);//new
