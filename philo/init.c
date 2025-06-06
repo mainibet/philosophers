@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 11:29:12 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 12:03:51 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	init_cross_mutex(t_program *data)//do i have to set attributes for philo?
 int	init_forks(t_program *data)
 {
 	int	i;
+	int	status;//new
 
 	i = 0;
 	data->fork = (t_fork *)malloc(sizeof(t_fork) * data->total_philo);
@@ -52,17 +53,24 @@ int	init_forks(t_program *data)
 	while (i < data->total_philo)
 	{
 		data->fork[i].fork_id = i + 1;//check if can begin in 1 and not increas +1 every time
-		if (pthread_mutex_init(&data->fork[i].mutex, NULL) != SUCCESS)//CHECK IF CAN BE SUCCESS INSTEAD OF 0
-		{
-			data->fork[i].fork_mut_status = MUTEX_NO_INIT;//not initilized
-			// return (mutex_fork_error(data, i));//needed?
-            return (mutex_fork_error(data));//needed?
-		}
-		data->fork[i].fork_mut_status = MUTEX_INIT;
+		data->fork[i].fork_mut_status = MUTEX_NO_INIT;
+		status = handling_mutex_init(&data->fork[i].mutex, &data->fork[i].fork_mut_status, "Failed to init fork\n");//new
+		// if (pthread_mutex_init(&data->fork[i].mutex, NULL) != SUCCESS)//CHECK IF CAN BE SUCCESS INSTEAD OF 0
+		if (status != SUCCESS)
+			clean_up_program(data);
+        // {
+        //     while(--i >0)
+
+		// 	data->fork[i].fork_mut_status = MUTEX_NO_INIT;//not initilized
+		// 	// return (mutex_fork_error(data, i));//needed?
+        //     return (mutex_fork_error(data));//needed?
+		// }
+		// data->fork[i].fork_mut_status = MUTEX_INIT;
 		i++;
-	}
+	// }
     // printf ("Forks initialized correctly\n");//testing
-	return (SUCCESS);
+	}
+	return (status);
 }
 
 //check if needs to be init the last meal or when
@@ -92,6 +100,7 @@ void	fill_each_philo(t_program *data, int philo_id)
 int	init_philo(t_program *data)
 {
 	int	i;
+	int	status;
 
 	i = 0;
     // printf("Debug: total_philo = %d\n", data->total_philo); // Debug print
@@ -101,10 +110,17 @@ int	init_philo(t_program *data)
 	while (i < data->total_philo)
 	{
 		data->philo[i].mutex_status_phi = MUTEX_NO_INIT;
-		if (pthread_mutex_init(&data->philo[i].philo_mutex, NULL) != SUCCESS)
+		status = handling_mutex_init(&data->philo[i].philo_mutex, 
+			&data->philo[i].mutex_status_phi, "Failed to init philo mutex\n");
+		if (status != SUCCESS)
+		{
+			clean_up_program(data);
+			return (ERR_MUTEX);
+		}
+		// if (pthread_mutex_init(&data->philo[i].philo_mutex, NULL) != SUCCESS)
 			// return (mutex_fork_error(data, i));//check function's name and call it correctlu with i
 		data->philo[i].program = data;//check
-        		return (mutex_fork_error(data));//check function's name and call it correctlu with i
+        		// return (mutex_fork_error(data));//check function's name and call it correctlu with i
 		fill_each_philo(data, i + 1);//needs to be i + 1 if not becomes -1 in fill each philo
 		// printf("Philosopher %d initialized with ID: %d\n", i + 1, data->philo[i].philo_id);//test
         // fflush(stdout);//test

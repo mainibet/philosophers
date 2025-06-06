@@ -6,30 +6,30 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:02:26 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 11:35:36 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 11:53:53 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//i is where the error happened
-//will be usefull to destroy clean-up
-int	mutex_fork_error(t_program  *data)//DOES THIS NEED TO UNLOCK IF SOMETHING IS LOCK?
-{
-	(void)data;//new
-	// int	j;
-	print_error_msg("Failed to init fork mutex\n");//PENDING DESTROY MUTEX AFTER THE ERROR
-	// j = 0;
-	// while (j < i)//new check if needed here or may be while loop in clean-up function
-	// {
-	// 	pthread_mutex_destroy(&data->fork[j].mutex);//check
-	// 	j++;
-	// }
-	// // free(data->fork);//check
-	// data->fork = NULL;//check sure?
-	// clean_up_program(data);//new CHECK
-	return (ERR_MUTEX);
-}//can this function work also for other mutex error?
+// //i is where the error happened
+// //will be usefull to destroy clean-up
+// int	mutex_fork_error(t_program  *data)//DOES THIS NEED TO UNLOCK IF SOMETHING IS LOCK?
+// {
+// 	(void)data;//new
+// 	// int	j;
+// 	print_error_msg("Failed to init fork mutex\n");//PENDING DESTROY MUTEX AFTER THE ERROR
+// 	// j = 0;
+// 	// while (j < i)//new check if needed here or may be while loop in clean-up function
+// 	// {
+// 	// 	pthread_mutex_destroy(&data->fork[j].mutex);//check
+// 	// 	j++;
+// 	// }
+// 	// // free(data->fork);//check
+// 	// data->fork = NULL;//check sure?
+// 	// clean_up_program(data);//new CHECK
+// 	return (ERR_MUTEX);
+// }//can this function work also for other mutex error?
 
 void	clean_forks(t_program *data)//check if the i isn eeded from before
 {
