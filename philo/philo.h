@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 08:59:40 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 11:27:43 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,8 @@ void		sim_stop(t_program *data);
 void		end_program(t_program *data, char *msg, t_philo *dying_philo);
 
 // --- CLEAN-UP & ERROR HANDLING ---
-int			mutex_fork_error(t_program *data, int i);
+// int			mutex_fork_error(t_program *data, int i);
+int			mutex_fork_error(t_program *data);
 void		clean_up_program(t_program *data);
 
 //  --OUTPUT ---

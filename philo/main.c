@@ -6,11 +6,38 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 10:30:30 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 11:42:20 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+//join each philo
+//join monitor
+int	joining_threads(t_program *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->total_philo)
+	{
+		if (pthread_join(data->philo[i].thread_id, NULL) != 0)
+		{
+			clean_up_program(data);
+			return (ERROR);
+		}
+		i++;
+	}
+	if (data->total_philo > 0)
+	{
+		if (pthread_join(data->monitor_thread_id, NULL) != 0)
+		{
+			clean_up_program(data);
+			return (ERROR);
+		}
+	}
+	return (SUCCESS);
+}
 
 //join makes the main thread to wai for the execution of the others
 //create thread per philo
@@ -18,6 +45,7 @@
 int	start_threads(t_program *data)
 {
 	int	i;
+	int	join_status;
 
 	i = 0;
 	while (i < data->total_philo)
@@ -39,6 +67,7 @@ int	start_threads(t_program *data)
 			return (ERROR);
 		}
 	}
+	join_status = joining_threads(data);//new
 	return (SUCCESS);
 }
 
@@ -50,25 +79,16 @@ int	setup_simulation(t_program *data)//check if **argv needed or only data?
 		data->end_flag = PHILO_ALIVED;
 	status = init_cross_mutex(data);
 	if (status != SUCCESS)
-	{
-		clean_up_program(data);//new
 		return (status);
-	}
 	status = init_forks(data);
 	if (status != SUCCESS)
 		return (status);
 	status = init_philo(data);
 	if (status != SUCCESS)
-	{
-		clean_up_program(data);//new
 		return (status);
-	}
 	status = start_threads(data);
 	if (status != SUCCESS)
-	{
-		clean_up_program(data);//new
 		return (status);
-	}
 	return (SUCCESS);
 }
 
@@ -86,12 +106,19 @@ int	main(int argc, char **argv)
 	t_program	data;
 
 	if (parsing_args(argc, argv, &parse) != SUCCESS)
+	{
+		clean_up_program(&data);
 		return (EXIT_FAILURE);//define in stdlib.h include clean-up before exit
+	}
 	// printf("Ready to continue\n");//test
 	data.parse = &parse;//memory allocated in parsing_args
 	init_program(&data);
 	if (setup_simulation(&data) != SUCCESS)
+	{
+		clean_up_program(&data);
 		return (EXIT_FAILURE);//DEFINE IN STDLIB.H//include clean-up before exit
+	}
 	sim_stop(&data); //if succed can i called clean_up_program to finish? needs to join philos at the end before finishing and free all
+	clean_up_program(&data);//new
 	return (EXIT_SUCCESS);
 }

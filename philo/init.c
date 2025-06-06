@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 11:20:04 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 11:29:12 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ int	init_forks(t_program *data)
 		if (pthread_mutex_init(&data->fork[i].mutex, NULL) != SUCCESS)//CHECK IF CAN BE SUCCESS INSTEAD OF 0
 		{
 			data->fork[i].fork_mut_status = MUTEX_NO_INIT;//not initilized
-			return (mutex_fork_error(data, i));//this return errors how to use it here to finish the ft?
-		//pending include destroy mutex for output and sim_over
+			// return (mutex_fork_error(data, i));//needed?
+            return (mutex_fork_error(data));//needed?
 		}
 		data->fork[i].fork_mut_status = MUTEX_INIT;
 		i++;
@@ -102,8 +102,9 @@ int	init_philo(t_program *data)
 	{
 		data->philo[i].mutex_status_phi = MUTEX_NO_INIT;
 		if (pthread_mutex_init(&data->philo[i].philo_mutex, NULL) != SUCCESS)
-			return (mutex_fork_error(data, i));//check function's name and call it correctlu with i
+			// return (mutex_fork_error(data, i));//check function's name and call it correctlu with i
 		data->philo[i].program = data;//check
+        		return (mutex_fork_error(data));//check function's name and call it correctlu with i
 		fill_each_philo(data, i + 1);//needs to be i + 1 if not becomes -1 in fill each philo
 		// printf("Philosopher %d initialized with ID: %d\n", i + 1, data->philo[i].philo_id);//test
         // fflush(stdout);//test
