@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:02:26 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 07:41:03 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 08:00:37 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,3 +29,46 @@ int	mutex_fork_error(t_program  *data, int i)//DOES THIS NEED TO UNLOCK IF SOMET
 	data->fork = NULL;//check sure?
 	return (ERR_MUTEX);
 }//can this function work also for other mutex error?
+
+//destroy mutex: output, fork, philo, monitor
+//free: array of philo
+//free:array of forks
+//free: array of parse
+void	clean_up_program(t_program *data)//check if philo dies if forks need to be "released"
+{//this function should be made by the main thread
+	int	i;
+
+	i = 0;
+	if (data->out_mut_status == MUTEX_INIT)
+		pthread_mutex_destroy(&data->output_mutex);//need to includ error check of destroy?
+	if (data->end_mutex_status == MUTEX_INIT)
+		pthread_mutex_destroy(&data->end_mutex);
+	if (data->fork != NULL)
+	{
+		i = 0;
+		while (i < data->total_philo)
+		{
+			if (data->fork[i].fork_mut_status == MUTEX_INIT)
+				pthread_mutex_destroy(&data->fork[i].mutex);//need to includ error check of destroy?
+			i++;
+		}
+		i = count_arr_elements((void **)data->fork);//need to include any handling error?
+		free_array((void **)data->fork, i);
+	}
+	if (data->philo != NULL)
+	{
+		i = 0;
+		while (i < data->total_philo)
+		{
+			if (data->philo[i].mutex_status_phi == MUTEX_INIT)
+				pthread_mutex_destroy(&data->philo[i].philo_mutex);
+			i++;
+		}
+		free_array((void **)data->philo, data->total_philo);
+	}
+	if (data->parse != NULL && data->parse->arr != NULL)
+	{
+		i = count_arr_elements((void **)data->parse);
+		free_array((void **)data->parse, i);
+	}
+}

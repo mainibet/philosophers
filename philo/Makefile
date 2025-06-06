@@ -8,7 +8,7 @@ CFLAGS = -Wall -Wextra -Werror -g
 
 NAME = philo
 
-SRC = main.c args.c args_utils.c init.c output.c time.c actions.c life_cycle.c cleanup_error.c helper.c # Add here other source files
+SRC = main.c args.c args_utils.c init.c output.c time.c actions.c life_cycle.c monitor.c cleanup_error.c helper.c # Add here other source files
 
 OBJ_DIR = ./obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
