@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 10:31:05 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 11:20:04 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	handling_mutex_init(pthread_mutex_t *my_mutex, int *mutex_status, char *msg)
 	if (pthread_mutex_init(my_mutex, NULL) != SUCCESS)
 	{
 		print_error_msg(msg);
-		mutex_status = MUTEX_NO_INIT;
+		*mutex_status = MUTEX_NO_INIT;//new check
 		return (ERR_MUTEX);
 	}
 	*mutex_status = MUTEX_INIT;
