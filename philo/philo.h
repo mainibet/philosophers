@@ -6,86 +6,13 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 07:28:42 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 07:37:35 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-// // --- Maximum value long long ---
-// # ifndef LLONG_MAX
-// #  define LLONG_MAX 9223372036854775807LL
-// # endif
-
-// // --- Str long long conversion status ---
-// # ifndef CONVERSION_SUCCESS
-// #  define CONVERSION_SUCCESS 0
-// # endif
-
-// # ifndef CONVERSION_ERROR
-// #  define CONVERSION_ERROR 1
-// # endif
-
-// # ifndef CONVERSION_OVERFLOW
-// #  define CONVERSION_OVERFLOW 2
-// # endif
-
-// // --- Return Status Codes ---
-// # ifndef SUCCESS
-// #  define SUCCESS 0
-// # endif
-
-// # ifndef ERROR
-// #  define ERROR -1
-
-// # endif
-
-// // --- Specific error codes if needed ---
-// # ifndef ERR_INVALID_ARGS
-// #  define ERR_INVALID_ARGS -2
-// # endif
-// # ifndef ERR_MALLOC_FAIL
-// #  define ERR_MALLOC_FAIL -3
-// # endif
-
-// # ifndef ERR_MUTEX
-// #  define ERR_MUTEX -4
-// # endif
-
-// # ifndef ERR_THREAD_CREAT//pending to use it
-// #  define ERR_THREAD_CREATE -5
-// # endif
-
-// // --- Bolean values ---
-// # ifndef FALSE//CHECK IF IS CORRECT AND NEEDED or if is in any lib
-// #  define FALSE 0
-// # endif
-
-// # ifndef TRUE
-// #  define TRUE 1
-// # endif
-
-// // --- Configuration values ---
-// # ifndef MAX_MEALS_DISABLED
-// #  define MAX_MEALS_DISABLED -1
-// # endif
-
-// # ifndef MUTEX_NO_INIT
-// #  define MUTEX_NO_INIT 0
-// # endif
-
-// # ifndef MUTEX_INIT
-// #  define MUTEX_INIT 1
-// # endif
-
-// # ifndef PHILO_ALIVED
-// #  define PHILO_ALIVED 0
-// # endif
-
-// # ifndef PHILO_DIED
-// #  define PHILO_DIED 1
-// # endif
 // --- STANDARD HEADERS ---
 
 # include <string.h> //memset CHECK IF USED
@@ -191,8 +118,11 @@ void		end_program(t_program *data, char *msg, t_philo *dying_philo);
 int			mutex_fork_error(t_program *data, int i);
 void		clean_up_program(t_program *data);
 
+//  --OUTPUT ---
+void		print_error_msg(const char *msg);
+void		print_status(t_philo *philo, const char *msg);
+
 // --- HELPER FUNCIONTS ---
-void		print_error_msg(const char *msg);//MOVE TO OTHER FILE
 int			malloc_error(void);//MOVE TO OTHER FILE
 void		free_array(void **arr, int j);
 int			count_arr_elements(void **arr);
