@@ -3,6 +3,7 @@ Implement error handling for current things
 Avoid deadlocks
 Avoid race..
 check output, get time stamp correct it was working beofre
+Check if the check condition can be done in the routines instead of inside the functions
 
 Next:
 life cycle:
