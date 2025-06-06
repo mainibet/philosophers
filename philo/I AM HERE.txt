@@ -1,8 +1,8 @@
 In process:
-Implement clean_up_program
 Implement error handling for current things
 Avoid deadlocks
 Avoid race..
+check output, get time stamp correct it was working beofre
 
 Next:
 life cycle:
@@ -54,6 +54,7 @@ Set termination condition:
     -check_end_conditions
 Make norm happy splitting into files
 Mind map
+Implement clean_up_program
 
 WISH to
 check if all the structs are malloc correctly and !malloc error

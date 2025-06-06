@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:26:13 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 07:27:19 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 13:14:59 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,14 @@
 
 # ifndef PHILO_DIED
 #  define PHILO_DIED 1
+# endif
+
+# ifndef SIM_RUNNING
+#  define SIM_RUNNING 1
+# endif
+
+# ifndef SIM_STOP
+#  define SIM_STOP 0
 # endif
 
 #endif

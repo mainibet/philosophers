@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:35:32 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 07:41:05 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 12:25:52 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,9 @@ void	print_format(t_philo *philo, const char *msg)//will be used?
 void	print_status(t_philo *philo, const char *msg)//check if needs to handled any error
 {
 	long long	current_time;
-	int			sim_status;//is same as philo_died or Alived
+	int			sim_status;
 
 	current_time = precise_time_ms() - philo->program->start_time;
-	// pthread_mutex_lock(&philo->program->output_mutex);
 	sim_status = check_end_cond(philo);
 	if (sim_status == PHILO_ALIVED)
 	{
@@ -46,7 +45,7 @@ void	print_status(t_philo *philo, const char *msg)//check if needs to handled an
 }
 
 //pending destroy mytex if an error occure after init mutex
-void	print_error_msg(const char *msg)
+void	print_error_msg(const char *msg)//mutex?
 {
 	printf("Error: %s\n", msg);
 }

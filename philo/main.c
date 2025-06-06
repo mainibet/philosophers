@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 11:42:20 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 13:18:58 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	start_threads(t_program *data)
 			return (ERROR);
 		}
 	}
-	join_status = joining_threads(data);//new
+	// join_status = joining_threads(data);//new
 	return (SUCCESS);
 }
 
@@ -118,7 +118,16 @@ int	main(int argc, char **argv)
 		clean_up_program(&data);
 		return (EXIT_FAILURE);//DEFINE IN STDLIB.H//include clean-up before exit
 	}
-	sim_stop(&data); //if succed can i called clean_up_program to finish? needs to join philos at the end before finishing and free all
+	pthread_mutex_lock(&data.start_mutex);//new CHECK IF NEED MUTEX STAT
+	data.start_time = precise_time_ms();
+	data.sim_status = SIM_RUNNING;//new 
+	phread_mutex_unlock(&data.start_mutex);
+	if (joining_threads(&data) != SUCCESS)
+	{
+		lean_up_program(&data); // Error during join, clean up anyway
+		eturn (EXIT_FAILURE);
+	}
+	sim_stop(&data); //connect it better in the general end program function
 	clean_up_program(&data);//new
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 12:04:25 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 12:21:04 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int	init_philo(t_program *data)
         // fflush(stdout);//test
 		i++;
 	}
-    printf("All philos initialized\n");//test
+    // printf("All philos initialized\n");//test
     //pending include destroy mutex for output and sim_over
 	return (SUCCESS);
 }
@@ -145,8 +145,8 @@ void	init_program(t_program *data)//check if set default really needed
 	data->time_die = data->parse->arr[1];
 	data->time_eat = data->parse->arr[2];
 	data->time_sleep = data->parse->arr[3];
-	data->start_time = precise_time_ms();//chec it was 0
-	data->end_flag = 0;//or can be philo alived?
+	data->start_time = 0;
+	data->end_flag = 0;
 	data->end_mutex_status = MUTEX_NO_INIT;
 	data->philo = NULL;
 	data->fork = NULL;

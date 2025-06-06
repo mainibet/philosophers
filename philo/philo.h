@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 12:13:02 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 13:18:40 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,9 @@ typedef struct s_program
 	long long		time_eat;
 	long long		time_sleep;
 	long long		start_time;//reference to begin simulation
+	pthread_mutex_t	start_mutex;//new
+	int				start_mut_status;//1 is running set macro
+	int				sim_status;
 	int				end_flag;//to terminates the simulation
 	pthread_mutex_t	end_mutex;//mutex to protect end_flag
 	int				end_mutex_status;//Flag to track initialization status of end_mutex
