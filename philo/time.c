@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:47:19 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 07:48:05 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 07:58:21 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,6 @@ int	check_end_cond(t_philo *philo)
 	sim_status = philo->program->end_flag;
 	pthread_mutex_unlock(&philo->program->end_mutex);
 	return (sim_status);
-}
-
-void	philo_routine_odd(t_philo *philo)
-{
-	philo_eat(philo);
-	philo_sleep(philo);
-	philo_think(philo);
-}
-
-void	philo_routine_even(t_philo *philo)
-{
-	philo_think(philo);
-	philo_eat(philo);
-	philo_sleep(philo);
 }
 
 //destroy mutex: output, fork, philo, monitor
@@ -121,48 +107,6 @@ void	sim_stop(t_program *data)
 	}
 	clean_up_program(data);//check if is working and full and includes monitor's thread
 }
-
-//takes the dying philo as argument
-//set the end_flag as PHILO_DIED (1)
-//lock the end_flag
-//set global termination flag
-//unlock flag
-void	kill_philo(t_philo *philo)//check
-{
-	// pthread_mutex_lock(&philo->program->end_mutex);
-	// philo->program->end_flag = PHILO_DIED;
-	// pthread_mutex_unlock(&philo->program->end_mutex);
-	// print_status(philo, "died");//after this call the clean_up
-	end_program(philo->program, "died", philo);
-}
-
-//flag to know if a philo has died or if they reach the amount of eats
-//A philo will die if doesn't eat in the max time set
-//it terminates if the number of eats is reached when it was included
-// void	end_condition(t_program *data)//this will be updated by monitor
-// {
-// 	int	status;//flag or status?
-// 	int	current_meals;//check
-
-// 	status = PHILO_ALIVED;//connect this with monitor?
-// 	current_meals = data->philo->meal_number;
-// 	if (data->max_meals != MAX_MEALS_DISABLED)
-// 	{
-// 		if (status == PHILO_DIED || current_meals == data->max_meals)
-// 		{
-// 			kill_philo(data->philo);
-// 			return ;
-// 		}
-// 	}
-// 	if (status == PHILO_DIED)
-// 	{
-// 		kill_philo(data->philo);
-// 		return ;
-// 	}
-// 	return ;//check if needed
-// }
-
-//new to make shorter check_life
 
 void	end_program(t_program *data, char *msg, t_philo *dying_philo)
 {
@@ -264,51 +208,4 @@ void	*life_monitor(void *arg)//check why adn how to connect it good with all
 		usleep(500);//can be modified
 	}
 	return (NULL);//Should be unreachable if return statements are used inside loop
-}
-
-//each will be a status
-//eating, thinking, and sleeping.
-//prototype given by pthread_create
-//void *(*start_routine)(void *), void *arg
-//thread logic
-//odd: eat-sleep-think
-//even: think-eat-sleep
-//After a full routine, check if max_meals is reached for this philo
-// (The monitor will check if *all* philos have reached it)
-void	*life_cycle(void *arg)
-{
-	t_philo	*philo;//check if can be use this struct
-	// int		i;
-	int		wait_time;
-    // int     sim_over;
-
-	philo = (t_philo *)arg;
-	if (philo->philo_id % 2 == 0)//even small delay CHECK
-	{
-		wait_time = philo->program->time_eat;//check
-		usleep(wait_time * 1000);
-	}
-	while (1)
-	{
-		// sim_over = check_end_cond(philo);
-		if (check_end_cond(philo) == PHILO_DIED)
-			break;
-		if (philo->philo_id % 2 != 0)
-			philo_routine_odd(philo);
-		else
-			philo_routine_even(philo);
-		// if (sim_over == PHILO_DIED)//check flag
-		// 	break ;
-		if (check_end_cond(philo) == PHILO_DIED)
-			break;
-		pthread_mutex_lock(&philo->philo_mutex);
-		if (philo->program->max_meals != MAX_MEALS_DISABLED
-			&& philo->meal_number >= philo->program->max_meals)
-		{
-			pthread_mutex_unlock(&philo->philo_mutex);
-			break;
-		}
-		pthread_mutex_unlock(&philo->philo_mutex);
-	}
-	return (NULL);
 }

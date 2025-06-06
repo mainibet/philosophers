@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 07:47:17 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 07:58:03 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,12 @@ void		*life_cycle(void *arg);
 int			check_end_cond(t_philo *philo);
 void		*life_monitor(void *arg);
 
-// --- ACTIONS ---
+// --- ACTIONS & LIFE CYCLE---
 void		philo_think(t_philo *philo);
 void		philo_sleep(t_philo *philo);
 void		philo_eat(t_philo *philo);
+void		kill_philo(t_philo *philo);
+void		*life_cycle(void *arg);
 
 // --- SIMULATION CONTROL ---
 void		sim_stop(t_program *data);
