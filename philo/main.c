@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 13:20:33 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 13:25:34 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,13 +112,13 @@ int	main(int argc, char **argv)
 	}
 	// printf("Ready to continue\n");//test
 	data.parse = &parse;//memory allocated in parsing_args
-	init_program(&data);
+	init_program(&data);//NEEDED TO INITIALIZEDD THE MUTEX OF START
 	if (setup_simulation(&data) != SUCCESS)
 	{
 		clean_up_program(&data);
 		return (EXIT_FAILURE);//DEFINE IN STDLIB.H//include clean-up before exit
 	}
-	pthread_mutex_lock(&data.start_mutex);//new CHECK IF NEED MUTEX STAT
+	pthread_mutex_lock(&data.start_mutex);//new
 	data.start_time = precise_time_ms();
 	data.sim_status = SIM_RUNNING;//new 
 	phread_mutex_unlock(&data.start_mutex);

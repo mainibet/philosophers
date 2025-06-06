@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 12:21:04 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 13:24:51 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ int	init_cross_mutex(t_program *data)//do i have to set attributes for philo?
 		"Failed to init end_flag_mutex\n");
 	if (mutex_status != SUCCESS)//check if call clean up before return or where
 		return (mutex_status);//before return destrou output mutex
+	mutex_status = handling_mutex_init(&data->start_mutex, &data->start_mut_status, "Failed to initi start_mutex\n");
+	if (mutex_status != SUCCESS)
+		return (mutex_status);
 	return (mutex_status);//would be success
 }
 //init mutex per fork
@@ -145,7 +148,7 @@ void	init_program(t_program *data)//check if set default really needed
 	data->time_die = data->parse->arr[1];
 	data->time_eat = data->parse->arr[2];
 	data->time_sleep = data->parse->arr[3];
-	data->start_time = 0;
+	// data->start_time = 0;
 	data->end_flag = 0;
 	data->end_mutex_status = MUTEX_NO_INIT;
 	data->philo = NULL;
