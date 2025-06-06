@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:49:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 07:59:28 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 12:12:58 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ static void	philo_routine_even(t_philo *philo)//check if is static
 //lock the end_flag
 //set global termination flag
 //unlock flag
-void	kill_philo(t_philo *philo)//check and also if is static
-{
-	// pthread_mutex_lock(&philo->program->end_mutex);
-	// philo->program->end_flag = PHILO_DIED;
-	// pthread_mutex_unlock(&philo->program->end_mutex);
-	// print_status(philo, "died");//after this call the clean_up
-	end_program(philo->program, "died", philo);
-}
+// void	kill_philo(t_philo *philo)//check and also if is static
+// {
+// 	// pthread_mutex_lock(&philo->program->end_mutex);
+// 	// philo->program->end_flag = PHILO_DIED;
+// 	// pthread_mutex_unlock(&philo->program->end_mutex);
+// 	// print_status(philo, "died");//after this call the clean_up
+// 	end_program(philo->program, "died", philo);
+// }
 
 //each will be a status
 //eating, thinking, and sleeping.
