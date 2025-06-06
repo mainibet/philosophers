@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:02:26 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 11:53:53 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 13:28:58 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void	clean_up_program(t_program *data)//check if philo dies if forks need to be 
 		pthread_mutex_destroy(&data->output_mutex);//need to includ error check of destroy?
 	if (data->end_mutex_status == MUTEX_INIT)
 		pthread_mutex_destroy(&data->end_mutex);
+	if (data->start_mut_status == MUTEX_INIT)
+		pthread_mutex_destroy(&data->start_mutex);
 	if (data->fork != NULL)
 	// {
 		clean_forks(data);//new
