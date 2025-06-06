@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:49:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 12:12:58 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/06 13:51:14 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,20 @@ void	*life_cycle(void *arg)
 	int		wait_time;
 
 	philo = (t_philo *)arg;
+	pthread_mutex_lock(&philo->program->start_mutex); // Usar data->start_mutex
+	while (philo->program->sim_status == SIM_STOP) // Usar data->sim_status
+	{
+		pthread_mutex_unlock(&philo->program->start_mutex);
+		usleep(100); // Yield CPU to avoid busy-waiting
+		pthread_mutex_lock(&philo->program->start_mutex);
+	}
+	pthread_mutex_unlock(&philo->program->start_mutex);//check
 	if (philo->philo_id % 2 == 0)//even small delay CHECK
 	{
 		wait_time = philo->program->time_eat;//check
 		usleep(wait_time * 1000);
 	}
+	pthread_mutex_unlock(&philo->program->start_mutex);
 	while (1)
 	{
 		if (check_end_cond(philo) == PHILO_DIED)
