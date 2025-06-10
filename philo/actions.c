@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:42:05 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 07:47:51 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/10 08:18:13 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,37 @@
 
 //this should be after sleep
 //usleep is in microsecs
+//get time since last meal
+//calculate think duration (time_think)
+//Handle cases where the calculated duration is zero or negative.
+//prevent exesive long thinking times
+//Determine the end time for the thinking phase.
+//Simulate thinking time with a responsive loop.
 void	philo_think(t_philo *philo)
 {
-	long long		current_time;
-	long long		think_time;
+	long long		think_ends;
+	long long		time_think;
+	long long		since_last_meal;
+	int				sim_status;
 
-	current_time = precise_time_ms () - philo->program->start_time;//check why atart time
-//set if cond to stop if terminates condition reach
 	print_status(philo, "is thinking");
-	// usleep(100);
-    // Calculate think time: use time between eat and die to prevent death
-	think_time = (philo->program->time_die - philo->program->time_eat - philo->program->time_sleep) / 2;//check
-	if (think_time > 0)
-		usleep(think_time * 1000);
+	pthread_mutex_lock(&philo->philo_mutex);
+	since_last_meal = precise_time_ms() - philo->last_meal;
+	pthread_mutex_unlock(&philo->philo_mutex);
+	time_think = (philo->program->time_die - since_last_meal - 
+			philo->program->time_eat) / 2;
+	if (time_think <= 0)
+		time_think = 500;//guaranteed yield to prevent busy-waiting
+	else if (time_think > 1000000)
+		time_think = 1000000;
+	think_ends = precise_time_ms() + time_think;
+	while (precise_time_ms() < think_ends)
+	{
+		sim_status = check_end_cond(philo);
+		if (sim_status == PHILO_DIED)
+			return ;
+		usleep(100);
+	}
 }
 
 //this should be after release forks
@@ -41,7 +59,7 @@ void	philo_sleep(t_philo *philo)
 	while (precise_time_ms() < wake_up)
 	{
 		sim_status = check_end_cond(philo);
-		if (sim_status)//check if is ok
+		if (sim_status == PHILO_DIED)
 			return ;
 		usleep(100);
 	}
@@ -74,18 +92,22 @@ static void	take_forks(t_philo *philo)//check if this and realease are static
 	// }
 	pthread_mutex_lock(&first_fork->mutex);
 	print_status(philo, "has taken a fork");
-    //check if simulation hasn't stop
+	if (check_end_cond(philo) == PHILO_DIED)
+	{
+		pthread_mutex_unlock(&first_fork->mutex); // Liberar el tenedor si la simulación ha terminado
+		return ; // Salir de la función
+	}
 	pthread_mutex_lock(&second_fork->mutex);
 	print_status(philo, "has taken a fork");
 }
 
 //only to mutex unlock
+// Release in reverse order of acquisition
 static void	release_forks(t_philo *philo)//no message check and check if order is relevant
 {
 	t_fork	*first_fork;
 	t_fork	*second_fork;
 
-	// same order logic as take_forks
 	if (philo->left_fork->fork_id < philo->right_fork->fork_id)
 	{
 		first_fork = philo->left_fork;
@@ -96,7 +118,6 @@ static void	release_forks(t_philo *philo)//no message check and check if order i
 		first_fork = philo->right_fork;
 		second_fork = philo->left_fork;
 	}
-    // Release in reverse order of acquisition
 	pthread_mutex_unlock(&second_fork->mutex);
 	pthread_mutex_unlock(&first_fork->mutex);
 }
@@ -128,7 +149,6 @@ void	philo_eat(t_philo *philo)
 		sim_status = check_end_cond(philo);
 		if (sim_status == PHILO_DIED)
 			break;
-		//set if condition if simulation stops
 		usleep(100);//test
 	}
 	release_forks(philo);

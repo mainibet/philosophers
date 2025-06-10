@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:00:55 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 12:12:32 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/10 09:52:14 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	*life_monitor(void *arg)//check why adn how to connect it good with all
 	while (1)
 	{
 		i = 0;
-		life_status = check_end_cond(data->philo);//check if will check all philos and not only philo[0]
+		life_status = check_end_cond(&data->philo[0]);//check if will check all philos and not only philo[0]
 		if (life_status == PHILO_DIED)
 			return (NULL);//CAN I RETURN AFTER UNLOCK this is to exit monitor thread
 		while (i < data->total_philo)// Check if any philosopher has died

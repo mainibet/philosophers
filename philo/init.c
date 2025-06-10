@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 13:24:51 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/10 07:51:13 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ void	fill_each_philo(t_program *data, int philo_id)
 	philo->philo_id = philo_id;
 	philo->meal_number = 0;
 	philo->program = data;
-	philo->left_fork = &data->fork[start_fork];//check
-	philo->right_fork = &data->fork[start_fork + 1];//check
+	philo->left_fork = &data->fork[start_fork];
+	philo->right_fork = &data->fork[(start_fork + 1) % data->total_philo];//check
 	philo->thread_id = 0;//TO AVOID ERRORS, CHECK IF IT'S OK
 	// printf("This philo: %d has no thread yet\n", philo->philo_id);//test
 }
