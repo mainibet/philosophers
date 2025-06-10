@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:00:55 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/10 09:52:14 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:08:54 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	*life_monitor(void *arg)//check why adn how to connect it good with all
 			end_program(data, "All philos have eaten all set meals", NULL);//no message asked, can I include some?
 			return (NULL);
 		}
-		usleep(500);//can be modified 1000
+		usleep(100);//can be modified 1000
 	}
 	return (NULL);//Should be unreachable if return statements are used inside loop
 }

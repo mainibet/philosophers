@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 13:26:49 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/10 13:42:07 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int	main(int argc, char **argv)
 	pthread_mutex_unlock(&data.start_mutex);
 	if (joining_threads(&data) != SUCCESS)
 	{
-		clean_up_program(&data); // Error during join, clean up anyway
+		clean_up_program(&data); // Error during join, clean up anyway THIS IS DONE IN JOINING THREADS
 		return (EXIT_FAILURE);
 	}
 	sim_stop(&data); //connect it better in the general end program function

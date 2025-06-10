@@ -1,11 +1,16 @@
 In process:
-Implement error handling for current things
-Avoid deadlocks
-Avoid race..
-check output, get time stamp correct it was working beofre
-Check if the check condition can be done in the routines instead of inside the functions
+fixing issues: case 2 philos
+-2nd philo only is able to think and not more
+- both philos should be able to do the full life cycle
+- some times philo 1 reach to sleep but sometimes no
+-sometimes the program begins in 1 instead of 0 (in the first)
 
 Next:
+Implement error handling for current things: including if time is too big, check in between if philo has died.
+Avoid deadlocks
+Avoid race..
+check output, get time stamp correct it was working beofre: no takng forks after died.
+Check if the check condition can be done in the routines instead of inside the functions
 life cycle:
 check how to debu threads in gdb 
 check if joining threads is ok

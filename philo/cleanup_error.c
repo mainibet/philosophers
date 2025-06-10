@@ -6,32 +6,14 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:02:26 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 13:28:58 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:53:55 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-// //i is where the error happened
-// //will be usefull to destroy clean-up
-// int	mutex_fork_error(t_program  *data)//DOES THIS NEED TO UNLOCK IF SOMETHING IS LOCK?
-// {
-// 	(void)data;//new
-// 	// int	j;
-// 	print_error_msg("Failed to init fork mutex\n");//PENDING DESTROY MUTEX AFTER THE ERROR
-// 	// j = 0;
-// 	// while (j < i)//new check if needed here or may be while loop in clean-up function
-// 	// {
-// 	// 	pthread_mutex_destroy(&data->fork[j].mutex);//check
-// 	// 	j++;
-// 	// }
-// 	// // free(data->fork);//check
-// 	// data->fork = NULL;//check sure?
-// 	// clean_up_program(data);//new CHECK
-// 	return (ERR_MUTEX);
-// }//can this function work also for other mutex error?
-
-void	clean_forks(t_program *data)//check if the i isn eeded from before
+//This function will ONLY destroy fork mutexes.
+static void	clean_mutex_forks(t_program *data)//check if the i isn eeded from before
 {
 	int	i;
 
@@ -42,13 +24,10 @@ void	clean_forks(t_program *data)//check if the i isn eeded from before
 			pthread_mutex_destroy(&data->fork[i].mutex);//need to includ error check of destroy?
 		i++;
 	}
-	// i = count_arr_elements((void **)data->fork);//need to include any handling error?
-	free (data->fork);
-	data->fork = NULL;//good practice after freeing
-	// free_array((void **)data->fork, i);
 }
 
-void	clean_philo(t_program *data)
+//This function will ONLY destroy philo mutexes.
+static void	clean_mutex_philo(t_program *data)
 {
 	int	i;
 
@@ -59,54 +38,48 @@ void	clean_philo(t_program *data)
 			pthread_mutex_destroy(&data->philo[i].philo_mutex);
 		i++;
 	}
-	free_array((void *)data->philo, data->total_philo);
 }
 
-//destroy mutex: output, fork, philo, monitor
-//free: array of philo
-//free:array of forks
-//free: array of parse
-void	clean_up_program(t_program *data)//check if philo dies if forks need to be "released"
-{//this function should be made by the main thread
-	int	i;
-    //should I include the clean_error for forks?
-//should I include a check in case the simulation is running first stop it?
-	i = 0;
+static void destroy_global_mutex(t_program *data)//new
+{
 	if (data->out_mut_status == MUTEX_INIT)
 		pthread_mutex_destroy(&data->output_mutex);//need to includ error check of destroy?
 	if (data->end_mutex_status == MUTEX_INIT)
 		pthread_mutex_destroy(&data->end_mutex);
 	if (data->start_mut_status == MUTEX_INIT)
 		pthread_mutex_destroy(&data->start_mutex);
+	return ;
+}
+
+//destroy mutex: output, fork, philo, monitor
+//free: array of philo
+//free:array of forks
+//free: array of parse is in the heap but parse struct is in the stack
+void	clean_up_program(t_program *data)//check if philo dies if forks need to be "released"
+{//this function should be made by the main thread
+	int	i;
+    //should I include the clean_error for forks?
+//should I include a check in case the simulation is running first stop it?
+	i = 0;
+	destroy_global_mutex(data);
 	if (data->fork != NULL)
-	// {
-		clean_forks(data);//new
-		// i = 0;
-		// while (i < data->total_philo)
-		// {
-		// 	if (data->fork[i].fork_mut_status == MUTEX_INIT)
-		// 		pthread_mutex_destroy(&data->fork[i].mutex);//need to includ error check of destroy?
-		// 	i++;
-		// }
-		// free (data->fork);
-		// data->fork = NULL;//good practice after freeing
-	// }
-	if (data->philo != NULL)
-		clean_philo(data);
-	// {
-		// i = 0;
-		// while (i < data->total_philo)
-		// {
-		// 	if (data->philo[i].mutex_status_phi == MUTEX_INIT)
-		// 		pthread_mutex_destroy(&data->philo[i].philo_mutex);
-		// 	i++;
-		// }
-		// free_array((void *)data->philo, data->total_philo);
-	// }
-	if (data->parse != NULL && data->parse->arr != NULL)
 	{
-		i = count_arr_elements((void *)data->parse);
-		free_array((void *)data->parse, i);
-		data->parse = NULL;//check if is good
+		clean_mutex_forks(data);//new
+		free(data->fork);
+		data->fork = NULL; // Good practice: nullify after freeing
+	}
+	if (data->philo != NULL)//new
+	{
+		clean_mutex_philo(data);
+		free(data->philo);
+		data->philo = NULL;
+	}
+    if (data->parse != NULL)//check if the struct no need to be freed
+	{
+		if (data->parse->arr != NULL)//check the array inside
+		{
+			free(data->parse->arr);//free arr
+			data->parse->arr = NULL;//check if is good
+		}
 	}
 }

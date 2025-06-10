@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:35:32 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 12:25:52 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:18:59 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	print_format(t_philo *philo, const char *msg)//will be used?
 //if end flag is ok then print status
 //unlock print status (output)
 //it (!sim-status) means is 0 (PHILO_ALIVED)
+//only for life status
 void	print_status(t_philo *philo, const char *msg)//check if needs to handled any error
 {
 	long long	current_time;
