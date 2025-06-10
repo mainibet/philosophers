@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:49:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/10 14:01:48 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:06:33 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	*life_cycle(void *arg)
 	philo = (t_philo *)arg;
 	sync_simulation(philo);
 	pthread_mutex_lock(&philo->philo_mutex);//init philos
-	philo->last_meal = philo->program->start_time; // Set initial last_meal to global simulation start time
+	philo->last_meal = precise_time_ms(); // Set initial last_meal to global simulation start time
 	philo->meal_number = 0; // Ensure meal_number is 0 at the start of its life cycle
 	pthread_mutex_unlock(&philo->philo_mutex);//end init philos
 	if (philo->philo_id % 2 == 0)//init delay for even philos o prevent immediate deadlock
