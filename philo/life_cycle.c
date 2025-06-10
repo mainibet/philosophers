@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:49:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/10 14:06:33 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:16:42 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static void	philo_routine_even(t_philo *philo)
 		return;//new
 }
 //To wait for simulation start signal
+// Initialize start_time before using it
 static void sync_simulation(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->program->start_mutex);//here the sync begun

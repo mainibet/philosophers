@@ -1,7 +1,9 @@
 In process:
 fixing issues: case 2 philos (./philo 2 60 60 60)
 -2nd philo only is able to think and not more
-- pirnting when one is death: ./philo 100 60 60 60
+- pirnting when one is death: 
+./philo 100 60 60 60
+ ./philo 30 60 60 60
 - both philos should be able to do the full life cycle
 - some times philo 1 reach to sleep but sometimes no
 -check out put: sometimes the program begins in 1 instead of 0 (in the first)
@@ -11,7 +13,8 @@ valgrind ./philo 4 60 60 60 ok
 valgrind ./philo 5 60 60 60 ok
 tested with 20 and 55
 valgrind ./philo 100 60 60 60 ok
-valgrind ./philo 30 60 60 60 error
+valgrind ./philo 30 60 60 60 ok
+valgrind ./philo 200 60 60 60 error
 
 common error:
 ==725400== Thread 32:

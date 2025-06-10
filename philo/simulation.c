@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:58:21 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/10 13:45:49 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:15:59 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,6 @@ int	check_end_cond(t_philo *philo)
 	pthread_mutex_unlock(&philo->program->end_mutex);
 	return (sim_status);
 }
-
-//sim wait until all threads joined and clean-up
-// void	sim_stop(t_program *data)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (i < data->total_philo)
-// 	{
-// 		pthread_join(data->philo[i].thread_id, NULL);//check
-// 		i++;
-// 	}
-// 	if (data->total_philo > 0)
-// 	{
-// 		if (data->monitor_thread_id != 0)
-// 			pthread_join(data->monitor_thread_id, NULL);//check
-// 	}
-// }
 
 void	end_program(t_program *data, char *msg, t_philo *dying_philo)//this should be kill? and check
 {
