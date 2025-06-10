@@ -34,7 +34,9 @@ Check if the check condition can be done in the routines instead of inside the f
 life cycle:
 check how to debu threads in gdb 
 check if joining threads is ok
+check valgrind with errors 
 
+CHECK THE THREADS MANAGEMENT WITH COMMAND SUGGESTED
 5. Correct the output formatting in which is printed, I am using printf
 
 6. Make the functions to grab both forks before eating

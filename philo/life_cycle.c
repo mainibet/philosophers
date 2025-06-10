@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:49:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/10 14:16:42 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:29:40 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,16 @@ static void	philo_routine_even(t_philo *philo)
 }
 //To wait for simulation start signal
 // Initialize start_time before using it
-static void sync_simulation(t_philo *philo)
+//then initialized last meal
+//then sync the simulation
+void sync_simulation(t_philo *philo)//MOVE TO OTHER FILE
 {
+	pthread_mutex_lock(&philo->program->start_mutex);//new
+	if (philo->program->start_time == 0)//new
+		philo->program->start_time = precise_time_ms();//new
+	pthread_mutex_unlock(&philo->program->start_mutex);//new
 	pthread_mutex_lock(&philo->program->start_mutex);//here the sync begun
-	while (philo->program->sim_status == SIM_STOP)
+	while (philo->program->sim_status == SIM_STOP)//CHECK IF NEEDED
 	{
 		pthread_mutex_unlock(&philo->program->start_mutex);
 		usleep(100); 

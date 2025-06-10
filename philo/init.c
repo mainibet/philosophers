@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/10 14:17:09 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:27:52 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,16 +144,22 @@ int	init_philo(t_program *data)
 
 void	init_program(t_program *data)//check if set default really needed
 {
+     // Initialize time values from parsed input
 	data->total_philo = data->parse->arr[0];
-	// printf("Debug: Setting total_philo to %d\n", data->total_philo); // Debug print
 	data->time_die = data->parse->arr[1];
 	data->time_eat = data->parse->arr[2];
 	data->time_sleep = data->parse->arr[3];
-	data->start_time = 0;
-	data->end_flag = 0;
+    // Initialize synchronization variables
+	data->start_time = 0;//NEW
+	data->end_flag = PHILO_ALIVED;
+    // Initialize mutex statuses
 	data->end_mutex_status = MUTEX_NO_INIT;
+	data->start_mut_status = MUTEX_NO_INIT;//new
+	data->out_mut_status = MUTEX_NO_INIT;//new
+    // Initialize data structures pointers
 	data->philo = NULL;
 	data->fork = NULL;
+    // Set max meals
 	if (data->parse->count == 4)
 		data->max_meals = MAX_MEALS_DISABLED;
 	else
