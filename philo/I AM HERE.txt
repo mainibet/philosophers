@@ -11,6 +11,16 @@ valgrind ./philo 4 60 60 60 ok
 valgrind ./philo 5 60 60 60 ok
 tested with 20 and 55
 valgrind ./philo 100 60 60 60 ok
+valgrind ./philo 30 60 60 60 error
+
+common error:
+==725400== Thread 32:
+==725400== Conditional jump or move depends on uninitialised value(s)
+==725400==    at 0x402901: check_life (monitor.c:26)
+==725400==    by 0x40280D: life_monitor (monitor.c:81)
+==725400==    by 0x4905AC2: start_thread (pthread_create.c:442)
+==725400==    by 0x4996A03: clone (clone.S:100)
+==725400== 
 
 NEXT
 Implement error handling for current things: including if time is too big, check in between if philo has died.
