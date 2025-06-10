@@ -1,11 +1,18 @@
 In process:
-fixing issues: case 2 philos
+fixing issues: case 2 philos (./philo 2 60 60 60)
 -2nd philo only is able to think and not more
+- pirnting when one is death: ./philo 100 60 60 60
 - both philos should be able to do the full life cycle
 - some times philo 1 reach to sleep but sometimes no
--sometimes the program begins in 1 instead of 0 (in the first)
+-check out put: sometimes the program begins in 1 instead of 0 (in the first)
+test done:
+valgrind ./philo 3 60 60 60 ok
+valgrind ./philo 4 60 60 60 ok
+valgrind ./philo 5 60 60 60 ok
+tested with 20 and 55
+valgrind ./philo 100 60 60 60 ok
 
-Next:
+NEXT
 Implement error handling for current things: including if time is too big, check in between if philo has died.
 Avoid deadlocks
 Avoid race..
@@ -25,7 +32,7 @@ check if joining threads is ok
 
 11. Handle case with 1 philo
 
-12. check edge cases
+12. check edge cases (example: 2 400 4000000 200 2 the program freezes for a long time even if one philo is already died.  )
 
 
 ALLWAYS

@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:49:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/10 10:01:57 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:01:48 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,32 @@
 
 static void	philo_routine_odd(t_philo *philo)
 {
+	if (check_end_cond(philo) == PHILO_DIED)//new
+		return;//new
 	philo_eat(philo);
+	if (check_end_cond(philo) == PHILO_DIED)//new
+		return;//new
 	philo_sleep(philo);
+	if (check_end_cond(philo) == PHILO_DIED)//new
+		return;//new
 	philo_think(philo);
+	if (check_end_cond(philo) == PHILO_DIED)//new
+		return;//new
 }
 
 static void	philo_routine_even(t_philo *philo)
 {
+	if (check_end_cond(philo) == PHILO_DIED)//new
+		return;//new
 	philo_think(philo);
+	if (check_end_cond(philo) == PHILO_DIED)//new
+		return;//new
 	philo_eat(philo);
+	if (check_end_cond(philo) == PHILO_DIED)//new
+		return;//new
 	philo_sleep(philo);
+	if (check_end_cond(philo) == PHILO_DIED)//new
+		return;//new
 }
 //To wait for simulation start signal
 static void sync_simulation(t_philo *philo)
