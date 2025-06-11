@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/11 12:37:44 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/11 13:18:33 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,49 +39,72 @@ int	joining_threads(t_program *data)
 	return (SUCCESS);
 }
 
-static void handle_one_philo(t_program *data)
+static int	handle_one_philo(t_program *data)
 {
-    if (pthread_create(&data->philo[i].thread_id, NULL,
-                    life_one_philo, &data->philo[i]) != 0) // <--- Cambio aquí
-            {
-                // ... (manejo de error) ...
-            }
+	if (pthread_create(&data->philo[0].thread_id, NULL,
+			life_one_philo, &data->philo[0]) != SUCCESS)
+	{
+		clean_up_program(data);//error handling completed?
+		return (ERROR);
+	}
+	return (SUCCESS);
 }
 
-//join makes the main thread to wai for the execution of the others
-//create thread per philo
-//create monitor thread
-int	start_threads(t_program *data)
+static int	handle_many_philos(t_program *data)
 {
 	int	i;
 
 	i = 0;
 	while (i < data->total_philo)
 	{
-		if (data->total_philo == 1)
-			handle_one_philo(data);
-		else
+		if (pthread_create(&data->philo[i].thread_id, NULL, 
+				life_cycle, &data->philo[i]) != SUCCESS)
 		{
-			if (pthread_create(&data->philo[i].thread_id, NULL, 
-				life_cycle, &data->philo[i]) != 0)//check if 0 or other
-		    {
-				while (--i >= 0)//new check
-					pthread_join(data->philo[i].thread_id, NULL);//new check
-				clean_up_program(data);
-				return (ERROR);
-			}
-			i++;
+			clean_up_program(data);
+			return (ERROR);
 		}
-		if (data->total_philo > 0)// Create monitor thread after all philosopher threads
-		{
-			if (pthread_create(&data->monitor_thread_id, NULL, life_monitor, data) != 0)
-			{
-				while (--i >= 0)//new check
-					pthread_join(data->philo[i].thread_id, NULL);//new check
-				clean_up_program(data);//new
-				return (ERROR);
-			}
-		}
+		i++;
+	}
+	return (SUCCESS);
+}
+
+//join makes the main thread to wai for the execution of the others.HOW THIS WORKS NOW?
+//create thread per philo
+//create monitor thread
+int	start_threads(t_program *data)
+{
+	// int	i;
+	int	status;
+
+	if (data->total_philo == 1)
+	{
+		status = handle_one_philo(data);
+		if (status != SUCCESS)
+			return (status);
+	}
+	else
+	{
+		status = handle_many_philos(data);
+		if (status != SUCCESS)
+			return (status);
+		// i = 0;
+		// while (i < data->total_philo)
+		// {
+		// 	status = pthread_create(&data->philo[i].thread_id, NULL, 
+		// 			life_cycle, &data->philo[i]);
+		// 	if (status != SUCCESS)
+		// 	{
+		// 		clean_up_program(data);
+		// 		return (ERROR);
+		// 	}
+		// 	i++;
+		// }
+	}
+	status = pthread_create(&data->monitor_thread_id, NULL, life_monitor, data);
+	if (status != SUCCESS)
+	{
+		clean_up_program(data);//new
+		return (ERROR);
 	}
 	return (SUCCESS);
 }

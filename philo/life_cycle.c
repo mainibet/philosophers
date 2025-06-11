@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:49:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/11 12:38:18 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:40:35 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	run_life(t_philo *philo)
 //take only one fork
 //wait until monitor detects its dead
 //release the fork before dying
-static void	*life_one_philo(void *arg)
+void	*life_one_philo(void *arg)
 {
 	t_philo	*philo;
 
