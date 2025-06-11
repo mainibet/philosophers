@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:02:26 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/10 12:53:55 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/11 11:45:03 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	clean_up_program(t_program *data)//check if philo dies if forks need to be 
 	int	i;
     //should I include the clean_error for forks?
 //should I include a check in case the simulation is running first stop it?
-	i = 0;
+	i = 0;//include pthread_mutex_unlock(&data.start_mutex);
 	destroy_global_mutex(data);
 	if (data->fork != NULL)
 	{

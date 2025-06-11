@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/11 07:26:23 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/11 08:18:37 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,27 @@ int	joining_threads(t_program *data)
 int	start_threads(t_program *data)
 {
 	int	i;
-	// int	join_status;
 
 	i = 0;
 	while (i < data->total_philo)
 	{
-		if(pthread_create(&data->philo[i].thread_id, NULL, 
-			life_cycle, &data->philo[i]) != 0)//check if 0 or other
+		if (pthread_create(&data->philo[i].thread_id, NULL, 
+				life_cycle, &data->philo[i]) != 0)//check if 0 or other
 		{
-			clean_up_program(data);//new
+			while (--i >= 0)//new check
+				pthread_join(data->philo[i].thread_id, NULL);//new check
+			clean_up_program(data);
 			return (ERROR);
 		}
 		// printf("Thread created for philo ID: %d\n", data->philo[i].philo_id);//test
 		i++;
 	}
-	if (data->total_philo > 0)
+	if (data->total_philo > 0)// Create monitor thread after all philosopher threads
 	{
 		if (pthread_create(&data->monitor_thread_id, NULL, life_monitor, data) != 0)
 		{
+			while (--i >= 0)//new check
+				pthread_join(data->philo[i].thread_id, NULL);//new check
 			clean_up_program(data);//new
 			return (ERROR);
 		}
@@ -89,6 +92,8 @@ int	setup_simulation(t_program *data)//check if **argv needed or only data?
 	status = start_threads(data);
 	if (status != SUCCESS)
 		return (status);
+	// if (data->total_philo > 0)
+	// 	pthread_join(data->monitor_thread_id, NULL);
 	return (SUCCESS);
 }
 
@@ -120,10 +125,7 @@ int	main(int argc, char **argv)
 	data.sim_status = SIM_RUNNING;//new 
 	pthread_mutex_unlock(&data.start_mutex);
 	if (joining_threads(&data) != SUCCESS)
-	{
-		// clean_up_program(&data); // Error during join, clean up anyway THIS IS DONE IN JOINING THREADS
 		return (EXIT_FAILURE);
-	}
 	clean_up_program(&data);//new
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:49:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/10 14:29:40 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/11 11:51:13 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,20 @@ static void	philo_routine_even(t_philo *philo)
 		return;//new
 }
 //To wait for simulation start signal
-// Initialize start_time before using it
-//then initialized last meal
-//then sync the simulation
+// Thread Synchronization Barrier
 void sync_simulation(t_philo *philo)//MOVE TO OTHER FILE
 {
 	pthread_mutex_lock(&philo->program->start_mutex);//new
-	if (philo->program->start_time == 0)//new
-		philo->program->start_time = precise_time_ms();//new
-	pthread_mutex_unlock(&philo->program->start_mutex);//new
-	pthread_mutex_lock(&philo->program->start_mutex);//here the sync begun
-	while (philo->program->sim_status == SIM_STOP)//CHECK IF NEEDED
-	{
-		pthread_mutex_unlock(&philo->program->start_mutex);
-		usleep(100); 
-		pthread_mutex_lock(&philo->program->start_mutex);
-	}
+	// if (philo->program->start_time == 0)//new
+	// 	philo->program->start_time = precise_time_ms();//new
+	// pthread_mutex_unlock(&philo->program->start_mutex);//new
+	// pthread_mutex_lock(&philo->program->start_mutex);//here the sync begun
+	// while (philo->program->sim_status == SIM_STOP)//CHECK IF NEEDED
+	// {
+	// 	pthread_mutex_unlock(&philo->program->start_mutex);
+	// 	usleep(100); 
+	// 	pthread_mutex_lock(&philo->program->start_mutex);
+	// }
 	pthread_mutex_unlock(&philo->program->start_mutex);//here the sync ends
 }
 
@@ -109,8 +107,9 @@ void	*life_cycle(void *arg)
 	philo->last_meal = precise_time_ms(); // Set initial last_meal to global simulation start time
 	philo->meal_number = 0; // Ensure meal_number is 0 at the start of its life cycle
 	pthread_mutex_unlock(&philo->philo_mutex);//end init philos
-	if (philo->philo_id % 2 == 0)//init delay for even philos o prevent immediate deadlock
-		usleep(100);
+	// if (philo->philo_id % 2 == 0)//init delay for even philos o prevent immediate deadlock
+		// usleep(100);
+	usleep(100);
 	run_life(philo);
 	return (NULL);
 }

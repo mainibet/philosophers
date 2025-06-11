@@ -1,35 +1,17 @@
 In process:
-fixing issues: case 2 philos (./philo 2 60 60 60)
--2nd philo only is able to think and not more
-- pirnting when one is death: 
-./philo 100 60 60 60
- ./philo 30 60 60 60
-- both philos should be able to do the full life cycle
-- some times philo 1 reach to sleep but sometimes no
--check out put: sometimes the program begins in 1 instead of 0 (in the first)
-test done:
-valgrind ./philo 3 60 60 60 ok
-valgrind ./philo 4 60 60 60 ok
-valgrind ./philo 5 60 60 60 ok
-tested with 20 and 55
-valgrind ./philo 100 60 60 60 ok
-valgrind ./philo 30 60 60 60 ok
-valgrind ./philo 200 60 60 60 error
 
-common error:
-==725400== Thread 32:
-==725400== Conditional jump or move depends on uninitialised value(s)
-==725400==    at 0x402901: check_life (monitor.c:26)
-==725400==    by 0x40280D: life_monitor (monitor.c:81)
-==725400==    by 0x4905AC2: start_thread (pthread_create.c:442)
-==725400==    by 0x4996A03: clone (clone.S:100)
-==725400== 
+11. Handle case with 1 philo
+-check out put: sometimes the program begins in 1 instead of 0 (in the first)
+
+
+
 
 NEXT
+check if ending the program with ctrl+c needs to be handled
 Implement error handling for current things: including if time is too big, check in between if philo has died.
 Avoid deadlocks
 Avoid race..
-check output, get time stamp correct it was working beofre: no takng forks after died.
+check output (no valgrind it might change it), get time stamp correct it was working beofre: no takng forks after died.
 Check if the check condition can be done in the routines instead of inside the functions
 life cycle:
 check how to debu threads in gdb 
@@ -44,8 +26,6 @@ CHECK THE THREADS MANAGEMENT WITH COMMAND SUGGESTED
 9. Debug in make
 
 10. Set-up copilot
-
-11. Handle case with 1 philo
 
 12. check edge cases (example: 2 400 4000000 200 2 the program freezes for a long time even if one philo is already died.  )
 
@@ -84,6 +64,22 @@ Make norm happy splitting into files
 Mind map
 Implement clean_up_program
 
+Check valgrind so far with different cases work correctly only for low resources 60 60 60 with diff amount of philo 2 to 200, like (30, 15,8, 10, 25, 56, 76, 99) and:
+test done:
+valgrind ./philo 3 60 60 60 ok
+valgrind ./philo 4 60 60 60 ok
+valgrind ./philo 5 60 60 60 ok
+tested with 20 and 55
+valgrind ./philo 100 60 60 60 ok
+valgrind ./philo 30 60 60 60 ok
+valgrind ./philo 200 60 60 60 ok
+- test 2 philo with more resources and again with 60 60 60 to check output (also tested with valgrind)
+./philo 2 200 100 100. died in 200
+./philo 2 205 100 100 none died
+./philo 2 250 100 100 none died
+./philo 2 300 100 100 5 all eaten
+- fixed case 4 410 200 200
+- outputs checked
 WISH to
 check if all the structs are malloc correctly and !malloc error
 
