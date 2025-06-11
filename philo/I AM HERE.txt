@@ -1,7 +1,7 @@
 In process:
 
-11. Handle case with 1 philo
 -check out put: sometimes the program begins in 1 instead of 0 (in the first)
+se desconfiguro la hora:  ./philo 200 60 60 60
 
 
 
@@ -81,6 +81,8 @@ valgrind ./philo 200 60 60 60 ok
 ./philo 2 300 100 100 5 all eaten
 - fixed case 4 410 200 200
 - outputs checked
+11. Handle case with 1 philo
+
 WISH to
 check if all the structs are malloc correctly and !malloc error
 

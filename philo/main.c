@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/11 13:18:33 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/11 13:24:33 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ static int	handle_many_philos(t_program *data)
 //create monitor thread
 int	start_threads(t_program *data)
 {
-	// int	i;
 	int	status;
 
 	if (data->total_philo == 1)
@@ -87,18 +86,6 @@ int	start_threads(t_program *data)
 		status = handle_many_philos(data);
 		if (status != SUCCESS)
 			return (status);
-		// i = 0;
-		// while (i < data->total_philo)
-		// {
-		// 	status = pthread_create(&data->philo[i].thread_id, NULL, 
-		// 			life_cycle, &data->philo[i]);
-		// 	if (status != SUCCESS)
-		// 	{
-		// 		clean_up_program(data);
-		// 		return (ERROR);
-		// 	}
-		// 	i++;
-		// }
 	}
 	status = pthread_create(&data->monitor_thread_id, NULL, life_monitor, data);
 	if (status != SUCCESS)
@@ -127,8 +114,6 @@ int	setup_simulation(t_program *data)//check if **argv needed or only data?
 	status = start_threads(data);
 	if (status != SUCCESS)
 		return (status);
-	// if (data->total_philo > 0)
-	// 	pthread_join(data->monitor_thread_id, NULL);
 	return (SUCCESS);
 }
 
