@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/10 13:49:57 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/11 07:26:23 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,7 @@ int	main(int argc, char **argv)
 	t_program	data;
 
 	if (parsing_args(argc, argv, &parse) != SUCCESS)
-	{
-		clean_up_program(&data);
 		return (EXIT_FAILURE);//define in stdlib.h include clean-up before exit
-	}
 	// printf("Ready to continue\n");//test
 	data.parse = &parse;//memory allocated in parsing_args
 	init_program(&data);//NEEDED TO INITIALIZEDD THE MUTEX OF START
