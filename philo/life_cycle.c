@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:49:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/11 11:51:13 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:38:18 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,39 @@
 
 static void	philo_routine_odd(t_philo *philo)
 {
-	if (check_end_cond(philo) == PHILO_DIED)//new
-		return;//new
+	if (check_end_cond(philo) == PHILO_DIED)
+		return ;
 	philo_eat(philo);
-	if (check_end_cond(philo) == PHILO_DIED)//new
-		return;//new
+	if (check_end_cond(philo) == PHILO_DIED)
+		return ;
 	philo_sleep(philo);
-	if (check_end_cond(philo) == PHILO_DIED)//new
-		return;//new
+	if (check_end_cond(philo) == PHILO_DIED)
+		return ;
 	philo_think(philo);
-	if (check_end_cond(philo) == PHILO_DIED)//new
-		return;//new
+	if (check_end_cond(philo) == PHILO_DIED)
+		return ;
 }
 
 static void	philo_routine_even(t_philo *philo)
 {
-	if (check_end_cond(philo) == PHILO_DIED)//new
-		return;//new
+	if (check_end_cond(philo) == PHILO_DIED)
+		return ;
 	philo_think(philo);
-	if (check_end_cond(philo) == PHILO_DIED)//new
-		return;//new
+	if (check_end_cond(philo) == PHILO_DIED)
+		return ;
 	philo_eat(philo);
-	if (check_end_cond(philo) == PHILO_DIED)//new
-		return;//new
+	if (check_end_cond(philo) == PHILO_DIED)
+		return ;
 	philo_sleep(philo);
-	if (check_end_cond(philo) == PHILO_DIED)//new
-		return;//new
+	if (check_end_cond(philo) == PHILO_DIED)
+		return ;
 }
 //To wait for simulation start signal
 // Thread Synchronization Barrier
 void sync_simulation(t_philo *philo)//MOVE TO OTHER FILE
 {
-	pthread_mutex_lock(&philo->program->start_mutex);//new
-	// if (philo->program->start_time == 0)//new
-	// 	philo->program->start_time = precise_time_ms();//new
-	// pthread_mutex_unlock(&philo->program->start_mutex);//new
-	// pthread_mutex_lock(&philo->program->start_mutex);//here the sync begun
-	// while (philo->program->sim_status == SIM_STOP)//CHECK IF NEEDED
-	// {
-	// 	pthread_mutex_unlock(&philo->program->start_mutex);
-	// 	usleep(100); 
-	// 	pthread_mutex_lock(&philo->program->start_mutex);
-	// }
-	pthread_mutex_unlock(&philo->program->start_mutex);//here the sync ends
+	pthread_mutex_lock(&philo->program->start_mutex);
+	pthread_mutex_unlock(&philo->program->start_mutex);
 }
 
 static void	run_life(t_philo *philo)
@@ -81,6 +71,28 @@ static void	run_life(t_philo *philo)
 		pthread_mutex_unlock(&philo->philo_mutex);
 	}
 }
+//init last meal and meal number
+//take only one fork
+//wait until monitor detects its dead
+//release the fork before dying
+static void	*life_one_philo(void *arg)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	sync_simulation(philo);
+	pthread_mutex_lock(&philo->philo_mutex);
+	philo->last_meal = precise_time_ms();
+	philo->meal_number = 0;
+	pthread_mutex_unlock(&philo->philo_mutex);
+	pthread_mutex_lock(&philo->left_fork->mutex);
+	print_status(philo, "has taken a fork");
+	while (check_end_cond(philo) == PHILO_ALIVED)
+		usleep(1000); // release CPU
+	pthread_mutex_unlock(&philo->left_fork->mutex); // Libera el tenedor al morir/terminar
+	return (NULL);
+}
+
 //each will be a status
 //eating, thinking, and sleeping.
 //prototype given by pthread_create
@@ -107,8 +119,6 @@ void	*life_cycle(void *arg)
 	philo->last_meal = precise_time_ms(); // Set initial last_meal to global simulation start time
 	philo->meal_number = 0; // Ensure meal_number is 0 at the start of its life cycle
 	pthread_mutex_unlock(&philo->philo_mutex);//end init philos
-	// if (philo->philo_id % 2 == 0)//init delay for even philos o prevent immediate deadlock
-		// usleep(100);
 	usleep(100);
 	run_life(philo);
 	return (NULL);

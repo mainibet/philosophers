@@ -13,6 +13,7 @@ Avoid deadlocks
 Avoid race..
 check output (no valgrind it might change it), get time stamp correct it was working beofre: no takng forks after died.
 Check if the check condition can be done in the routines instead of inside the functions
+make norm happy again
 life cycle:
 check how to debu threads in gdb 
 check if joining threads is ok

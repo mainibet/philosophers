@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/11 08:18:37 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:37:44 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,15 @@ int	joining_threads(t_program *data)
 	return (SUCCESS);
 }
 
+static void handle_one_philo(t_program *data)
+{
+    if (pthread_create(&data->philo[i].thread_id, NULL,
+                    life_one_philo, &data->philo[i]) != 0) // <--- Cambio aquí
+            {
+                // ... (manejo de error) ...
+            }
+}
+
 //join makes the main thread to wai for the execution of the others
 //create thread per philo
 //create monitor thread
@@ -49,28 +58,31 @@ int	start_threads(t_program *data)
 	i = 0;
 	while (i < data->total_philo)
 	{
-		if (pthread_create(&data->philo[i].thread_id, NULL, 
+		if (data->total_philo == 1)
+			handle_one_philo(data);
+		else
+		{
+			if (pthread_create(&data->philo[i].thread_id, NULL, 
 				life_cycle, &data->philo[i]) != 0)//check if 0 or other
-		{
-			while (--i >= 0)//new check
-				pthread_join(data->philo[i].thread_id, NULL);//new check
-			clean_up_program(data);
-			return (ERROR);
+		    {
+				while (--i >= 0)//new check
+					pthread_join(data->philo[i].thread_id, NULL);//new check
+				clean_up_program(data);
+				return (ERROR);
+			}
+			i++;
 		}
-		// printf("Thread created for philo ID: %d\n", data->philo[i].philo_id);//test
-		i++;
-	}
-	if (data->total_philo > 0)// Create monitor thread after all philosopher threads
-	{
-		if (pthread_create(&data->monitor_thread_id, NULL, life_monitor, data) != 0)
+		if (data->total_philo > 0)// Create monitor thread after all philosopher threads
 		{
-			while (--i >= 0)//new check
-				pthread_join(data->philo[i].thread_id, NULL);//new check
-			clean_up_program(data);//new
-			return (ERROR);
+			if (pthread_create(&data->monitor_thread_id, NULL, life_monitor, data) != 0)
+			{
+				while (--i >= 0)//new check
+					pthread_join(data->philo[i].thread_id, NULL);//new check
+				clean_up_program(data);//new
+				return (ERROR);
+			}
 		}
 	}
-	// join_status = joining_threads(data);//new
 	return (SUCCESS);
 }
 
@@ -120,9 +132,9 @@ int	main(int argc, char **argv)
 		clean_up_program(&data);
 		return (EXIT_FAILURE);//DEFINE IN STDLIB.H//include clean-up before exit
 	}
-	pthread_mutex_lock(&data.start_mutex);//new
+	pthread_mutex_lock(&data.start_mutex);
 	data.start_time = precise_time_ms();
-	data.sim_status = SIM_RUNNING;//new 
+	data.sim_status = SIM_RUNNING;
 	pthread_mutex_unlock(&data.start_mutex);
 	if (joining_threads(&data) != SUCCESS)
 		return (EXIT_FAILURE);
