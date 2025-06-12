@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:42:05 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/11 11:58:51 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:22:53 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,8 @@ void	philo_think(t_philo *philo)
 	time_think = (philo->program->time_die - since_last_meal - 
 			philo->program->time_eat) / 2;
 	if (time_think <= 0)
-		// time_think = 500;//guaranteed yield to prevent busy-waiting
-		time_think = 1;//new
-	// else if (time_think > 1000000)
+		time_think = 1;
 	else if (time_think > philo->program->time_eat)
-		// time_think = 1000000;
 		time_think = philo->program->time_eat;//new CHECK
 	think_ends = precise_time_ms() + time_think;
 	while (precise_time_ms() < think_ends)
@@ -46,8 +43,8 @@ void	philo_think(t_philo *philo)
 		sim_status = check_end_cond(philo);
 		if (sim_status == PHILO_DIED)
 			return ;
-		// usleep(100);
-		usleep(500);
+		// usleep(500);
+		usleep(10);//new
 	}
 }
 

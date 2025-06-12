@@ -1,7 +1,6 @@
 In process:
 
 -check out put: sometimes the program begins in 1 instead of 0 (in the first)
-se desconfiguro la hora:  ./philo 200 60 60 60
 
 
 
@@ -24,12 +23,15 @@ CHECK THE THREADS MANAGEMENT WITH COMMAND SUGGESTED
 
 6. Make the functions to grab both forks before eating
 
-9. Debug in make
+9. Debug in make? 
 
 10. Set-up copilot
 
 12. check edge cases (example: 2 400 4000000 200 2 the program freezes for a long time even if one philo is already died.  )
 
+check all functions in .h are used
+checkk if colors will be used if not delet .h check is not connected
+ceck statics are ok and the rest in .h
 
 ALLWAYS
 test
@@ -82,6 +84,7 @@ valgrind ./philo 200 60 60 60 ok
 - fixed case 4 410 200 200
 - outputs checked
 11. Handle case with 1 philo
+fixed time, case: ./philo 200 60 60 60 initialization changed
 
 WISH to
 check if all the structs are malloc correctly and !malloc error
