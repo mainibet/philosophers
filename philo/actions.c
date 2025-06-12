@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:42:05 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/12 11:22:53 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/12 14:39:25 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	philo_think(t_philo *philo)
 		time_think = 1;
 	else if (time_think > philo->program->time_eat)
 		time_think = philo->program->time_eat;//new CHECK
-	think_ends = precise_time_ms() + time_think;
+	think_ends = precise_time_ms() + time_think;//PENDING MUTEX MAY BE
 	while (precise_time_ms() < think_ends)
 	{
 		sim_status = check_end_cond(philo);
@@ -139,7 +139,7 @@ void	philo_eat(t_philo *philo)
 		release_forks(philo);
 		return ;
 	}
-	pthread_mutex_lock(&philo->philo_mutex);//new
+	pthread_mutex_lock(&philo->philo_mutex);
 	philo->last_meal = precise_time_ms();
 	philo->meal_number++;
 	pthread_mutex_unlock(&philo->philo_mutex);
@@ -149,8 +149,8 @@ void	philo_eat(t_philo *philo)
 	{
 		sim_status = check_end_cond(philo);
 		if (sim_status == PHILO_DIED)
-			break;
-		usleep(100);//test
+			break ;
+		usleep(100);
 	}
 	release_forks(philo);
 }

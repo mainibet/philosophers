@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/11 13:39:58 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/12 14:28:46 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ void	init_program(t_program *data)//check if set default really needed
 	data->time_eat = data->parse->arr[2];
 	data->time_sleep = data->parse->arr[3];
     // Initialize synchronization variables
-	data->start_time = precise_time_ms();//it was 0 at first
+	// data->start_time = precise_time_ms();//will be init in the main
 	data->end_flag = PHILO_ALIVED;
     // Initialize mutex statuses
 	data->end_mutex_status = MUTEX_NO_INIT;

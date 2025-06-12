@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/11 13:24:33 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/12 13:08:43 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,6 @@ int	main(int argc, char **argv)
 	pthread_mutex_unlock(&data.start_mutex);
 	if (joining_threads(&data) != SUCCESS)
 		return (EXIT_FAILURE);
-	clean_up_program(&data);//new
+	clean_up_program(&data);
 	return (EXIT_SUCCESS);
 }

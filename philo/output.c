@@ -6,19 +6,21 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:35:32 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/10 12:18:59 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/12 14:48:43 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	print_format(t_philo *philo, const char *msg)//will be used?
-{
-	long long	current_time;
+// void	print_format(t_philo *philo, const char *msg)//will be used?
+// {
+// 	long long	current_time;
 
-	current_time = precise_time_ms() - philo->program->start_time;
-	printf("%lld %d %s\n", current_time, philo->philo_id, msg);
-}
+// 	pthread_mutex_lock(&philo->program->start_mutex);
+// 	current_time = precise_time_ms() - philo->program->start_time;
+// 	printf("%lld %d %s\n", current_time, philo->philo_id, msg);
+// 	pthread_mutex_unlock(&philo->program->start_mutex);
+// }
 
 //HELPER FUNCTION
 //to print all the msg in order
@@ -35,6 +37,7 @@ void	print_status(t_philo *philo, const char *msg)//check if needs to handled an
 	long long	current_time;
 	int			sim_status;
 
+    pthread_mutex_lock(&philo->program->start_mutex);
 	current_time = precise_time_ms() - philo->program->start_time;
 	sim_status = check_end_cond(philo);
 	if (sim_status == PHILO_ALIVED)
@@ -43,6 +46,7 @@ void	print_status(t_philo *philo, const char *msg)//check if needs to handled an
 		printf("%lld %d %s\n", current_time, philo->philo_id, msg);
 		pthread_mutex_unlock(&philo->program->output_mutex);
 	}
+    pthread_mutex_unlock(&philo->program->start_mutex);//check if here or where
 }
 
 //pending destroy mytex if an error occure after init mutex
