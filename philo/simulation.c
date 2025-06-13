@@ -6,11 +6,32 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:58:21 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/10 14:15:59 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:52:30 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	setup_simulation(t_program *data)//check if **argv needed or only data?
+{
+	int	status;
+
+	if (!data->end_flag)
+		data->end_flag = PHILO_ALIVED;
+	status = init_cross_mutex(data);
+	if (status != SUCCESS)
+		return (status);
+	status = init_forks(data);
+	if (status != SUCCESS)
+		return (status);
+	status = init_philo(data);
+	if (status != SUCCESS)
+		return (status);
+	status = start_threads(data);
+	if (status != SUCCESS)
+		return (status);
+	return (SUCCESS);
+}
 
 int	check_end_cond(t_philo *philo)
 {

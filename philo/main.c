@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 12:40:03 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:54:04 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,27 +93,6 @@ int	start_threads(t_program *data)
 		clean_up_program(data);//new
 		return (ERROR);
 	}
-	return (SUCCESS);
-}
-
-int	setup_simulation(t_program *data)//check if **argv needed or only data?
-{
-	int	status;
-
-	if (!data->end_flag)
-		data->end_flag = PHILO_ALIVED;
-	status = init_cross_mutex(data);
-	if (status != SUCCESS)
-		return (status);
-	status = init_forks(data);
-	if (status != SUCCESS)
-		return (status);
-	status = init_philo(data);
-	if (status != SUCCESS)
-		return (status);
-	status = start_threads(data);
-	if (status != SUCCESS)
-		return (status);
 	return (SUCCESS);
 }
 
