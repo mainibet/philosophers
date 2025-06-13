@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:42:05 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 08:52:41 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 09:01:03 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ static int	take_forks(t_philo *philo)//check if this and realease are static
 		return (ERROR); // Salir de la función ajsutar bien la macro de salida
 	}
 	pthread_mutex_lock(&second_fork->fork_mutex);
+	philo->forks_taken = 2;//new
 	print_status(philo, "has taken a fork");//after this hsould i include another check_end_cond?
 	return (SUCCESS);
 }
