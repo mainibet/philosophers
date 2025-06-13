@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:26:13 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/06 13:14:59 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 12:56:37 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,14 @@
 
 # ifndef SIM_STOP
 #  define SIM_STOP 0
+# endif
+
+# ifndef TAKEN_FORK
+#  define TAKEN_FORK 1
+# endif
+
+# ifndef NO_TAKEN
+#  define NO_TAKEN 0
 # endif
 
 #endif
