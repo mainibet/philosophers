@@ -6,11 +6,23 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:35:21 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 17:32:04 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:46:32 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	handling_mutex_init(pthread_mutex_t *my_mutex, int *mutex_status, char *msg)//new check
+{
+	if (pthread_mutex_init(my_mutex, NULL) != SUCCESS)
+	{
+		print_error_msg(msg);
+		*mutex_status = MUTEX_NO_INIT;//new check
+		return (ERR_MUTEX);
+	}
+	*mutex_status = MUTEX_INIT;
+	return (SUCCESS);
+}
 
 //takes the current hour
 //makes the equivalent to the starting moment I set
@@ -48,11 +60,6 @@ int	count_arr_elements(void	**arr)//check if needed in philo
 	return (i);
 }
 
-int	malloc_error(void)
-{
-	print_error_msg("Memory allocation failed");//check if smt to free
-	return (ERR_MALLOC_FAIL);
-}
 
 int	ft_strlen(const char *str)
 {

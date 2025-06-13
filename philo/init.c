@@ -6,23 +6,11 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 15:54:02 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:46:34 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-int	handling_mutex_init(pthread_mutex_t *my_mutex, int *mutex_status, char *msg)//new check
-{
-	if (pthread_mutex_init(my_mutex, NULL) != SUCCESS)
-	{
-		print_error_msg(msg);
-		*mutex_status = MUTEX_NO_INIT;//new check
-		return (ERR_MUTEX);
-	}
-	*mutex_status = MUTEX_INIT;
-	return (SUCCESS);
-}
 
 //init mutex for end_flag
 //init mutex for output

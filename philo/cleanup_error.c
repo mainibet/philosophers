@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:02:26 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 12:08:03 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:45:58 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,10 @@ void	clean_up_program(t_program *data)//check if philo dies if forks need to be 
 		free(data);
 		// data = NULL;
 	// }
+}
+
+int	malloc_error(void)//use write instead of printf
+{
+	print_error_msg("Memory allocation failed");//check if smt to free
+	return (ERR_MALLOC_FAIL);
 }
