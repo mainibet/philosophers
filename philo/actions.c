@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:42:05 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 09:01:03 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 09:09:29 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,9 @@ void	philo_eat(t_philo *philo)
 	long long	eat_end_time;
 	int			sim_status;
 
-	take_forks(philo);
+	// take_forks(philo);
+	if (take_forks(philo) == ERROR)//new check ajustar macro porque tal vez deberia ser FAILURE no es en si un error
+		return ;//new check
 	sim_status = check_end_cond(philo);
 	if (sim_status == PHILO_DIED)//may be needs to release only 1 and not 2 depends how many has grabbed, primero debe ser liberado los forks por el que murio
 	{
@@ -161,4 +163,5 @@ void	philo_eat(t_philo *philo)
 		usleep(100);
 	}
 	release_forks(philo);
+	philo->forks_taken = 0;//new
 }
