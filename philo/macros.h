@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:26:13 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 17:12:41 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:44:15 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@
 // # endif
 
 // --- Bolean values ---
-# ifndef FALSE//CHECK IF IS CORRECT AND NEEDED or if is in any lib
-#  define FALSE 0
-# endif
+// # ifndef FALSE//CHECK IF IS CORRECT AND NEEDED or if is in any lib
+// #  define FALSE 0
+// # endif
 
-# ifndef TRUE
-#  define TRUE 1
-# endif
+// # ifndef TRUE
+// #  define TRUE 1
+// # endif
 
 // --- Configuration values ---
 # ifndef MAX_MEALS_DISABLED

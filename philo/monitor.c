@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:00:55 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 17:43:03 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:43:48 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ static int	check_all_philos(t_program *data)
 	}
 	return (PHILO_ALIVED);
 }
+
 //monitores the philo's lifes
 //CONNECT WITH THE EAT LOGIC and end condition with the end_flag
 //will trigger the programm termination
@@ -81,7 +82,6 @@ static int	check_all_philos(t_program *data)
 //when return (NULL) is ending the monitor thread
 void	*life_monitor(void *arg)
 {
-	// int			i;
 	t_program	*data;
 	int			life_status;
 
@@ -89,21 +89,11 @@ void	*life_monitor(void *arg)
 	usleep(1000);
 	while (1)
 	{
-		// i = 0;
 		life_status = check_end_cond(&data->philo[0]);
 		if (life_status == PHILO_DIED)
 			return (NULL);
 		if (check_all_philos(data) == PHILO_DIED)
 			return (NULL);
-		// while (i < data->total_philo)
-		// {
-		// 	if (check_life(&data->philo[i]) == PHILO_DIED)
-		// 	{
-		// 		end_program(data, "died", &data->philo[i]);
-		// 		return (NULL);
-		// 	}
-		// 	i++;
-		// }
 		if (data->max_meals != MAX_MEALS_DISABLED 
 			&& meal_control(data) == PHILO_DIED)
 		{
