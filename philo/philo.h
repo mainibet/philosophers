@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 15:54:05 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 16:06:15 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void		print_status(t_philo *philo, const char *msg);
 
 // --- HELPER FUNCIONTS ---
 int			malloc_error(void);//MOVE TO OTHER FILE
-void		free_array(void **arr, int j);
+// void		free_array(void **arr, int j);
 int			count_arr_elements(void **arr);
 void		set_fork_status(t_philo *philo, t_fork *fork_ptr, int status);
 
