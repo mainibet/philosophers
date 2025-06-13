@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/12 13:08:43 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 12:17:11 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,24 +128,31 @@ int	setup_simulation(t_program *data)//check if **argv needed or only data?
 int	main(int argc, char **argv)
 {
 	t_arg_parse	parse;
-	t_program	data;
+	t_program	*data;
 
+	data = (t_program *)malloc(sizeof(t_program));//new
+	if (!data)
+		return (malloc_error());
+	memset(data, 0, sizeof(t_program));//new
 	if (parsing_args(argc, argv, &parse) != SUCCESS)
-		return (EXIT_FAILURE);//define in stdlib.h include clean-up before exit
-	// printf("Ready to continue\n");//test
-	data.parse = &parse;//memory allocated in parsing_args
-	init_program(&data);//NEEDED TO INITIALIZEDD THE MUTEX OF START
-	if (setup_simulation(&data) != SUCCESS)
 	{
-		clean_up_program(&data);
+		free(data);
+		return (EXIT_FAILURE);//define in stdlib.h include clean-up before exit
+	}
+	// printf("Ready to continue\n");//test
+	data->parse = &parse;//memory allocated in parsing_args
+	init_program(data);//NEEDED TO INITIALIZEDD THE MUTEX OF START
+	if (setup_simulation(data) != SUCCESS)
+	{
+		clean_up_program(data);
 		return (EXIT_FAILURE);//DEFINE IN STDLIB.H//include clean-up before exit
 	}
-	pthread_mutex_lock(&data.start_mutex);
-	data.start_time = precise_time_ms();
-	data.sim_status = SIM_RUNNING;
-	pthread_mutex_unlock(&data.start_mutex);
-	if (joining_threads(&data) != SUCCESS)
+	pthread_mutex_lock(&data->start_mutex);
+	data->start_time = precise_time_ms();
+	data->sim_status = SIM_RUNNING;
+	pthread_mutex_unlock(&data->start_mutex);
+	if (joining_threads(data) != SUCCESS)
 		return (EXIT_FAILURE);
-	clean_up_program(&data);
+	clean_up_program(data);
 	return (EXIT_SUCCESS);
 }
