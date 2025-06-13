@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:42:05 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 07:58:13 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 08:52:41 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,14 @@ static int	take_forks(t_philo *philo)//check if this and realease are static
 	// 	pthread_mutex_unlock(&first_fork->mutex);  // Release first fork if can't get second
 	// 	return ;
 	// }
-	pthread_mutex_lock(&first_fork->fork_mutex);
+	pthread_mutex_lock(&first_fork->fork_mutex);//try to take first fork
+	philo->forks_taken = 1;//new
 	print_status(philo, "has taken a fork");
 	if (check_end_cond(philo) == PHILO_DIED)
 	{
 		pthread_mutex_unlock(&first_fork->fork_mutex); // Liberar el tenedor si la simulación ha terminado
-		return ; // Salir de la función
+		philo->forks_taken = 0;//new reset
+		return (ERROR); // Salir de la función ajsutar bien la macro de salida
 	}
 	pthread_mutex_lock(&second_fork->fork_mutex);
 	print_status(philo, "has taken a fork");//after this hsould i include another check_end_cond?
