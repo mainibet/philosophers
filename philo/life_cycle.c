@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:49:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 09:17:29 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 13:13:44 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,14 @@ void	*life_one_philo(void *arg)
 	philo->meal_number = 0;
 	pthread_mutex_unlock(&philo->philo_mutex);
 	pthread_mutex_lock(&philo->left_fork->fork_mutex);
-	philo->forks_taken = 1;//mark that was taken
+	// philo->forks_taken = 1;//mark that was taken
+	set_fork_status(philo, philo->left_fork, TAKEN_FORK);//new
 	print_status(philo, "has taken a fork");
 	while (check_end_cond(philo) == PHILO_ALIVED)
 		usleep(1000); // release CPU
 	pthread_mutex_unlock(&philo->left_fork->fork_mutex); // Libera el tenedor al morir/terminar
-	philo->forks_taken = 0;//reset
+	// philo->forks_taken = 0;//reset
+	set_fork_status(philo, philo->left_fork, NO_TAKEN);//new
 	return (NULL);
 }
 
