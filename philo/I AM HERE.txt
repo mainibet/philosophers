@@ -1,17 +1,17 @@
 In process:
-- make norm happy again
+Make norm happy again
+- Max 5 functions per file (done)
+- check lentgh of each function
+-check that .h all is used functions and headers
+-check that all not included in .h file are static
+
 
 
 
 NEXT
 Testing:
 Implement error handling for current things: including if time is too big, check in between if philo has died.
-check how to debu threads in gdb 
-check if joining threads is ok
-check valgrind with errors
 5. Correct the output formatting in which is printed, I am using printf
-
-6. Make the functions to grab both forks before eating
 
 9. Debug in make? 
 
@@ -56,7 +56,7 @@ Set termination condition:
 Make norm happy splitting into files
 Mind map
 Implement clean_up_program
-
+10. Set-up copilots
 Check valgrind so far with different cases work correctly only for low resources 60 60 60 with diff amount of philo 2 to 200, like (30, 15,8, 10, 25, 56, 76, 99) and:
 test done:
 valgrind ./philo 3 60 60 60 ok
@@ -82,7 +82,7 @@ Valgrind for memory leaks checked and passed
 - do the others checks testing con helgrind drd and time then norm and all test again with leaks too
 -check out put: sometimes the program begins in 1 instead of 0 (in the first). Timestamp
 -valgrind with errors
-10. Set-up copilot
+
 
 WISH to
 check if all the structs are malloc correctly and !malloc error
