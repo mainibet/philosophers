@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:35:21 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 16:06:11 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:00:50 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,6 @@ long long	precise_time_ms(void)
 	return (total_milisec);
 }
 
-// void	free_array(void **arr, int j)//check if needed
-// {
-// 	if (!arr)
-// 		return ;
-// 	while (j > 0)
-// 	{
-// 		free (arr[j - 1]);
-// 		j--;
-// 	}
-// 	free (arr);
-// 	arr = NULL;//new
-// }
-
 int	count_arr_elements(void	**arr)//check if needed in philo
 {
 	int	i;
@@ -65,6 +52,16 @@ int	malloc_error(void)
 {
 	print_error_msg("Memory allocation failed");//check if smt to free
 	return (ERR_MALLOC_FAIL);
+}
+
+int	ft_strlen(const char *str)
+{
+	int	count;
+
+	count = 0;
+	while (str[count])
+		count++;
+	return (count);
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 16:06:15 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:01:05 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <string.h> //memset CHECK IF USED
 # include <stdio.h> //printf
 # include <stdlib.h> //malloc, free
-# include <unistd.h> //usleep CHECK
+# include <unistd.h> //usleep and write
 # include <sys/time.h> //gettimeofday
 # include <pthread.h> //for threads and mutex
 
@@ -100,7 +100,7 @@ int			check_limits(long long n);
 
 // --- INITIALIZATION ---
 void		init_program(t_program *data);
-int			init_cross_mutex(t_program *data);//PENDING CHECK IF ANY FUNCTION IS STATIC
+int			init_cross_mutex(t_program *data);
 int			init_forks(t_program *data);
 int			init_philo(t_program *data);
 
@@ -136,7 +136,7 @@ void		print_status(t_philo *philo, const char *msg);
 
 // --- HELPER FUNCIONTS ---
 int			malloc_error(void);//MOVE TO OTHER FILE
-// void		free_array(void **arr, int j);
+int			ft_strlen(const char *str);
 int			count_arr_elements(void **arr);
 void		set_fork_status(t_philo *philo, t_fork *fork_ptr, int status);
 
