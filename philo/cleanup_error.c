@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:02:26 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 08:57:27 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 12:08:03 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,9 @@ void	clean_up_program(t_program *data)//check if philo dies if forks need to be 
 			data->parse->arr = NULL;//check if is good
 		}
 	}
+	if (data != NULL)//new this cond
+	// {
+		free(data);
+		// data = NULL;
+	// }
 }
