@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:42:05 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 09:09:29 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 09:19:44 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ static int	take_forks(t_philo *philo)//check if this and realease are static
 
 //only to mutex unlock
 // Release in reverse order of acquisition
-static void	release_forks(t_philo *philo)//no message check and check if order is relevant
+void	release_forks(t_philo *philo)//no message check and check if order is relevant
 {
 	t_fork	*first_fork;
 	t_fork	*second_fork;
