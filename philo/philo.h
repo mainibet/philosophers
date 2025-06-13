@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/12 13:20:03 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 07:59:11 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,10 @@ typedef struct s_arg_parse
 
 typedef struct s_fork
 {
-	pthread_mutex_t	mutex;//to control access to the fork
+	pthread_mutex_t	fork_mutex;//to control access to the fork
 	int				fork_mut_status;//flag to check
 	int				fork_id;//for login and debug purposes CHECK
+	int				forks_taken;//new
 }	t_fork;
 
 typedef struct s_philo
@@ -113,7 +114,7 @@ void		philo_think(t_philo *philo);
 void		philo_sleep(t_philo *philo);
 void		philo_eat(t_philo *philo);
 void		*life_cycle(void *arg);
-void	*life_one_philo(void *arg);
+void		*life_one_philo(void *arg);
 
 // --- SIMULATION CONTROL ---
 void		sim_stop(t_program *data);
