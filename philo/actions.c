@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:42:05 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 13:00:03 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 13:08:44 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,14 @@ void	philo_sleep(t_philo *philo)
 		usleep(100);
 	}
 }
-
+//helper function
+static void	set_fork_status(t_philo *philo, t_fork *fork_ptr, int status)
+{
+	if (fork_ptr == philo->left_fork)
+		philo->lfork_status = status;
+	else
+		philo->rfork_status = status;
+}
 //take first the one with the lower ID
 //needs to track how many forks were taken to avoid error in threads
 // static void	take_forks(t_philo *philo)//check if this and realease are static
@@ -96,16 +103,19 @@ static int	take_forks(t_philo *philo)//check if this and realease are static
 	// 	return ;
 	// }
 	pthread_mutex_lock(&first_fork->fork_mutex);//try to take first fork
-	philo->forks_taken = 1;//new
+	// philo->forks_taken = 1;//new
+	set_fork_status(philo, first_fork, TAKEN_FORK);
 	print_status(philo, "has taken a fork");
 	if (check_end_cond(philo) == PHILO_DIED)
 	{
 		pthread_mutex_unlock(&first_fork->fork_mutex); // Liberar el tenedor si la simulación ha terminado
-		philo->forks_taken = 0;//new reset
+		// philo->forks_taken = 0;//new reset
+		set_fork_status(philo, first_fork, TAKEN_FORK);//new
 		return (ERROR); // Salir de la función ajsutar bien la macro de salida
 	}
 	pthread_mutex_lock(&second_fork->fork_mutex);
-	philo->forks_taken = 2;//new
+	// philo->forks_taken = 2;//new
+	set_fork_status(philo, first_fork, TAKEN_FORK);//new
 	print_status(philo, "has taken a fork");//after this hsould i include another check_end_cond?
 	return (SUCCESS);
 }
