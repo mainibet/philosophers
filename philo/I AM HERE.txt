@@ -1,24 +1,18 @@
 In process:
 
 -check out put: sometimes the program begins in 1 instead of 0 (in the first)
-
+- make norm happy again
 
 
 
 NEXT
-check if ending the program with ctrl+c needs to be handled
+Testing:
 Implement error handling for current things: including if time is too big, check in between if philo has died.
-Avoid deadlocks
-Avoid race..
-check output (no valgrind it might change it), get time stamp correct it was working beofre: no takng forks after died.
-Check if the check condition can be done in the routines instead of inside the functions
-make norm happy again
-life cycle:
+CHeck drd and helgrind: Avoid deadlocks and Avoid race.
 check how to debu threads in gdb 
 check if joining threads is ok
 check valgrind with errors 
 
-CHECK THE THREADS MANAGEMENT WITH COMMAND SUGGESTED
 5. Correct the output formatting in which is printed, I am using printf
 
 6. Make the functions to grab both forks before eating
@@ -32,6 +26,8 @@ CHECK THE THREADS MANAGEMENT WITH COMMAND SUGGESTED
 check all functions in .h are used
 checkk if colors will be used if not delet .h check is not connected
 ceck statics are ok and the rest in .h
+
+Fixed data race of start_time. test case 1.  valgrind --tool=helgrind ./philo 5 800 200 200
 
 ALLWAYS
 test
@@ -85,6 +81,11 @@ valgrind ./philo 200 60 60 60 ok
 - outputs checked
 11. Handle case with 1 philo
 fixed time, case: ./philo 200 60 60 60 initialization changed
+check if ending the program with ctrl+c needs to be handled. No this a signal to abruptly end the program so the clean-Up_program in the main might not be reached.
+Valgrind for memory leaks checked and passed
+-fixed all test case valgrind helgrind
+- al drd passed as weel memory leaks test cases 
+- do the others checks testing con helgrind drd and time then norm and all test again with leaks too
 
 WISH to
 check if all the structs are malloc correctly and !malloc error
