@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:26:13 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 12:56:37 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:12:41 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@
 #  define ERR_MUTEX -4
 # endif
 
-# ifndef ERR_THREAD_CREAT//pending to use it
-#  define ERR_THREAD_CREATE -5
-# endif
+// # ifndef ERR_THREAD_CREAT//pending to use it
+// #  define ERR_THREAD_CREATE -5
+// # endif
 
 // --- Bolean values ---
 # ifndef FALSE//CHECK IF IS CORRECT AND NEEDED or if is in any lib
