@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:02:26 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 07:56:15 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 08:57:27 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	clean_mutex_forks(t_program *data)//check if the i isn eeded from be
 	while (i < data->total_philo)
 	{
 		if (data->fork[i].fork_mut_status == MUTEX_INIT)
-			pthread_mutex_destroy(&data->fork[i].mutex);//need to includ error check of destroy?
+			pthread_mutex_destroy(&data->fork[i].fork_mutex);//need to includ error check of destroy?
 		i++;
 	}
 }
