@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 17:01:05 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:11:01 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,8 @@ void		*life_one_philo(void *arg);
 int			setup_simulation(t_program *data);
 void		sim_stop(t_program *data);
 void		end_program(t_program *data, char *msg, t_philo *dying_philo);
+void		set_fork_status(t_philo *philo, t_fork *fork_ptr, int status);
+void		sync_simulation(t_philo *philo);
 
 // --- CLEAN-UP & ERROR HANDLING ---
 // int			mutex_fork_error(t_program *data, int i);
@@ -138,6 +140,6 @@ void		print_status(t_philo *philo, const char *msg);
 int			malloc_error(void);//MOVE TO OTHER FILE
 int			ft_strlen(const char *str);
 int			count_arr_elements(void **arr);
-void		set_fork_status(t_philo *philo, t_fork *fork_ptr, int status);
+
 
 #endif

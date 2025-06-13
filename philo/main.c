@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 15:54:04 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:07:01 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	handle_one_philo(t_program *data)
 	if (pthread_create(&data->philo[0].thread_id, NULL,
 			life_one_philo, &data->philo[0]) != SUCCESS)
 	{
-		clean_up_program(data);//error handling completed?
+		clean_up_program(data);
 		return (ERROR);
 	}
 	return (SUCCESS);

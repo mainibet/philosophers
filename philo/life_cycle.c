@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:49:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 13:16:30 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:10:15 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,6 @@ static void	philo_routine_even(t_philo *philo)
 	philo_sleep(philo);
 	if (check_end_cond(philo) == PHILO_DIED)
 		return ;
-}
-//To wait for simulation start signal
-// Thread Synchronization Barrier
-void sync_simulation(t_philo *philo)//MOVE TO OTHER FILE
-{
-	pthread_mutex_lock(&philo->program->start_mutex);
-	pthread_mutex_unlock(&philo->program->start_mutex);
 }
 
 static void	run_life(t_philo *philo)

@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:58:21 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 15:52:30 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:10:29 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,23 @@ int	setup_simulation(t_program *data)//check if **argv needed or only data?
 	if (status != SUCCESS)
 		return (status);
 	return (SUCCESS);
+}
+
+//To wait for simulation start signal
+// Thread Synchronization Barrier
+void sync_simulation(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->program->start_mutex);
+	pthread_mutex_unlock(&philo->program->start_mutex);
+}
+
+//helper function
+void	set_fork_status(t_philo *philo, t_fork *fork_ptr, int status)
+{
+	if (fork_ptr == philo->left_fork)
+		philo->lfork_status = status;
+	else
+		philo->rfork_status = status;
 }
 
 int	check_end_cond(t_philo *philo)

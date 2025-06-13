@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:42:05 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 13:34:32 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:08:28 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,7 @@ void	philo_sleep(t_philo *philo)
 		usleep(100);
 	}
 }
-//helper function
-void	set_fork_status(t_philo *philo, t_fork *fork_ptr, int status)
-{
-	if (fork_ptr == philo->left_fork)
-		philo->lfork_status = status;
-	else
-		philo->rfork_status = status;
-}
+
 //take first the one with the lower ID
 //needs to track how many forks were taken to avoid error in threads
 // static void	take_forks(t_philo *philo)//check if this and realease are static
