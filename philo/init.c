@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 08:45:26 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 08:48:30 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int	init_philo(t_program *data)
 			return (ERR_MUTEX);
 		}
 		data->philo[i].program = data;//check
+        data->philo->forks_taken = 0;//new
 		fill_each_philo(data, i + 1);//needs to be i + 1 if not becomes -1 in fill each philo
 		i++;
 	}
