@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:35:21 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 17:00:50 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:32:04 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,20 @@ int	ft_strlen(const char *str)
 	while (str[count])
 		count++;
 	return (count);
+}
+
+void	order_forks(t_philo *philo, t_fork **first, t_fork **second)
+{
+	if (philo->left_fork->fork_id < philo->right_fork->fork_id)
+	{
+		*first = philo->left_fork;
+		*second = philo->right_fork;
+	}
+	else
+	{
+		*first = philo->right_fork;
+		*second = philo->left_fork;
+	}
 }
 
 

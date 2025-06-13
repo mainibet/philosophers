@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:42:05 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 17:30:26 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:32:07 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,20 +65,6 @@ void	philo_sleep(t_philo *philo)
 	}
 }
 
-static void	order_forks(t_philo *philo, t_fork **first, t_fork **second)//new
-{
-	if (philo->left_fork->fork_id < philo->right_fork->fork_id)
-	{
-		*first = philo->left_fork;
-		*second = philo->right_fork;
-	}
-	else
-	{
-		*first = philo->right_fork;
-		*second = philo->left_fork;
-	}
-}
-
 //take first the one with the lower ID
 //needs to track how many forks were taken to avoid error in threads
 // static void	take_forks(t_philo *philo)//check if this and realease are static
@@ -90,17 +76,7 @@ static int	take_forks(t_philo *philo)
 	int		status;
 
 	status = SUCCESS;
-	order_forks(philo, &first_fork, &second_fork);//new
-	// if (philo->left_fork->fork_id < philo->right_fork->fork_id)
-	// {
-	// 	first_fork = philo->left_fork;
-	// 	second_fork = philo->right_fork;
-	// }
-	// else
-	// {
-	// 	first_fork = philo->right_fork;
-	// 	second_fork = philo->left_fork;
-	// }
+	order_forks(philo, &first_fork, &second_fork);
 	pthread_mutex_lock(&first_fork->fork_mutex);
 	set_fork_status(philo, first_fork, TAKEN_FORK);
 	print_status(philo, "has taken a fork");
