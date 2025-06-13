@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:42:05 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 09:19:44 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 13:00:03 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,16 @@ void	release_forks(t_philo *philo)//no message check and check if order is relev
 		first_fork = philo->right_fork;
 		second_fork = philo->left_fork;
 	}
-	pthread_mutex_unlock(&second_fork->fork_mutex);
-	pthread_mutex_unlock(&first_fork->fork_mutex);
+	if (philo->rfork_status == TAKEN_FORK)//new
+	{
+		pthread_mutex_unlock(&second_fork->fork_mutex);
+		philo->rfork_status = NO_TAKEN;
+	}
+	if (philo->lfork_status == TAKEN_FORK)
+	{
+		pthread_mutex_unlock(&first_fork->fork_mutex);
+		philo->lfork_status = NO_TAKEN;
+	}
 }
 
 //before update last_meal check_end condition
