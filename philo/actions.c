@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:42:05 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/12 14:39:25 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 07:58:13 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,16 @@ void	philo_sleep(t_philo *philo)
 }
 
 //take first the one with the lower ID
-static void	take_forks(t_philo *philo)//check if this and realease are static
+//needs to track how many forks were taken to avoid error in threads
+// static void	take_forks(t_philo *philo)//check if this and realease are static
+static int	take_forks(t_philo *philo)//check if this and realease are static
 {
 	t_fork	*first_fork;//check type
 	t_fork	*second_fork;//check type
+	int		status;//new
 
 	//set cond to avoid attempt to take forks
+	status = SUCCESS;//new
 	if (philo->left_fork->fork_id < philo->right_fork->fork_id)
 	{
 		first_fork = philo->left_fork;
@@ -91,15 +95,16 @@ static void	take_forks(t_philo *philo)//check if this and realease are static
 	// 	pthread_mutex_unlock(&first_fork->mutex);  // Release first fork if can't get second
 	// 	return ;
 	// }
-	pthread_mutex_lock(&first_fork->mutex);
+	pthread_mutex_lock(&first_fork->fork_mutex);
 	print_status(philo, "has taken a fork");
 	if (check_end_cond(philo) == PHILO_DIED)
 	{
-		pthread_mutex_unlock(&first_fork->mutex); // Liberar el tenedor si la simulación ha terminado
+		pthread_mutex_unlock(&first_fork->fork_mutex); // Liberar el tenedor si la simulación ha terminado
 		return ; // Salir de la función
 	}
-	pthread_mutex_lock(&second_fork->mutex);
-	print_status(philo, "has taken a fork");
+	pthread_mutex_lock(&second_fork->fork_mutex);
+	print_status(philo, "has taken a fork");//after this hsould i include another check_end_cond?
+	return (SUCCESS);
 }
 
 //only to mutex unlock
@@ -119,8 +124,8 @@ static void	release_forks(t_philo *philo)//no message check and check if order i
 		first_fork = philo->right_fork;
 		second_fork = philo->left_fork;
 	}
-	pthread_mutex_unlock(&second_fork->mutex);
-	pthread_mutex_unlock(&first_fork->mutex);
+	pthread_mutex_unlock(&second_fork->fork_mutex);
+	pthread_mutex_unlock(&first_fork->fork_mutex);
 }
 
 //before update last_meal check_end condition
@@ -134,7 +139,7 @@ void	philo_eat(t_philo *philo)
 
 	take_forks(philo);
 	sim_status = check_end_cond(philo);
-	if (sim_status == PHILO_DIED)
+	if (sim_status == PHILO_DIED)//may be needs to release only 1 and not 2 depends how many has grabbed, primero debe ser liberado los forks por el que murio
 	{
 		release_forks(philo);
 		return ;

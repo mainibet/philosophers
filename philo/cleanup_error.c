@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:02:26 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/11 11:45:03 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 07:56:15 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	clean_up_program(t_program *data)//check if philo dies if forks need to be 
 		free(data->philo);
 		data->philo = NULL;
 	}
-    if (data->parse != NULL)//check if the struct no need to be freed
+	if (data->parse != NULL)//check if the struct no need to be freed
 	{
 		if (data->parse->arr != NULL)//check the array inside
 		{

@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/12 14:28:46 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 08:45:26 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	init_forks(t_program *data)
 	{
 		data->fork[i].fork_id = i + 1;//check if can begin in 1 and not increas +1 every time
 		data->fork[i].fork_mut_status = MUTEX_NO_INIT;
-		status = handling_mutex_init(&data->fork[i].mutex, &data->fork[i].fork_mut_status, "Failed to init fork\n");//new
+		status = handling_mutex_init(&data->fork[i].fork_mutex, &data->fork[i].fork_mut_status, "Failed to init fork\n");//new
 		if (status != SUCCESS)
 			clean_up_program(data);
 		i++;

@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 07:59:11 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 08:45:50 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ typedef struct s_fork
 	pthread_mutex_t	fork_mutex;//to control access to the fork
 	int				fork_mut_status;//flag to check
 	int				fork_id;//for login and debug purposes CHECK
-	int				forks_taken;//new
 }	t_fork;
 
 typedef struct s_philo
@@ -55,6 +54,7 @@ typedef struct s_philo
 	long long		last_meal;//when was the last meal, when they finished eating
 	t_fork			*left_fork;
 	t_fork			*right_fork;
+	int				forks_taken;//new
 	t_program		*program;
 	pthread_mutex_t	philo_mutex;//Mutex to protect each philo data
 	int				mutex_status_phi;//new flag
