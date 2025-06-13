@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 12:17:11 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 12:40:03 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,9 @@ int	main(int argc, char **argv)
 	}
 	pthread_mutex_lock(&data->start_mutex);
 	data->start_time = precise_time_ms();
+	pthread_mutex_lock(&data->end_mutex);//new
 	data->sim_status = SIM_RUNNING;
+	pthread_mutex_unlock(&data->end_mutex);//new
 	pthread_mutex_unlock(&data->start_mutex);
 	if (joining_threads(data) != SUCCESS)
 		return (EXIT_FAILURE);
