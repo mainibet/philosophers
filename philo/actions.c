@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:42:05 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 13:16:01 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 13:31:57 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,28 +124,15 @@ static int	take_forks(t_philo *philo)//check if this and realease are static
 // Release in reverse order of acquisition
 void	release_forks(t_philo *philo)//no message check and check if order is relevant
 {
-	t_fork	*first_fork;
-	t_fork	*second_fork;
-
-	if (philo->left_fork->fork_id < philo->right_fork->fork_id)
+	if (philo->lfork_status == TAKEN_FORK)//new
 	{
-		first_fork = philo->left_fork;
-		second_fork = philo->right_fork;
-	}
-	else
-	{
-		first_fork = philo->right_fork;
-		second_fork = philo->left_fork;
-	}
-	if (philo->rfork_status == TAKEN_FORK)//new
-	{
-		pthread_mutex_unlock(&second_fork->fork_mutex);
-		philo->rfork_status = NO_TAKEN;
-	}
-	if (philo->lfork_status == TAKEN_FORK)
-	{
-		pthread_mutex_unlock(&first_fork->fork_mutex);
+		pthread_mutex_unlock(&philo->left_fork->fork_mutex);
 		philo->lfork_status = NO_TAKEN;
+	}
+	if (philo->rfork_status == TAKEN_FORK)
+	{
+		pthread_mutex_unlock(&philo->right_fork->fork_mutex);
+		philo->rfork_status = NO_TAKEN;
 	}
 }
 
