@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:42:05 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 13:11:00 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 13:16:01 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,5 +181,5 @@ void	philo_eat(t_philo *philo)
 		usleep(100);
 	}
 	release_forks(philo);
-	philo->forks_taken = 0;//new
+	// philo->forks_taken = 0;//new
 }
