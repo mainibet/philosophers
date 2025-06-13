@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:35:32 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 16:59:17 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:02:09 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,6 @@ void	print_status(t_philo *philo, const char *msg)//check if needs to handled an
 	pthread_mutex_unlock(&philo->program->start_mutex);//check if here or where
 }
 
-int	ft_strlen(const char *str)
-{
-	int	count;
-
-	count = 0;    
-	while (str[count])
-		count++;
-	return (count);
-}
 //not needed mutex here
 void	print_error_msg(const char *msg)
 {
