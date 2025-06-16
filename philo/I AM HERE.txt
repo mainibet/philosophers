@@ -1,7 +1,5 @@
 In process:
 
--check that .h all is used functions and headers ()
--check that all not included in .h file are static
 -test all again
 
 
@@ -98,6 +96,8 @@ Norm happy with:
 Make norm happy again
 - Max 5 functions per file
 - check lentgh of each function
+-check that .h all is used functions and headers ()
+-check that all not included in .h file are static
 
 
 

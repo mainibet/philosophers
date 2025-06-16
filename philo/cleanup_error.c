@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:02:26 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 08:48:56 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 13:26:19 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,10 @@ int	malloc_error(void)
 {
 	print_error_msg("Memory allocation failed");
 	return (ERR_MALLOC_FAIL);
+}
+
+int	handle_creation_error(t_program *data, int status)
+{
+	pthread_mutex_unlock(&data->start_mutex);
+	return (status);
 }

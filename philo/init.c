@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 11:52:59 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 13:36:57 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ void	init_program(t_program *data)
 	data->time_die = data->parse->arr[1];
 	data->time_eat = data->parse->arr[2];
 	data->time_sleep = data->parse->arr[3];
+	data->sim_status = SIM_STOP;
 	data->end_flag = PHILO_ALIVED;
 	data->end_mutex_status = MUTEX_NO_INIT;
 	data->start_mut_status = MUTEX_NO_INIT;

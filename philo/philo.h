@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 12:00:55 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 13:09:58 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ void		clean_fork(t_program *data);
 void		clean_philo(t_program *data);
 void		clean_parse(t_program *data);
 int			malloc_error(void);
+int			handle_creation_error(t_program *data, int status);
 
 //  --OUTPUT ---
 void		print_error_msg(const char *msg);
