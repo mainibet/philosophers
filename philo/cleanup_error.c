@@ -6,44 +6,16 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:02:26 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 07:58:00 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 08:23:10 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//This function will ONLY destroy fork mutexes.
-static void	clean_mutex_forks(t_program *data)//check if the i isn eeded from before
-{
-	int	i;
-
-	i = 0;
-	while (i < data->total_philo)
-	{
-		if (data->fork[i].fork_mut_status == MUTEX_INIT)
-			pthread_mutex_destroy(&data->fork[i].fork_mutex);//need to includ error check of destroy?
-		i++;
-	}
-}
-
-//This function will ONLY destroy philo mutexes.
-static void	clean_mutex_philo(t_program *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->total_philo)
-	{
-		if (data->philo[i].mutex_status_phi == MUTEX_INIT)
-			pthread_mutex_destroy(&data->philo[i].philo_mutex);
-		i++;
-	}
-}
-
-static void destroy_global_mutex(t_program *data)//new
+static void	destroy_global_mutex(t_program *data)
 {
 	if (data->out_mut_status == MUTEX_INIT)
-		pthread_mutex_destroy(&data->output_mutex);//need to includ error check of destroy?
+		pthread_mutex_destroy(&data->output_mutex);
 	if (data->end_mutex_status == MUTEX_INIT)
 		pthread_mutex_destroy(&data->end_mutex);
 	if (data->start_mut_status == MUTEX_INIT)
@@ -51,58 +23,25 @@ static void destroy_global_mutex(t_program *data)//new
 	return ;
 }
 
-static void	clean_fork(t_program *data)//new
-{
-	if (data->fork != NULL)
-	{
-		clean_mutex_forks(data);//new
-		free(data->fork);
-		data->fork = NULL; // Good practice: nullify after freeing
-	}
-}
-
-static void	clean_philo(t_program *data)
-{
-    if (data->philo != NULL)//new
-	{
-		clean_mutex_philo(data);
-		free(data->philo);
-		data->philo = NULL;
-	}
-}
-
-static void	clean_parse(t_program *data)//new
-{
-	if (data->parse != NULL)//check if the struct no need to be freed
-	{
-		if (data->parse->arr != NULL)//check the array inside
-		{
-			free(data->parse->arr);//free arr
-			data->parse->arr = NULL;//check if is good
-		}
-	}
-}
-
 //destroy mutex: output, fork, philo, monitor
 //free: array of philo
 //free:array of forks
 //free: array of parse is in the heap but parse struct is in the stack
-void	clean_up_program(t_program *data)//check if philo dies if forks need to be "released"
-{//this function should be made by the main thread
-	if (!data)//new check
-		return ;//check
-    //should I include the clean_error for forks?
-// should I include a check in case the simulation is running first stop it?
+//this function is performed by the main thread
+void	clean_up_program(t_program *data)
+{
+	if (!data)
+		return ;
 	destroy_global_mutex(data);
-	clean_fork(data);//new refactor
-    clean_philo(data);//new refactor
-    clean_parse(data);//new refactor
-	// if (data != NULL)//HOW CAN I TEST IF I DONT NEED THIS?
+	clean_fork(data);
+	clean_philo(data);
+	clean_parse(data);
 	free(data);
 }
 
-int	malloc_error(void)//use write instead of printf
+//this returns an error until is handle in main qhere the program is clean_up
+int	malloc_error(void)
 {
-	print_error_msg("Memory allocation failed");//check if smt to free
+	print_error_msg("Memory allocation failed");
 	return (ERR_MALLOC_FAIL);
 }
