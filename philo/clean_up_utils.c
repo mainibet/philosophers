@@ -6,11 +6,11 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 07:58:59 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 08:20:40 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 08:47:58 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "philo.h"
+#include "philo.h"
 
 //This function will ONLY destroy fork mutexes.
 static void	clean_mutex_forks(t_program *data)
@@ -26,7 +26,7 @@ static void	clean_mutex_forks(t_program *data)
 	}
 }
 
-// Good practice: nullify after freeing at the end
+// Good practice: set as null after free all
 void	clean_fork(t_program *data)
 {
 	if (data->fork != NULL)
@@ -63,12 +63,12 @@ void	clean_philo(t_program *data)
 
 void	clean_parse(t_program *data)
 {
-	if (data->parse != NULL)//check if the struct no need to be freed
+	if (data->parse != NULL)
 	{
-		if (data->parse->arr != NULL)//check the array inside
+		if (data->parse->arr != NULL)
 		{
-			free(data->parse->arr);//free arr
-			data->parse->arr = NULL;//check if is good
+			free(data->parse->arr);
+			data->parse->arr = NULL;
 		}
 	}
 }

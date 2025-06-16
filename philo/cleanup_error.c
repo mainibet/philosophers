@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:02:26 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 08:23:10 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 08:48:56 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	clean_up_program(t_program *data)
 	free(data);
 }
 
-//this returns an error until is handle in main qhere the program is clean_up
+//This returns an error until is handle in main qhere the program is clean_up
 int	malloc_error(void)
 {
 	print_error_msg("Memory allocation failed");
