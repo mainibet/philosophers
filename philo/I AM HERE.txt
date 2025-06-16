@@ -5,7 +5,11 @@ Make norm happy again
 -check that .h all is used functions and headers
 -check that all not included in .h file are static
 -test all again
-
+Norm happy with:
+- init.c
+- output
+- clean_up_utils
+- cleanup_error
 
 
 

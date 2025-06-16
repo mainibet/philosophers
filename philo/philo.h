@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 08:58:53 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 09:19:53 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,8 @@ typedef struct s_philo
 	long long		last_meal;//when was the last meal, when they finished eating
 	t_fork			*left_fork;
 	t_fork			*right_fork;
-	// int				forks_taken;//new
-	int				lfork_status;//new
-	int				rfork_status;//new
+	int				lfork_status;
+	int				rfork_status;
 	t_program		*program;
 	pthread_mutex_t	philo_mutex;//Mutex to protect each philo data
 	int				mutex_status_phi;//new flag
