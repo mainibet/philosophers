@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 13:53:50 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 15:58:43 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int	start_threads(t_program *data)
 		clean_up_program(data);
 		return (ERROR);
 	}
-	start_simulation(data);
 	return (SUCCESS);
 }
 
@@ -129,7 +128,7 @@ int	main(int argc, char **argv)
 		clean_up_program(data);
 		return (EXIT_FAILURE);
 	}
-	// start_simulation(data);
+	start_simulation(data);
 	if (joining_threads(data) != SUCCESS)
 		return (EXIT_FAILURE);
 	clean_up_program(data);

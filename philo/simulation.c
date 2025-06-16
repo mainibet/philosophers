@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:58:21 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 13:54:42 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 16:09:13 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	set_fork_status(t_philo *philo, t_fork *fork_ptr, int status)
 void	start_simulation(t_program *data)
 {
 	data->start_time = precise_time_ms();
+	usleep(100);
 	pthread_mutex_lock(&data->end_mutex);
 	data->sim_status = SIM_RUNNING;
 	pthread_mutex_unlock(&data->end_mutex);
