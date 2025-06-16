@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 10:42:54 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 12:00:55 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,6 @@ typedef struct s_program
 // -----------------------------------------//
 
 // --- ARGUMENT PARSING ---
-int			get_args(char *argv, t_arg_parse *parse);
-void		init_arg_parse(t_arg_parse *parse, int *arr);
-int			process_arg(int argc, char **argv, t_arg_parse *parse);
 int			parsing_args(int argc, char **argv, t_arg_parse *parse);
 long		str_tolongl(char *str, int *status);
 int			check_pos_int(char *argv, int *status);
@@ -122,7 +119,6 @@ void		*life_one_philo(void *arg);
 // --- SIMULATION CONTROL ---
 int			setup_simulation(t_program *data);
 void		start_simulation(t_program *data);
-void		sim_stop(t_program *data);
 void		end_program(t_program *data, char *msg, t_philo *dying_philo);
 void		set_fork_status(t_philo *philo, t_fork *fork_ptr, int status);
 void		sync_simulation(t_philo *philo);

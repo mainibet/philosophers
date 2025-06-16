@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 10:21:33 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 11:52:59 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	init_forks(t_program *data)
 //start_fork will help to find forks and philo position
 //the starting fork is left
 //philo thread init in 0 to avoid garbage in memory
-void	fill_each_philo(t_program *data, int philo_id)
+static void	fill_each_philo(t_program *data, int philo_id)
 {
 	int		start_fork;
 	t_philo	*philo;

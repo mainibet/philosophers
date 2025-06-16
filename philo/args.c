@@ -6,13 +6,13 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 06:46:41 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 10:01:51 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 11:59:12 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	get_args(char *argv, t_arg_parse *parse)
+static int	get_args(char *argv, t_arg_parse *parse)
 {
 	int			status;
 
@@ -37,7 +37,7 @@ int	get_args(char *argv, t_arg_parse *parse)
 	return (SUCCESS);
 }
 
-void	init_arg_parse(t_arg_parse *parse, int *arr)
+void	static init_arg_parse(t_arg_parse *parse, int *arr)
 {
 	parse->arr = arr;
 	parse->count = 0;
@@ -50,7 +50,7 @@ void	init_arg_parse(t_arg_parse *parse, int *arr)
 // static void	process_get_arg(char *argv, int *arr, size_t *count)
 //arr is a tmp for parsing
 //ir arr is ok it will be used later in the program
-int	process_arg(int argc, char **argv, t_arg_parse *parse)
+static int	process_arg(int argc, char **argv, t_arg_parse *parse)
 {
 	int		*arr;
 	int		j;
