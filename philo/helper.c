@@ -6,18 +6,18 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:35:21 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 17:46:32 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 09:02:26 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	handling_mutex_init(pthread_mutex_t *my_mutex, int *mutex_status, char *msg)//new check
+int	handling_mutex_init(pthread_mutex_t *my_mutex, int *mutex_status, char *msg)
 {
 	if (pthread_mutex_init(my_mutex, NULL) != SUCCESS)
 	{
 		print_error_msg(msg);
-		*mutex_status = MUTEX_NO_INIT;//new check
+		*mutex_status = MUTEX_NO_INIT;
 		return (ERR_MUTEX);
 	}
 	*mutex_status = MUTEX_INIT;
@@ -48,19 +48,6 @@ long long	precise_time_ms(void)
 	return (total_milisec);
 }
 
-int	count_arr_elements(void	**arr)//check if needed in philo
-{
-	int	i;
-
-	i = 0;
-	if (!arr)
-		return (0);
-	while (arr[i])
-		i++;
-	return (i);
-}
-
-
 int	ft_strlen(const char *str)
 {
 	int	count;
@@ -84,5 +71,3 @@ void	order_forks(t_philo *philo, t_fork **first, t_fork **second)
 		*second = philo->left_fork;
 	}
 }
-
-
