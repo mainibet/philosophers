@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:00:55 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 10:23:55 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 10:38:24 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,20 +69,24 @@ static int	check_all_philos(t_program *data)
 	return (PHILO_ALIVED);
 }
 
-void	end_program(t_program *data, char *msg, t_philo *dying_philo)//this should be kill? and check
+//only set if not already terminated
+//kills the philo in the simulation
+//handles directly the output of died message
+//printf_status handles the status during the simulation
+void	end_program(t_program *data, char *msg, t_philo *dying_philo)
 {
 	long long	current_time;
 
 	pthread_mutex_lock(&data->end_mutex);
-	if (data->end_flag == PHILO_ALIVED) // Only set if not already terminated
+	if (data->end_flag == PHILO_ALIVED) 
 	{
 		data->end_flag = PHILO_DIED;
 		pthread_mutex_lock(&data->output_mutex);
-		current_time = precise_time_ms() - data->start_time;//new
+		current_time = precise_time_ms() - data->start_time;
 		if (dying_philo)
-			printf("%lld %d %s\n", current_time, dying_philo->philo_id, msg);//new
+			printf("%lld %d %s\n", current_time, dying_philo->philo_id, msg);
 		else
-			printf("%lld %s\n", current_time, msg);//new CHECK
+			printf("%lld %s\n", current_time, msg);
 		pthread_mutex_unlock(&data->output_mutex);
 	}
 	pthread_mutex_unlock(&data->end_mutex);
