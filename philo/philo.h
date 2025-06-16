@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 09:19:53 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 10:22:35 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ void		*life_one_philo(void *arg);
 
 // --- SIMULATION CONTROL ---
 int			setup_simulation(t_program *data);
+void		start_simulation(t_program *data);
 void		sim_stop(t_program *data);
 void		end_program(t_program *data, char *msg, t_philo *dying_philo);
 void		set_fork_status(t_philo *philo, t_fork *fork_ptr, int status);

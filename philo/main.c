@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 10:20:26 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 10:22:54 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,15 +96,6 @@ int	start_threads(t_program *data)
 	return (SUCCESS);
 }
 
-void	start_simulation(t_program *data)
-{
-	pthread_mutex_lock(&data->start_mutex);
-	data->start_time = precise_time_ms();
-	pthread_mutex_lock(&data->end_mutex);
-	data->sim_status = SIM_RUNNING;
-	pthread_mutex_unlock(&data->end_mutex);
-	pthread_mutex_unlock(&data->start_mutex);
-}
 //IN PUT:
 //number of philo argv[1]
 //time to die argv[2]
