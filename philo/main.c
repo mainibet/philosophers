@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 10:22:54 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 10:24:48 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	main(int argc, char **argv)
 	t_arg_parse	parse;
 	t_program	*data;
 
-	data = (t_program *)malloc(sizeof(t_program));//new
+	data = (t_program *)malloc(sizeof(t_program));
 	if (!data)
 		return (malloc_error());
 	memset(data, 0, sizeof(t_program));
