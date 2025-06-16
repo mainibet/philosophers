@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:00:55 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 10:38:24 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 11:48:29 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	end_program(t_program *data, char *msg, t_philo *dying_philo)
 	if (data->end_flag == PHILO_ALIVED) 
 	{
 		data->end_flag = PHILO_DIED;
+		data->sim_status = SIM_STOP;
 		pthread_mutex_lock(&data->output_mutex);
 		current_time = precise_time_ms() - data->start_time;
 		if (dying_philo)

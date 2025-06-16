@@ -1,22 +1,9 @@
 In process:
-Make norm happy again
-- Max 5 functions per file (done)
-- check lentgh of each function
--check that .h all is used functions and headers
+
+-check that .h all is used functions and headers ()
 -check that all not included in .h file are static
 -test all again
-Norm happy with:
-- args
-- args_util
-- init.c
-- life_cycle
-- actions
-- monitor
-- output
-- helper
-- cleanup_error
-- clean_up_utils
-- simulation
+
 
 
 NEXT
@@ -93,10 +80,24 @@ Valgrind for memory leaks checked and passed
 - do the others checks testing con helgrind drd and time then norm and all test again with leaks too
 -check out put: sometimes the program begins in 1 instead of 0 (in the first). Timestamp
 -valgrind with errors
-
-
-WISH to
-check if all the structs are malloc correctly and !malloc error
+-check if all the structs are malloc correctly and !malloc error
+Norm happy with:
+- args
+- args_util
+- init.c
+- life_cycle
+- actions
+- monitor
+- output
+- helper
+- cleanup_error
+- clean_up_utils
+- simulation
+- macros.h
+- philo.h
+Make norm happy again
+- Max 5 functions per file
+- check lentgh of each function
 
 
 
