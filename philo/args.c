@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 06:46:41 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 10:00:34 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 10:01:51 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	process_arg(int argc, char **argv, t_arg_parse *parse)
 
 //number of argc
 //get the numbers from args
+//errors printed in stderr nos in stdout
 int	parsing_args(int argc, char **argv, t_arg_parse *parse)
 {
 	if (argc < 5)
