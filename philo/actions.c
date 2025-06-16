@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:42:05 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 17:32:07 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 09:26:06 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	philo_think(t_philo *philo)
 }
 
 //this should be after release forks
-//time_t is in <sys/time.h> for time values
 void	philo_sleep(t_philo *philo)
 {
 	long long		wake_up;
@@ -67,7 +66,6 @@ void	philo_sleep(t_philo *philo)
 
 //take first the one with the lower ID
 //needs to track how many forks were taken to avoid error in threads
-// static void	take_forks(t_philo *philo)//check if this and realease are static
 //first try 1 fork then the other
 static int	take_forks(t_philo *philo)
 {
