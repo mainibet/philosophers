@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 06:46:41 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 08:44:12 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 10:00:34 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,18 @@ int	get_args(char *argv, t_arg_parse *parse)
 	status = CONVERSION_SUCCESS;
 	if (check_pos_int(argv, &status) != SUCCESS)
 	{
-		parse->msg = "Invalid numeric format";//whould be this like printing error msg?
+		parse->msg = "Invalid numeric format";
 		return (ERR_INVALID_ARGS);
 	}
 	parse->n = str_tolongl(argv, &status);
 	if (status == CONVERSION_ERROR || status == CONVERSION_OVERFLOW)
 	{
-		parse->msg = "Numeric value too large or invalid";//whould be this like printing error msg?
+		parse->msg = "Numeric value too large or invalid";
 		return (ERR_INVALID_ARGS);
 	}
 	if (check_limits(parse->n) != SUCCESS)
 	{
-		parse->msg = "Integer must be between 1 and INT MAX";//whould be this like printing error msg?
+		parse->msg = "Integer must be between 1 and INT MAX";
 		return (ERR_INVALID_ARGS);
 	}
 	parse->arr[parse->count++] = (int) parse->n;
@@ -80,12 +80,12 @@ int	parsing_args(int argc, char **argv, t_arg_parse *parse)
 {
 	if (argc < 5)
 	{
-		printf ("Not enough args to simulate\n");//whould be this like printing error msg?
+		print_error_msg("Not enough args to simulate");
 		return (ERR_INVALID_ARGS);
 	}
 	else if (argc > 6)
 	{
-		printf ("More args than required for simulation\n");//whould be this like printing error msg?
+		print_error_msg("More args than required for simulation");
 		return (ERR_INVALID_ARGS);
 	}
 	else
