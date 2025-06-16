@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 09:24:04 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 10:21:33 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ int	init_cross_mutex(t_program *data)
 	int	mutex_status;
 
 	mutex_status = handling_mutex_init(&data->output_mutex,
-			&data->out_mut_status, "Failed to init output_mutex\n");
+			&data->out_mut_status, "Failed to init output_mutex");
 	if (mutex_status != SUCCESS)
 		return (mutex_status);
 	mutex_status = handling_mutex_init(&data->end_mutex,
-			&data->end_mutex_status, "Failed to init end_flag_mutex\n");
+			&data->end_mutex_status, "Failed to init end_flag_mutex");
 	if (mutex_status != SUCCESS)
 		return (mutex_status);
 	mutex_status = handling_mutex_init(&data->start_mutex,
-			&data->start_mut_status, "Failed to initi start_mutex\n");
+			&data->start_mut_status, "Failed to initi start_mutex");
 	if (mutex_status != SUCCESS)
 		return (mutex_status);
 	return (mutex_status);
@@ -50,7 +50,7 @@ int	init_forks(t_program *data)
 		data->fork[i].fork_id = i + 1;
 		data->fork[i].fork_mut_status = MUTEX_NO_INIT;
 		status = handling_mutex_init(&data->fork[i].fork_mutex,
-				&data->fork[i].fork_mut_status, "Failed to init fork\n");
+				&data->fork[i].fork_mut_status, "Failed to init fork");
 		if (status != SUCCESS)
 			clean_up_program(data);
 		i++;
@@ -98,7 +98,7 @@ int	init_philo(t_program *data)
 		data->philo[i].mutex_status_phi = MUTEX_NO_INIT;
 		status = handling_mutex_init(&data->philo[i].philo_mutex,
 				&data->philo[i].mutex_status_phi,
-				"Failed to init philo mutex\n");
+				"Failed to init philo mutex");
 		if (status != SUCCESS)
 		{
 			clean_up_program(data);

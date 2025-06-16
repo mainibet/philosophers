@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 17:07:01 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 10:20:26 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int	handle_many_philos(t_program *data)
 	return (SUCCESS);
 }
 
-//join makes the main thread to wai for the execution of the others.HOW THIS WORKS NOW?
+//join makes the main thread to wait for the execution of the others
 //create thread per philo
 //create monitor thread
 int	start_threads(t_program *data)
@@ -90,12 +90,21 @@ int	start_threads(t_program *data)
 	status = pthread_create(&data->monitor_thread_id, NULL, life_monitor, data);
 	if (status != SUCCESS)
 	{
-		clean_up_program(data);//new
+		clean_up_program(data);
 		return (ERROR);
 	}
 	return (SUCCESS);
 }
 
+void	start_simulation(t_program *data)
+{
+	pthread_mutex_lock(&data->start_mutex);
+	data->start_time = precise_time_ms();
+	pthread_mutex_lock(&data->end_mutex);
+	data->sim_status = SIM_RUNNING;
+	pthread_mutex_unlock(&data->end_mutex);
+	pthread_mutex_unlock(&data->start_mutex);
+}
 //IN PUT:
 //number of philo argv[1]
 //time to die argv[2]
@@ -103,7 +112,8 @@ int	start_threads(t_program *data)
 //time to sleep argv[4]
 //optional: # times each philo should eat argv[6]
 //EXIT_SUCCESS and EXIT_FAILURE define in stdlib.h
-//t_program is in the memory stack, not need to be in the heap (not malloc needed)
+//memset to avoid random data
+//parse needed to use args allocated
 int	main(int argc, char **argv)
 {
 	t_arg_parse	parse;
@@ -112,26 +122,20 @@ int	main(int argc, char **argv)
 	data = (t_program *)malloc(sizeof(t_program));//new
 	if (!data)
 		return (malloc_error());
-	memset(data, 0, sizeof(t_program));//new
+	memset(data, 0, sizeof(t_program));
 	if (parsing_args(argc, argv, &parse) != SUCCESS)
 	{
 		free(data);
-		return (EXIT_FAILURE);//define in stdlib.h include clean-up before exit
+		return (EXIT_FAILURE);
 	}
-	// printf("Ready to continue\n");//test
-	data->parse = &parse;//memory allocated in parsing_args
-	init_program(data);//NEEDED TO INITIALIZEDD THE MUTEX OF START
+	data->parse = &parse;
+	init_program(data);
 	if (setup_simulation(data) != SUCCESS)
 	{
 		clean_up_program(data);
-		return (EXIT_FAILURE);//DEFINE IN STDLIB.H//include clean-up before exit
+		return (EXIT_FAILURE);
 	}
-	pthread_mutex_lock(&data->start_mutex);
-	data->start_time = precise_time_ms();
-	pthread_mutex_lock(&data->end_mutex);//new
-	data->sim_status = SIM_RUNNING;
-	pthread_mutex_unlock(&data->end_mutex);//new
-	pthread_mutex_unlock(&data->start_mutex);
+	start_simulation(data);
 	if (joining_threads(data) != SUCCESS)
 		return (EXIT_FAILURE);
 	clean_up_program(data);
