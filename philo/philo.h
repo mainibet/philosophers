@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:53 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 10:22:35 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 10:42:54 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,51 +34,51 @@ typedef struct s_program	t_program;
 
 typedef struct s_arg_parse
 {
-	int			*arr;//tmp array
-	size_t		count;//# of parse args stored so far
-	char		*msg;//error msg
-	long long	n;//parse number from the current arg
+	int			*arr;
+	size_t		count;
+	char		*msg;
+	long long	n;
 }	t_arg_parse;
 
 typedef struct s_fork
 {
-	pthread_mutex_t	fork_mutex;//to control access to the fork
-	int				fork_mut_status;//flag to check
-	int				fork_id;//for login and debug purposes CHECK
+	pthread_mutex_t	fork_mutex;
+	int				fork_mut_status;
+	int				fork_id;
 }	t_fork;
 
 typedef struct s_philo
 {
-	int				philo_id;//the number i'll give
-	int				meal_number;//how many meals the philo has eaten
-	long long		last_meal;//when was the last meal, when they finished eating
+	int				philo_id;
+	int				meal_number;
+	long long		last_meal;
 	t_fork			*left_fork;
 	t_fork			*right_fork;
 	int				lfork_status;
 	int				rfork_status;
 	t_program		*program;
-	pthread_mutex_t	philo_mutex;//Mutex to protect each philo data
-	int				mutex_status_phi;//new flag
-	pthread_t		thread_id;//used to create thread per philo
+	pthread_mutex_t	philo_mutex;
+	int				mutex_status_phi;
+	pthread_t		thread_id;
 }	t_philo;
 
 typedef struct s_program
 {
 	int				total_philo;
-	int				max_meals; //-1 if not set (optional)
+	int				max_meals;
 	long long		time_die;
 	long long		time_eat;
 	long long		time_sleep;
-	long long		start_time;//reference to begin simulation
-	pthread_mutex_t	start_mutex;//new
-	int				start_mut_status;//1 is running set macro
+	long long		start_time;
+	pthread_mutex_t	start_mutex;
+	int				start_mut_status;
 	int				sim_status;
-	int				end_flag;//to terminates the simulation
-	pthread_mutex_t	end_mutex;//mutex to protect end_flag
-	int				end_mutex_status;//Flag to track initialization status of end_mutex
-	pthread_mutex_t	output_mutex;//for printf
-	int				out_mut_status;//flag to check CHANGE THE NAME TO OUTPUT_MUT_STAT
-	pthread_t       monitor_thread_id;
+	int				end_flag;
+	pthread_mutex_t	end_mutex;
+	int				end_mutex_status;
+	pthread_mutex_t	output_mutex;
+	int				out_mut_status;
+	pthread_t		monitor_thread_id;
 	t_philo			*philo;
 	t_fork			*fork;
 	t_arg_parse		*parse;
@@ -140,10 +140,8 @@ void		print_status(t_philo *philo, const char *msg);
 
 // --- HELPER FUNCIONTS ---
 int			ft_strlen(const char *str);
-// int			count_arr_elements(void **arr);
 void		order_forks(t_philo *philo, t_fork **first, t_fork **second);
 int			handling_mutex_init(pthread_mutex_t *my_mutex,
 				int *mutex_status, char *msg);
-
 
 #endif
