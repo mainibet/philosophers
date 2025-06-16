@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:02:26 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/13 17:45:58 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 07:54:12 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,29 +51,28 @@ static void destroy_global_mutex(t_program *data)//new
 	return ;
 }
 
-//destroy mutex: output, fork, philo, monitor
-//free: array of philo
-//free:array of forks
-//free: array of parse is in the heap but parse struct is in the stack
-void	clean_up_program(t_program *data)//check if philo dies if forks need to be "released"
-{//this function should be made by the main thread
-	int	i;
-    //should I include the clean_error for forks?
-//should I include a check in case the simulation is running first stop it?
-	i = 0;//include pthread_mutex_unlock(&data.start_mutex);
-	destroy_global_mutex(data);
+static void	clean_fork(t_program *data)//new
+{
 	if (data->fork != NULL)
 	{
 		clean_mutex_forks(data);//new
 		free(data->fork);
 		data->fork = NULL; // Good practice: nullify after freeing
 	}
-	if (data->philo != NULL)//new
+}
+
+static void	clean_philo(t_program *data)
+{
+    if (data->philo != NULL)//new
 	{
 		clean_mutex_philo(data);
 		free(data->philo);
 		data->philo = NULL;
 	}
+}
+
+static void	clean_parse(t_program *data)//new
+{
 	if (data->parse != NULL)//check if the struct no need to be freed
 	{
 		if (data->parse->arr != NULL)//check the array inside
@@ -82,11 +81,46 @@ void	clean_up_program(t_program *data)//check if philo dies if forks need to be 
 			data->parse->arr = NULL;//check if is good
 		}
 	}
-	if (data != NULL)//new this cond
+}
+
+//destroy mutex: output, fork, philo, monitor
+//free: array of philo
+//free:array of forks
+//free: array of parse is in the heap but parse struct is in the stack
+void	clean_up_program(t_program *data)//check if philo dies if forks need to be "released"
+{//this function should be made by the main thread
+	// int	i;
+	if (!data)//new check
+		return ;//check
+    //should I include the clean_error for forks?
+// should I include a check in case the simulation is running first stop it?
+	// i = 0;//include pthread_mutex_unlock(&data.start_mutex);
+	destroy_global_mutex(data);
+	// if (data->fork != NULL)
 	// {
-		free(data);
-		// data = NULL;
+	// 	clean_mutex_forks(data);//new
+	// 	free(data->fork);
+	// 	data->fork = NULL; // Good practice: nullify after freeing
 	// }
+	clean_fork(data);//new refactor
+    clean_philo(data);//new refactor
+    clean_parse(data);//new refactor
+	// if (data->philo != NULL)//new
+	// {
+	// 	clean_mutex_philo(data);
+	// 	free(data->philo);
+	// 	data->philo = NULL;
+	// }
+	// if (data->parse != NULL)//check if the struct no need to be freed
+	// {
+	// 	if (data->parse->arr != NULL)//check the array inside
+	// 	{
+	// 		free(data->parse->arr);//free arr
+	// 		data->parse->arr = NULL;//check if is good
+	// 	}
+	// }
+	if (data != NULL)//new this cond
+		free(data);
 }
 
 int	malloc_error(void)//use write instead of printf

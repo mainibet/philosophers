@@ -4,6 +4,7 @@ Make norm happy again
 - check lentgh of each function
 -check that .h all is used functions and headers
 -check that all not included in .h file are static
+-test all again
 
 
 
