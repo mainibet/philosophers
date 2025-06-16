@@ -6,13 +6,16 @@ Make norm happy again
 -check that all not included in .h file are static
 -test all again
 Norm happy with:
+- args
 - args_util
 - init.c
+- life_cycle
 - actions
+- monitor
 - output
-- clean_up_utils
+- helper
 - cleanup_error
-
+- clean_up_utils
 
 
 NEXT

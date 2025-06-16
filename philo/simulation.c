@@ -6,13 +6,13 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:58:21 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 10:23:42 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 10:40:10 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	setup_simulation(t_program *data)//check if **argv needed or only data?
+int	setup_simulation(t_program *data)
 {
 	int	status;
 
@@ -35,7 +35,7 @@ int	setup_simulation(t_program *data)//check if **argv needed or only data?
 
 //To wait for simulation start signal
 // Thread Synchronization Barrier
-void sync_simulation(t_philo *philo)
+void	sync_simulation(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->program->start_mutex);
 	pthread_mutex_unlock(&philo->program->start_mutex);
@@ -49,7 +49,6 @@ void	set_fork_status(t_philo *philo, t_fork *fork_ptr, int status)
 	else
 		philo->rfork_status = status;
 }
-
 
 void	start_simulation(t_program *data)
 {
@@ -70,4 +69,3 @@ int	check_end_cond(t_philo *philo)
 	pthread_mutex_unlock(&philo->program->end_mutex);
 	return (sim_status);
 }
-
