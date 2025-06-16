@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:42:05 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 09:26:06 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/16 15:09:49 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,29 +22,7 @@
 //Simulate thinking time with a responsive loop.
 void	philo_think(t_philo *philo)
 {
-	long long		think_ends;
-	long long		time_think;
-	long long		since_last_meal;
-	int				sim_status;
-
 	print_status(philo, "is thinking");
-	pthread_mutex_lock(&philo->philo_mutex);
-	since_last_meal = precise_time_ms() - philo->last_meal;
-	pthread_mutex_unlock(&philo->philo_mutex);
-	time_think = (philo->program->time_die - since_last_meal - 
-			philo->program->time_eat) / 2;
-	if (time_think <= 0)
-		time_think = 1;
-	else if (time_think > philo->program->time_eat)
-		time_think = philo->program->time_eat;
-	think_ends = precise_time_ms() + time_think;
-	while (precise_time_ms() < think_ends)
-	{
-		sim_status = check_end_cond(philo);
-		if (sim_status == PHILO_DIED)
-			return ;
-		usleep(10);
-	}
 }
 
 //this should be after release forks
