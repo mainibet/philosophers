@@ -82,4 +82,5 @@ All alive
 fixes
 - caso con 1 ya no imprime has taken a fork
 ./philo 5 800 200 200 7
-TODOS DEBEN COMER 7 VECES
+TODOS DEBEN COMER 7 VECES\
+valgrind --tool=helgrind ./philo 1 800 200 200 order of lock mutex end and output

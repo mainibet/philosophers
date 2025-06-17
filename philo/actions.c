@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:42:05 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/17 06:58:58 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/17 08:05:35 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,6 @@ void	philo_think(t_philo *philo)
 		usleep(10);
 	}
 }
-// void	philo_think(t_philo *philo)//this version affects the possibility to grab forks
-// {
-// 	print_status(philo, "is thinking");
-// 	usleep(100);//new
-// }
 
 //this should be after release forks
 void	philo_sleep(t_philo *philo)

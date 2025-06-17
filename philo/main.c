@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/17 06:36:52 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/17 08:03:48 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,20 +80,18 @@ int	start_threads(t_program *data)
 	{
 		status = handle_one_philo(data);
 		if (status != SUCCESS)
-			// return (handle_creation_error(data, status));
-			return (status);
+			return (handle_creation_error(data, status));
 	}
 	else
 	{
 		status = handle_many_philos(data);
 		if (status != SUCCESS)
-			// return (handle_creation_error(data, status));
-			return (status);
+			return (handle_creation_error(data, status));
 	}
 	status = pthread_create(&data->monitor_thread_id, NULL, life_monitor, data);
 	if (status != SUCCESS)
 	{
-		// pthread_mutex_unlock(&data->start_mutex);
+		pthread_mutex_unlock(&data->start_mutex);
 		clean_up_program(data);
 		return (ERROR);
 	}
