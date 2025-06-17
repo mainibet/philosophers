@@ -1,25 +1,3 @@
-In process:
-
-Failed
-
-./philo 2 500 100 100 
-DEBE MORIR 1
-
-./philo 5 800 200 200 7
-TODOS DEBEN COMER 7 VECES
-- no siempre todos ocmen 7 veces, porque?
-- a veces 1 muere
-
-
-Este funciona bien porque no muere ningun philo
-
-./philo 4 410 200 200
-
-Este funciona bn porque 1 muere
-
-./philo 4 310 200 100
-
-
 Done:
 init_cross_mutex
 init_forks
@@ -98,6 +76,10 @@ Make norm happy again
 Checked and working: Implement error handling for current things: including if time is too big, check in between if philo has died. 
 Made with usleep in life_monitor and in eat and sleep in while loops
 12. check edge cases (example: 2 400 4000000 200 2 the program freezes for a long time even if one philo is already died.  ). Passed
+All alive
+./philo 2 500 100 100 
 
 fixes
 - caso con 1 ya no imprime has taken a fork
+./philo 5 800 200 200 7
+TODOS DEBEN COMER 7 VECES
