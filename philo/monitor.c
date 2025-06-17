@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:00:55 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 16:37:49 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/17 06:59:23 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ void	end_program(t_program *data, char *msg, t_philo *dying_philo)
 // Loop until the end_flag is set (simulation termination condition met)
 // Loop infinitely, breaking out based on end_flag
 //when return (NULL) is ending the monitor thread
+//original: first if someon has died and then if they have eaten enough
+//check that all philos eaf max x not that all eat x times
 void	*life_monitor(void *arg)
 {
 	t_program	*data;
