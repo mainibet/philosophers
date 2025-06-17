@@ -6,15 +6,12 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:00:31 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/17 10:33:15 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:40:43 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//init mutex for end_flag
-//init mutex for output
-//return SUCCESS or ERR_MUTEX
 int	init_cross_mutex(t_program *data)
 {
 	int	mutex_status;
@@ -34,8 +31,6 @@ int	init_cross_mutex(t_program *data)
 	return (mutex_status);
 }
 
-//init mutex per fork
-//i + 1 fot the id matches the philo
 int	init_forks(t_program *data)
 {
 	int	i;
@@ -58,14 +53,6 @@ int	init_forks(t_program *data)
 	return (status);
 }
 
-//check if needs to be init the last meal or when
-//needs to calculate start_fork
-//Like this: Calculate the 0-indexed array position for 
-//this philosopher's corresponding fork.
-//THREAD_ID NOT NEED TO INIT FOR NOW
-//start_fork will help to find forks and philo position
-//the starting fork is left
-//philo thread init in 0 to avoid garbage in memory
 static void	fill_each_philo(t_program *data, int philo_id)
 {
 	int		start_fork;
@@ -82,8 +69,6 @@ static void	fill_each_philo(t_program *data, int philo_id)
 	philo->thread_id = 0;
 }
 
-//initi mutex per philo
-//fill each philo needs to be i + 1 if not becomes -1 in fill each philo
 int	init_philo(t_program *data)
 {
 	int	i;
@@ -113,17 +98,6 @@ int	init_philo(t_program *data)
 	return (SUCCESS);
 }
 
-//number of philo arr[0]
-//time to die arr[1]
-//time to eat arr[2]
-//time to sleep arr[3]
-//optional: # times each philo should eat arr[4]
-// Initialize time values from parsed input
-// Initialize mutex statuses
-// Initialize data structures pointers
-//mutex will be initialized later
-// Set max meals
-//data->start time initialized in the main to get the correct time
 void	init_program(t_program *data)
 {
 	data->total_philo = data->parse->arr[0];

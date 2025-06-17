@@ -6,20 +6,12 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:42:05 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/17 08:05:35 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:41:56 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//this should be after sleep
-//usleep is in microsecs
-//get time since last meal
-//calculate think duration (time_think)
-//Handle cases where the calculated duration is zero or negative.
-//prevent exesive long thinking times
-//Determine the end time for the thinking phase.
-//Simulate thinking time with a responsive loop.
 void	philo_think(t_philo *philo)
 {
 	long long		think_ends;
@@ -47,7 +39,6 @@ void	philo_think(t_philo *philo)
 	}
 }
 
-//this should be after release forks
 void	philo_sleep(t_philo *philo)
 {
 	long long		wake_up;
@@ -64,9 +55,6 @@ void	philo_sleep(t_philo *philo)
 	}
 }
 
-//take first the one with the lower ID
-//needs to track how many forks were taken to avoid error in threads
-//first try 1 fork then the other
 static int	take_forks(t_philo *philo)
 {
 	t_fork	*first_fork;
@@ -90,8 +78,6 @@ static int	take_forks(t_philo *philo)
 	return (SUCCESS);
 }
 
-//only to mutex unlock
-// Release in reverse order of acquisition
 void	release_forks(t_philo *philo)
 {
 	if (philo->lfork_status == TAKEN_FORK)
@@ -106,10 +92,6 @@ void	release_forks(t_philo *philo)
 	}
 }
 
-//before update last_meal check_end condition
-//before update last meal lock mutex
-//after uptdate last meal unlock mutex
-//relasease fork after eating
 void	philo_eat(t_philo *philo)
 {
 	long long	eat_end_time;

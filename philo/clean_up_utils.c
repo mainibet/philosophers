@@ -6,13 +6,12 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 07:58:59 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 08:47:58 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:41:12 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//This function will ONLY destroy fork mutexes.
 static void	clean_mutex_forks(t_program *data)
 {
 	int	i;
@@ -26,7 +25,6 @@ static void	clean_mutex_forks(t_program *data)
 	}
 }
 
-// Good practice: set as null after free all
 void	clean_fork(t_program *data)
 {
 	if (data->fork != NULL)
@@ -37,7 +35,6 @@ void	clean_fork(t_program *data)
 	}
 }
 
-//This function will ONLY destroy philo mutexes.
 static void	clean_mutex_philo(t_program *data)
 {
 	int	i;

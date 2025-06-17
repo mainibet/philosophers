@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 06:46:41 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/17 11:07:45 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:41:24 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,6 @@ void static	init_arg_parse(t_arg_parse *parse, int *arr)
 	parse->n = 0;
 }
 
-//conver str from args to long long
-//check if are positive int
-// static void	process_get_arg(char *argv, int *arr, size_t *count)
-//arr is a tmp for parsing
-//ir arr is ok it will be used later in the program
 static int	process_arg(int argc, char **argv, t_arg_parse *parse)
 {
 	int		*arr;
@@ -74,9 +69,6 @@ static int	process_arg(int argc, char **argv, t_arg_parse *parse)
 	return (SUCCESS);
 }
 
-//number of argc
-//get the numbers from args
-//errors printed in stderr nos in stdout
 int	parsing_args(int argc, char **argv, t_arg_parse *parse)
 {
 	if (argc < 5)

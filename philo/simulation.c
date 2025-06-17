@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:58:21 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/17 08:01:42 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:39:05 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,12 @@ int	setup_simulation(t_program *data)
 	return (SUCCESS);
 }
 
-//To wait for simulation start signal
-// Thread Synchronization Barrier
 void	sync_simulation(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->program->start_mutex);
 	pthread_mutex_unlock(&philo->program->start_mutex);
 }
 
-//helper function
 void	set_fork_status(t_philo *philo, t_fork *fork_ptr, int status)
 {
 	if (fork_ptr == philo->left_fork)

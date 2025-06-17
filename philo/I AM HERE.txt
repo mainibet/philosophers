@@ -84,3 +84,5 @@ fixes
 ./philo 5 800 200 200 7
 TODOS DEBEN COMER 7 VECES\
 valgrind --tool=helgrind ./philo 1 800 200 200 order of lock mutex end and output
+Save the commented copy
+Delete comments from final version

@@ -6,14 +6,12 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 07:35:32 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/17 09:35:07 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:39:24 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//to print all the msg in order
-//lock & unlock mutex: start_time, enf_flag, output
 void	print_status(t_philo *philo, const char *msg)
 {
 	long long	current_time;
@@ -31,7 +29,6 @@ void	print_status(t_philo *philo, const char *msg)
 	}
 }
 
-//not needed mutex for error output
 void	print_error_msg(const char *msg)
 {
 	const char	*prefix;

@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:02:26 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 13:26:19 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:41:02 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,6 @@ static void	destroy_global_mutex(t_program *data)
 	return ;
 }
 
-//destroy mutex: output, fork, philo, monitor
-//free: array of philo
-//free:array of forks
-//free: array of parse is in the heap but parse struct is in the stack
-//this function is performed by the main thread
 void	clean_up_program(t_program *data)
 {
 	if (!data)
@@ -39,7 +34,6 @@ void	clean_up_program(t_program *data)
 	free(data);
 }
 
-//This returns an error until is handle in main qhere the program is clean_up
 int	malloc_error(void)
 {
 	print_error_msg("Memory allocation failed");

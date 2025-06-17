@@ -6,14 +6,12 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:39:37 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/17 08:03:48 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:39:58 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//join each philo
-//join monitor
 int	joining_threads(t_program *data)
 {
 	int	i;
@@ -68,9 +66,6 @@ static int	handle_many_philos(t_program *data)
 	return (SUCCESS);
 }
 
-//join makes the main thread to wait for the execution of the others
-//create thread per philo
-//create monitor thread
 int	start_threads(t_program *data)
 {
 	int	status;
@@ -98,15 +93,6 @@ int	start_threads(t_program *data)
 	return (SUCCESS);
 }
 
-//IN PUT:
-//number of philo argv[1]
-//time to die argv[2]
-//time to eat argv[3]
-//time to sleep argv[4]
-//optional: # times each philo should eat argv[6]
-//EXIT_SUCCESS and EXIT_FAILURE define in stdlib.h
-//memset to avoid random data
-//parse needed to use args allocated
 int	main(int argc, char **argv)
 {
 	t_arg_parse	parse;

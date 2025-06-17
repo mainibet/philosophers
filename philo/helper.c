@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:35:21 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 09:02:26 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:40:55 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,6 @@ int	handling_mutex_init(pthread_mutex_t *my_mutex, int *mutex_status, char *msg)
 	return (SUCCESS);
 }
 
-//takes the current hour
-//makes the equivalent to the starting moment I set
-//make it precise milisec
-//gettimeofday is very precise microsec
-//* 1000LL convert sec to milisec
-// /1000 convert microsec to milisec
-//tv.tv_sec = seconds passed utils the moment is called
-//tv.tv_usec =  microsec that additional to the seconds have passed
-//conver microsec to milisec (tv.tv_usec / 1000)
-// No timezone
 long long	precise_time_ms(void)
 {
 	struct timeval	tv;

@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 06:47:11 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/04 06:47:12 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:41:32 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ static int	check_digits(const char *str)
 	return (SUCCESS);
 }
 
-//positive int
-//argv + 1 is to move from the pointer
 int	check_pos_int(char *argv, int *status)
 {
 	int	i;
