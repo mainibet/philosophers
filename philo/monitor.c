@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:00:55 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/17 10:21:35 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:06:55 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,15 +109,11 @@ void	end_program(t_program *data, char *msg, t_philo *dying_philo)
 void	*life_monitor(void *arg)
 {
 	t_program	*data;
-	// int			life_status;
 
 	data = (t_program *) arg;
 	usleep(1000);
 	while (1)
 	{
-		// life_status = check_end_cond(&data->philo[0]);
-		// if (life_status == PHILO_DIED)
-		// 	return (NULL);
 		if (check_all_philos(data) == PHILO_DIED)
 			return (NULL);
 		if (data->max_meals != MAX_MEALS_DISABLED 

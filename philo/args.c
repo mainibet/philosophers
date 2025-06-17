@@ -6,7 +6,7 @@
 /*   By: albetanc <albetanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 06:46:41 by albetanc          #+#    #+#             */
-/*   Updated: 2025/06/16 11:59:12 by albetanc         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:07:45 by albetanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	get_args(char *argv, t_arg_parse *parse)
 	return (SUCCESS);
 }
 
-void	static init_arg_parse(t_arg_parse *parse, int *arr)
+void static	init_arg_parse(t_arg_parse *parse, int *arr)
 {
 	parse->arr = arr;
 	parse->count = 0;
